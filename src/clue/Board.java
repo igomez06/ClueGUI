@@ -148,15 +148,15 @@ public class Board {
 	}
 	
 	void saveCellInformation(String cell, int row, int col) {
-		char c = cell.charAt(0);
-		char s;
+		char cellType = cell.charAt(0);
+		char direction;
 		//int arrayIndex = 0;
 		
 		try {
-			if (!rooms.containsKey(c)) {
+			if (!rooms.containsKey(cellType)) {
 				throw new BadConfigFormatException("Bad Config File: INVALID LAYOUT, Nonexistent room used.");
 			}
-			s = ' '; 
+			direction = ' '; 
 		} catch (BadConfigFormatException e) {
 			System.out.println(e.getMessage());
 		}
@@ -168,27 +168,27 @@ public class Board {
 			//arrayIndex++;
 		// ROOM CELL
 		} else {
-			RoomCell r;
+			RoomCell newRoomCell;
 			if (cell.length() > 1) {
-				s = cell.charAt(1);
+				direction = cell.charAt(1);
 				// DOOR DIRECTION
-				if (s == 'L') {
-					r = new RoomCell(c, DoorDirection.LEFT, row, col);
-				} else if (s == 'R') {
-					r = new RoomCell(c, DoorDirection.RIGHT, row, col);
-				} else if (s == 'U') {
-					r = new RoomCell(c, DoorDirection.UP, row, col);
-				} else if (s == 'D') {
-					r = new RoomCell(c, DoorDirection.DOWN, row, col);
+				if (direction == 'L') {
+					newRoomCell = new RoomCell(cellType, DoorDirection.LEFT, row, col);
+				} else if (direction == 'R') {
+					newRoomCell = new RoomCell(cellType, DoorDirection.RIGHT, row, col);
+				} else if (direction == 'U') {
+					newRoomCell = new RoomCell(cellType, DoorDirection.UP, row, col);
+				} else if (direction == 'D') {
+					newRoomCell = new RoomCell(cellType, DoorDirection.DOWN, row, col);
 				// NOT A DOOR
 				} else {
-					r = new RoomCell(c, DoorDirection.NONE, row, col);
+					newRoomCell = new RoomCell(cellType, DoorDirection.NONE, row, col);
 				}
 			} else {
-				r = new RoomCell(c, DoorDirection.NONE, row, col);
+				newRoomCell = new RoomCell(cellType, DoorDirection.NONE, row, col);
 			}
 			//cells.add(arrayIndex, r);
-			cells.add(r);
+			cells.add(newRoomCell);
 			//arrayIndex++;
 		}	
 	}
