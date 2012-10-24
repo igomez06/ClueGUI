@@ -28,19 +28,20 @@ public class Board {
 	private Map<Integer, LinkedList<Integer>> adjMtx;
 	private LinkedList<Integer> path;					//list of paths
 	private HashSet<BoardCell> targets;					//stores final targets
-	private ArrayList<Boolean> visited;
+	private boolean[] visited;
 	
 	public Board(String configFile, String legendFile) {
 		rooms = new HashMap<Character, String>();	//order does not matter for legend
 		cells = new ArrayList<BoardCell>();
 		path = new LinkedList<Integer>();			//path traveled during recursion leading to target
 		targets = new HashSet<BoardCell>();			
-		visited = new ArrayList<Boolean>();			//tracks which indexes have been seen
 		loadConfigFiles(configFile, legendFile);
-		calcAdjacencies();
+		visited = new boolean[numRows * numCols];			//tracks which indexes have been seen
 		for(int i = 0; i < numRows*numCols; i++) {
-			visited.add(false);
+			visited[i] = false;
 		}
+		calcAdjacencies();
+		
 	}
 	
 	public ArrayList<BoardCell> getCells() {
@@ -290,13 +291,13 @@ public class Board {
 	}
 	
 	public void calcTargets(int startLocation, int numSteps){
-		visited.set(startLocation, true);
+		visited[startLocation] = true;
 		LinkedList<Integer> possib = new LinkedList<Integer>();
 		possib = getAdjList(startLocation);							//adjacent points
 		for(int i = 0; i < possib.size(); ++i) {
 			//will traverse path only if the index has not been visited
-			if (visited.get(possib.get(i)) == false) {					
-				visited.set(possib.get(i), true);		//sets the seen index to true
+			if (visited[possib.get(i)] == false) {					
+				visited[possib.get(i)] = true;		//sets the seen index to true
 				path.addLast(possib.get(i));			//adds the index to the path
 				if (path.size() == numSteps || getCells().get(possib.get(i)).isRoom()) {	//prevents duplicates		
 					targets.add(getCells().get(possib.get(i)));	//adds to targets if the path size is at max numSteps
@@ -304,13 +305,13 @@ public class Board {
 					calcTargets(possib.get(i), numSteps);	//yay recursion!
 				}
 				path.removeLast();
-				visited.set(possib.get(i), false);
+				visited[possib.get(i)] = false;
 			}
 		}
 	}
 	public void clearListsAndSetToFalse() {
 		for(int i = 0; i < numCols*numRows; i++) {
-			visited.set(i, false);
+			visited[i] = false;
 		}
 		//clears path LinkedList and targetTreeSet
 		path.clear();
