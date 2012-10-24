@@ -27,7 +27,7 @@ public class BoardTests {
 	
 	@Before
 	public void setup() {
-		newBoard = new Board();
+		newBoard = new Board("ClueLayout.csv", "ClueLegend.csv");
 	}
 	@Test
 	public void TestNumRowsColumns() {

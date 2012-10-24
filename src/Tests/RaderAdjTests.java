@@ -14,7 +14,7 @@ public class RaderAdjTests {
 	private static Board board;
 	@BeforeClass
 	public static void setUp() {
-		board = new Board();
+		board = new Board("RaderLayout.csv", "RaderLegend.csv");
 	}
 
 	// Ensure that player does not move around within room
@@ -151,6 +151,7 @@ public class RaderAdjTests {
 	public void testTargetsOneStep() {
 		board.calcTargets(board.calcIndex(21, 7), 1);
 		Set<BoardCell> targets= board.getTargets();
+		System.out.println(board.getTargets());
 		Assert.assertEquals(2, targets.size());
 		Assert.assertTrue(targets.contains(board.getCellAt(board.calcIndex(20, 7))));
 		Assert.assertTrue(targets.contains(board.getCellAt(board.calcIndex(21, 6))));	

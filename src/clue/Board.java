@@ -1,6 +1,8 @@
 /**Kira Combs
  * Nicola Hetrick
  * 10/11/12
+ * 
+ * Refactored by Lars Walen and Craig Carlson
  */
 package clue;
 
@@ -12,19 +14,14 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Scanner;
-import java.util.Set;
-import java.util.TreeSet;
-
-import clue.RoomCell.DoorDirection;
 
 import Exceptions.BadConfigFormatException;
+import clue.RoomCell.DoorDirection;
 
 public class Board {	
 	private ArrayList<BoardCell> cells;		//contains the board layout
 	private Map<Character, String> rooms;	//maps the 1-char initial to a Room object
-	//public int arrayIndex = 0;
 	
-
 	private int numRows;					//determined when you read in file
 	private int numCols;					//determined when you read in file
 	
@@ -33,13 +30,13 @@ public class Board {
 	private HashSet<BoardCell> targets;					//stores final targets
 	private ArrayList<Boolean> visited;
 	
-	public Board() {
+	public Board(String configFile, String legendFile) {
 		rooms = new HashMap<Character, String>();	//order does not matter for legend
 		cells = new ArrayList<BoardCell>();
 		path = new LinkedList<Integer>();			//path traveled during recursion leading to target
 		targets = new HashSet<BoardCell>();			
 		visited = new ArrayList<Boolean>();			//tracks which indexes have been seen
-		loadConfigFiles();
+		loadConfigFiles(configFile, legendFile);
 		calcAdjacencies();
 		for(int i = 0; i < numRows*numCols; i++) {
 			visited.add(false);
@@ -58,7 +55,7 @@ public class Board {
 	public int getNumCols() {
 		return numCols;
 	}
-	public void loadConfigFiles() {
+	public void loadConfigFiles(String configFile, String legendFile) {
 		//call helper functions to load different types of config files
 		//generic try/catch statement that will utilize the BadConfigFormatException
 		String initialstr;
@@ -72,7 +69,7 @@ public class Board {
 		Scanner in = null;
 		
 		try {
-			reader = new FileReader("ClueLegend.csv");
+			reader = new FileReader(legendFile);
 			//reader = new FileReader("RaderLegend.csv");
 			in = new Scanner(reader);
 		} catch (FileNotFoundException e1) {
@@ -102,7 +99,7 @@ public class Board {
 		String cell;
 		String str;
 		try {
-			reader = new FileReader("ClueLayout.csv");
+			reader = new FileReader(configFile);
 			//reader = new FileReader("RaderLayout.csv");
 			in = new Scanner(reader);
 		} catch (FileNotFoundException e1) {
