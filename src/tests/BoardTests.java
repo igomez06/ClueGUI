@@ -3,7 +3,7 @@
  * 10/11/12
  */
 // This file will test the reading of the board file//
-package Tests;
+package tests;
 
 import static org.junit.Assert.*;
 

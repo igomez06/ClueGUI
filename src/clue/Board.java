@@ -15,8 +15,8 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Scanner;
 
-import Exceptions.BadConfigFormatException;
 import clue.RoomCell.DoorDirection;
+import exceptions.BadConfigFormatException;
 
 public class Board {	
 	private ArrayList<BoardCell> cells;		//contains the board layout

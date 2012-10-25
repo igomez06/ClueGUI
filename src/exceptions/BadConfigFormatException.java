@@ -2,7 +2,7 @@
  * Nicola Hetrick
  * 10/11/12
  */
-package Exceptions;
+package exceptions;
 
 //generic exception class. allows writing of appropriate message depending on issue with configuration file
 public class BadConfigFormatException extends Exception{

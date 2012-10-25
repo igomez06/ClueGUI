@@ -2,7 +2,7 @@
  * Nicola Hetrick
  * 10/11/12
  */
-package Tests;
+package tests;
 
 import java.util.HashSet;
 import java.util.LinkedList;

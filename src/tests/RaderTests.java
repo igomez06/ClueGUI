@@ -1,5 +1,5 @@
  
-package Tests;
+package tests;
 
 // Doing a static import allows me to write assertEquals rather than
 // Assert.assertEquals
