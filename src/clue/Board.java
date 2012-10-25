@@ -326,6 +326,20 @@ public class Board {
 		return getCells().get(value);
 	}
 	
+	public void selectAnswer() {}
+	public void deal() {}
+	public void deal(ArrayList<String> cardList) {}
+	public boolean checkAccusation(String person, String room, String weapon) {
+		return false;
+	}
+	public void handleSuggestion(String person, String room, String weapon) {}
+	
+	public class Solution {
+		public String person, weapon, room;
+
+	}
+
+	
 	
 	
 }
