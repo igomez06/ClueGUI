@@ -29,15 +29,9 @@ public class Card {
 		return type;
 	}
 
-	public void setType(CardType type) {
-		this.type = type;
-	}
-
 	public String getName() {
 		return name;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	};
+	
 }

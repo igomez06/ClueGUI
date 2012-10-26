@@ -27,7 +27,7 @@ public class BoardTests {
 	
 	@Before
 	public void setup() {
-		newBoard = new Board("NKLayout.txt", "NKLegend.txt");
+		newBoard = new Board("NKLayout.txt", "NKLegend.txt", "Players.txt");
 	}
 	@Test
 	public void TestNumRowsColumns() {

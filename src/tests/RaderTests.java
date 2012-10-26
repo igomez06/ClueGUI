@@ -26,7 +26,7 @@ public class RaderTests {
 	
 	@BeforeClass
 	public static void setUp() {
-		board = new Board("RaderLayout.csv", "RaderLegend.csv");
+		board = new Board("RaderLayout.csv", "RaderLegend.csv", "Players.txt");
 	}
 	@Test
 	public void testRooms() {

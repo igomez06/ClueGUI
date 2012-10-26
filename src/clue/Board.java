@@ -21,6 +21,7 @@ import exceptions.BadConfigFormatException;
 public class Board {	
 	private ArrayList<BoardCell> cells;		//contains the board layout
 	private Map<Character, String> rooms;	//maps the 1-char initial to a Room object
+	private ArrayList<Player> players;
 	
 	private int numRows;					//determined when you read in file
 	private int numCols;					//determined when you read in file
@@ -30,12 +31,12 @@ public class Board {
 	private HashSet<BoardCell> targets;					//stores final targets
 	private boolean[] visited;
 	
-	public Board(String configFile, String legendFile) {
+	public Board(String configFile, String legendFile, String playerFile) {
 		rooms = new HashMap<Character, String>();	//order does not matter for legend
 		cells = new ArrayList<BoardCell>();
 		path = new LinkedList<Integer>();			//path traveled during recursion leading to target
 		targets = new HashSet<BoardCell>();			
-		loadConfigFiles(configFile, legendFile);
+		loadConfigFiles(configFile, legendFile, playerFile);
 		visited = new boolean[numRows * numCols];			//tracks which indexes have been seen
 		for(int i = 0; i < numRows*numCols; i++) {
 			visited[i] = false;
@@ -56,7 +57,7 @@ public class Board {
 	public int getNumCols() {
 		return numCols;
 	}
-	public void loadConfigFiles(String configFile, String legendFile) {
+	public void loadConfigFiles(String configFile, String legendFile, String playerFile) {
 		//call helper functions to load different types of config files
 		//generic try/catch statement that will utilize the BadConfigFormatException
 		String initialstr;
@@ -141,6 +142,28 @@ public class Board {
 				row++;
 			}
 			numRows = row;
+		} catch(BadConfigFormatException e) {
+			System.out.println(e.getMessage());
+			return;
+		}
+		
+		//PlayeFile reader
+		try {
+			reader = new FileReader(playerFile);
+		
+			in = new Scanner(reader);
+		} catch (FileNotFoundException e1) {
+			System.out.println("File Not Found");
+		}
+		
+		try {
+			while (in.hasNextLine()){
+				String playerLine = in.nextLine();
+				String[] line = playerLine.split("\t");
+				if(line.length > 3) throw new BadConfigFormatException("Player file has more than 3 items per line");
+				ComputerPlayer p = new ComputerPlayer(line[0], line[1], calcIndex(Integer.parseInt(line[2]), Integer.parseInt(line[3])));
+				
+			}
 		} catch(BadConfigFormatException e) {
 			System.out.println(e.getMessage());
 			return;
@@ -337,6 +360,10 @@ public class Board {
 	public class Solution {
 		public String person, weapon, room;
 
+	}
+
+	public ArrayList<Player> getPlayers() {
+		return players;
 	}
 
 	

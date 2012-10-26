@@ -1,19 +1,37 @@
 package tests;
 
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+
+import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class GameSetupTest {
+import clue.Board;
+import clue.ComputerPlayer;
+import clue.HumanPlayer;
+import clue.Player;
 
+public class GameSetupTest {
+	private ArrayList<Player> players;
 	@BeforeClass
 	public void setUp() throws Exception {
+		Board testBoard;
+		testBoard = new Board("NKLayout.txt", "NKLegend.txt", "Players.txt");
+		players = new ArrayList<Player>();
+		players = testBoard.getPlayers();
 	}
 
 	@Test
 	public void testLoadingPlayers() {
-		fail("Not yet implemented");
+		HumanPlayer hp = (HumanPlayer) players.get(0);
+		
+		
+		ComputerPlayer cp1 = (ComputerPlayer) players.get(1);
+		
+		ComputerPlayer cp2 = (ComputerPlayer) players.get(5);
+		
 	}
 
 	@Test

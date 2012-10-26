@@ -14,7 +14,7 @@ public class RaderAdjTests {
 	private static Board board;
 	@BeforeClass
 	public static void setUp() {
-		board = new Board("RaderLayout.csv", "RaderLegend.csv");
+		board = new Board("RaderLayout.csv", "RaderLegend.csv", "Players.txt");
 	}
 
 	// Ensure that player does not move around within room

@@ -20,7 +20,7 @@ public class AdjTargetTests {
 	private static Board board;
 	@BeforeClass
 	public static void setUp() {
-		board = new Board("NKLayout.txt", "NKLegend.txt");
+		board = new Board("NKLayout.txt", "NKLegend.txt", "Players.txt");
 	}
 
 	// Ensure that player does not move around within room
