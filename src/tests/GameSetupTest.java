@@ -97,6 +97,7 @@ public class GameSetupTest {
 		for( int k = 0; k < cards.size(); k++ ) {
 			String name = cards.get(k).getName();
 			int counter = 0;
+			
 			for( int i = 0; i < players.size(); i++ ) {
 				for ( int j = 0; j < players.get(i).getCards().size(); j++ ) {
 					if (players.get(i).getCards().get(j).getName().equalsIgnoreCase(name)) counter++;
@@ -104,8 +105,6 @@ public class GameSetupTest {
 			}
 			Assert.assertEquals(counter, 1);
 		}
-
-
 	}
 }
 
