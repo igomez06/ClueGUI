@@ -6,6 +6,11 @@ public class Card {
 
 	public enum CardType { ROOM, WEAPON, PERSON}
 
+	public Card(String name, CardType type ) {
+		this.name = name;
+		this.type = type;
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

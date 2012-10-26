@@ -22,29 +22,30 @@ public class Board {
 	private ArrayList<BoardCell> cells;		//contains the board layout
 	private Map<Character, String> rooms;	//maps the 1-char initial to a Room object
 	private ArrayList<Player> players;
-	
+
 	private int numRows;					//determined when you read in file
 	private int numCols;					//determined when you read in file
-	
+
 	private Map<Integer, LinkedList<Integer>> adjMtx;
 	private LinkedList<Integer> path;					//list of paths
 	private HashSet<BoardCell> targets;					//stores final targets
 	private boolean[] visited;
-	
-	public Board(String configFile, String legendFile, String playerFile) {
+
+	public Board(String configFile, String legendFile, String playerFile, String weaponFile) {
 		rooms = new HashMap<Character, String>();	//order does not matter for legend
 		cells = new ArrayList<BoardCell>();
+		players = new ArrayList<Player>();
 		path = new LinkedList<Integer>();			//path traveled during recursion leading to target
 		targets = new HashSet<BoardCell>();			
-		loadConfigFiles(configFile, legendFile, playerFile);
+		loadConfigFiles(configFile, legendFile, playerFile, weaponFile);
 		visited = new boolean[numRows * numCols];			//tracks which indexes have been seen
 		for(int i = 0; i < numRows*numCols; i++) {
 			visited[i] = false;
 		}
 		calcAdjacencies();
-		
+
 	}
-	
+
 	public ArrayList<BoardCell> getCells() {
 		return cells;
 	}
@@ -57,7 +58,7 @@ public class Board {
 	public int getNumCols() {
 		return numCols;
 	}
-	public void loadConfigFiles(String configFile, String legendFile, String playerFile) {
+	public void loadConfigFiles(String configFile, String legendFile, String playerFile, String weaponFile) {
 		//call helper functions to load different types of config files
 		//generic try/catch statement that will utilize the BadConfigFormatException
 		String initialstr;
@@ -69,7 +70,7 @@ public class Board {
 		// Loading Legend
 		FileReader reader = null;
 		Scanner in = null;
-		
+
 		try {
 			reader = new FileReader(legendFile);
 			//reader = new FileReader("RaderLegend.csv");
@@ -77,7 +78,7 @@ public class Board {
 		} catch (FileNotFoundException e1) {
 			System.out.println("File Not Found");
 		}
-		
+
 		try {
 			while (in.hasNextLine()){
 				name = in.nextLine();
@@ -96,7 +97,7 @@ public class Board {
 			System.out.println(e.getMessage());
 			return;
 		}
-		
+
 		// Loading Layout
 		String cell;
 		String str;
@@ -146,35 +147,51 @@ public class Board {
 			System.out.println(e.getMessage());
 			return;
 		}
-		
+
 		//PlayeFile reader
 		try {
 			reader = new FileReader(playerFile);
-		
+
 			in = new Scanner(reader);
 		} catch (FileNotFoundException e1) {
 			System.out.println("File Not Found");
 		}
-		
+
 		try {
 			while (in.hasNextLine()){
 				String playerLine = in.nextLine();
 				String[] line = playerLine.split("\t");
-				if(line.length > 3) throw new BadConfigFormatException("Player file has more than 3 items per line");
-				ComputerPlayer p = new ComputerPlayer(line[0], line[1], calcIndex(Integer.parseInt(line[2]), Integer.parseInt(line[3])));
-				
+				if(line.length > 4) throw new BadConfigFormatException("Player file has more than 4 items per line");
+				Player p = new ComputerPlayer(line[0], line[1], calcIndex(Integer.parseInt(line[2]), Integer.parseInt(line[3])));
+				players.add(p);
+
 			}
 		} catch(BadConfigFormatException e) {
 			System.out.println(e.getMessage());
 			return;
 		}
+
+		//Weapons file reader
+		try {
+			reader = new FileReader(weaponFile);
+			in = new Scanner(reader);
+
+		}catch (FileNotFoundException e1) {
+			System.out.println("File Not Found");
+		}
+
+		while(in.hasNextLine()){
+			Card weapon = new Card(in.nextLine(), Card.CardType.WEAPON);
+		}
+
+
 	}
-	
+
 	void saveCellInformation(String cell, int row, int col) {
 		char cellType = cell.charAt(0);
 		char direction;
 		//int arrayIndex = 0;
-		
+
 		try {
 			if (!rooms.containsKey(cellType)) {
 				throw new BadConfigFormatException("Bad Config File: INVALID LAYOUT, Nonexistent room used.");
@@ -189,7 +206,7 @@ public class Board {
 			//cells.add(arrayIndex, w);
 			cells.add(w);
 			//arrayIndex++;
-		// ROOM CELL
+			// ROOM CELL
 		} else {
 			RoomCell newRoomCell;
 			if (cell.length() > 1) {
@@ -203,7 +220,7 @@ public class Board {
 					newRoomCell = new RoomCell(cellType, DoorDirection.UP, row, col);
 				} else if (direction == 'D') {
 					newRoomCell = new RoomCell(cellType, DoorDirection.DOWN, row, col);
-				// NOT A DOOR
+					// NOT A DOOR
 				} else {
 					newRoomCell = new RoomCell(cellType, DoorDirection.NONE, row, col);
 				}
@@ -215,11 +232,11 @@ public class Board {
 			//arrayIndex++;
 		}	
 	}
-	
+
 	public int calcIndex(int row, int column) {
 		return row*numCols + column;
 	}
-	
+
 	public RoomCell getRoomCellAt(int row, int column) {
 		BoardCell cell = new RoomCell();
 		cell = cells.get(calcIndex(row, column));
@@ -312,7 +329,7 @@ public class Board {
 	public LinkedList<Integer> getAdjList(int value) {
 		return adjMtx.get(value);
 	}
-	
+
 	public void calcTargets(int startLocation, int numSteps){
 		visited[startLocation] = true;
 		LinkedList<Integer> possib = new LinkedList<Integer>();
@@ -340,15 +357,15 @@ public class Board {
 		path.clear();
 		targets.clear();
 	}
-	
+
 	public HashSet<BoardCell> getTargets(){
 		return targets;
 	}
-	
+
 	public BoardCell getCellAt(int value) {
 		return getCells().get(value);
 	}
-	
+
 	public void selectAnswer() {}
 	public void deal() {}
 	public void deal(ArrayList<String> cardList) {}
@@ -356,7 +373,7 @@ public class Board {
 		return false;
 	}
 	public void handleSuggestion(String person, String room, String weapon) {}
-	
+
 	public class Solution {
 		public String person, weapon, room;
 
@@ -366,7 +383,7 @@ public class Board {
 		return players;
 	}
 
-	
-	
-	
+
+
+
 }

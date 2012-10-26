@@ -15,7 +15,7 @@ public class RaderAdjTests {
 	@BeforeClass
 	public static void setUp() {
 
-		board = new Board("RaderLayout.txt", "RaderLegend.txt", "Players.txt");
+		board = new Board("RaderLayout.txt", "RaderLegend.txt", "Players.txt", "Weapons.txt");
 
 	}
 

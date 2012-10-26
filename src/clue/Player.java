@@ -18,6 +18,24 @@ public class Player {
 	public Card disproveSuggestion(String person, String room, String weapon) {
 		return null;
 	}
+
+	public String getName() {
+		return name;
+	}
+
+	public int getStartingLocation() {
+		return startingLocation;
+	}
+
+	public ArrayList<Card> getCards() {
+		return cards;
+	}
+
+	public String getColor() {
+		return color;
+	}
+
+	
 	
 	
 }

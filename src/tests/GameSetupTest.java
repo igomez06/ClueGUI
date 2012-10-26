@@ -14,33 +14,41 @@ import clue.HumanPlayer;
 import clue.Player;
 
 public class GameSetupTest {
-	private ArrayList<Player> players;
+	private static ArrayList<Player> players;
+	static Board testBoard;
 	@BeforeClass
-	public void setUp() throws Exception {
-		Board testBoard;
-		testBoard = new Board("NKLayout.txt", "NKLegend.txt", "Players.txt");
+	public static void setUp() throws Exception {
+		testBoard = new Board("NKLayout.txt", "NKLegend.txt", "Players.txt", "Weapons.txt");
 		players = new ArrayList<Player>();
 		players = testBoard.getPlayers();
 	}
 
 	@Test
 	public void testLoadingPlayers() {
-		HumanPlayer hp = (HumanPlayer) players.get(0);
+		Player hp = players.get(0);
+		Assert.assertEquals(hp.getName(), "Craig");
+		Assert.assertEquals(hp.getColor(), "Blue");
+		Assert.assertEquals(hp.getStartingLocation(), testBoard.calcIndex(1, 4));
 		
+		Player cp1 = players.get(1);
+		Assert.assertEquals(cp1.getName(), "Lars");
+		Assert.assertEquals(cp1.getColor(), "Red");
+		Assert.assertEquals(cp1.getStartingLocation(), testBoard.calcIndex(1, 14));
 		
-		ComputerPlayer cp1 = (ComputerPlayer) players.get(1);
-		
-		ComputerPlayer cp2 = (ComputerPlayer) players.get(5);
+		Player cp2 = players.get(5);
+		Assert.assertEquals(cp2.getName(), "Panda");
+		Assert.assertEquals(cp2.getColor(), "Black");
+		Assert.assertEquals(cp2.getStartingLocation(), testBoard.calcIndex(11, 16));
 		
 	}
 
 	@Test
 	public void testLoadingCards() {
-		fail("Not yet implemented");
+		fail("failing");
 	}
 	
 	@Test
 	public void testDealingCards() {
-		fail("Not yet implemented");
+		fail("failing");
 	}
 }
