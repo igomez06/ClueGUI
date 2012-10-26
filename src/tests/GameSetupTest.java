@@ -43,6 +43,7 @@ public class GameSetupTest {
 
 	@Test
 	public void testLoadingCards() {
+
 		ArrayList<Card> cards = testBoard.getCards();
 		// check total number of cards
 		Assert.assertEquals(cards.size(), 21);
@@ -63,6 +64,7 @@ public class GameSetupTest {
 		// check if specific cards are in the deck
 		Card weapon = new Card("pile of dirt", Card.CardType.WEAPON);
 		Assert.assertTrue(cards.contains(weapon));
+
 		
 	}
 	
