@@ -18,6 +18,10 @@ public class Player {
 	
 
 	public Card disproveSuggestion(String person, String room, String weapon) {
+		// If player has one or more of the cards, return one of the ones they have randomly
+		
+		
+		// If player doesn't have any of the given cards...
 		return null;
 	}
 
@@ -38,6 +42,9 @@ public class Player {
 
 	public String getColor() {
 		return color;
+	}
+	public void addCard(Card card) {
+		cards.add(card);
 	}
 
 	

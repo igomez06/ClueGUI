@@ -11,6 +11,7 @@ import org.junit.Test;
 import clue.Board;
 import clue.BoardCell;
 import clue.Card;
+import clue.Card.CardType;
 import clue.ComputerPlayer;
 import clue.HumanPlayer;
 import clue.Player;
@@ -115,28 +116,111 @@ public class GameActionsTests {
 		cards.add(new Card("Panda", Card.CardType.PERSON));
 		cards.add(new Card("Kitchen", Card.CardType.ROOM));
 		cards.add(new Card("Candlestick", Card.CardType.WEAPON));
+		cards.add(new Card("Lars", Card.CardType.PERSON));
+		cards.add(new Card("Library", Card.CardType.ROOM));
+		cards.add(new Card("Pile of dirt", Card.CardType.WEAPON));
 		cp.setCards(cards);
 
+		// Test one player, no correct matches
+		Assert.assertEquals(null, cp.disproveSuggestion("Craig", "Pool", "Hydrogen bomb"));
 
-		//		ArrayList<Card> suggestion = new ArrayList<Card>();
-		//		suggestion.add(new Card("Panda", Card.CardType.PERSON));
-		//		suggestion.add(new Card("Kitchen", Card.CardType.ROOM));
-		//		suggestion.add(new Card("Candlestick", Card.CardType.WEAPON));
+		// Test one player, one correct match
+		// a simple test that one player returns the only possible card (one room, one person, one weapon),
+		Assert.assertEquals(new Card("Library", Card.CardType.ROOM), cp.disproveSuggestion("Craig", "Library", "Hydrogen bomb"));
 
-		//Checks to see if it will know if there are the suggested cards in the other players deck
+		// Test one player, multiple possible matches
+		// a test that one player randomly chooses between two possible cards
+		int pandaCounter = 0;
+		int candleCounter = 0;
+		for( int i = 0; i < 100; i++ ) {
+
+			Card returnedCard = cp.disproveSuggestion("Panda", "Pool", "Candlestick");
+
+			if( new Card("Panda", Card.CardType.PERSON).equals( returnedCard ) ) {
+				pandaCounter++;
+			} else if( new Card("Candlestick", Card.CardType.WEAPON).equals( returnedCard ) ) {
+				candleCounter++;
+			}
+		}
+		Assert.assertTrue(pandaCounter > 1 && pandaCounter < 100);
+		Assert.assertTrue(candleCounter > 1 && candleCounter < 100);
+
+		// Test that all players are queried
+		// tests involving the human player
+		ComputerPlayer cp1 = new ComputerPlayer("Craig", "Blue", 1);
+		ComputerPlayer cp2 = new ComputerPlayer("Lars", "Red", 2);
+		ComputerPlayer cp3 = new ComputerPlayer("Panda", "Black", 3);
+		ComputerPlayer cp4 = new ComputerPlayer("Roz", "Green", 4);
+		HumanPlayer hp = new HumanPlayer("Patches", "Tickle me Pink", 5);
 		
-			//Assert.assertFalse(testBoard.handleSuggestion("Panda", "Pool", "Gun"));
+		cp1.addCard(new Card("a", Card.CardType.WEAPON));
+		cp2.addCard(new Card("b", Card.CardType.WEAPON));
+		cp3.addCard(new Card("c", Card.CardType.WEAPON));
+		cp4.addCard(new Card("d", Card.CardType.WEAPON));
+		hp.addCard(new Card("f", Card.CardType.WEAPON));
 		
+		players.clear();
+		players.add(cp1);
+		players.add(cp2);
+		players.add(cp3);
+		players.add(cp4);
+		players.add(hp);
+		
+		// Test unprovable suggestion
+		int count = 0;
+		for (int i = 0; i < players.size(); i++) {
+			if( null != players.get(i).disproveSuggestion("X", "Y", "e") ) {
+				count++;
+			}
+		}
+		Assert.assertEquals(0, count);
+		
+		// Test suggestion only provable by player
+		Card result = new Card(" ", Card.CardType.PERSON);
+		for (int i = 0; i < players.size(); i++) {
+			result = players.get(i).disproveSuggestion("X", "Y", "f");
+		}
+		Assert.assertEquals(new Card("f", Card.CardType.WEAPON), result);
 
-
-		//If there are multiple cards that match return a random card
-
-
-
+		// Test two players with valid cards
+		// a test that if two players have a possible card, one person randomly returns a card
+		cp1.addCard(new Card("Panda", Card.CardType.PERSON));
+		cp2.addCard(new Card("Candlestick", Card.CardType.WEAPON));
+		pandaCounter = 0;
+		candleCounter = 0;
+		for( Player player : players ) {
+			Card returnedCard = player.disproveSuggestion("Panda", "Pool", "Candlestick");
+			if( new Card("Panda", Card.CardType.PERSON).equals( returnedCard ) ) {
+				pandaCounter++;
+			} else if( new Card("Candlestick", Card.CardType.WEAPON).equals( returnedCard ) ) {
+				candleCounter++;
+			}
+		}
+		Assert.assertTrue(pandaCounter > 1 && pandaCounter < 100);
+		Assert.assertTrue(candleCounter > 1 && candleCounter < 100);
+		
+		// Test suggesting player does not receive own card
+		// a test that the player whose turn it is does not return a card
+		count = 0;
+		for (int i = 0; i < players.size(); i++) {
+			if( null != players.get(i).disproveSuggestion("X", "Y", "f") ) {
+				count++;
+			}
+		}
+		Assert.assertEquals(0, count);
+				
 	}
 
 	@Test
 	public void testMakeSuggestion() {
 		Assert.fail("nope");
+		
+		
+		
+		
+		
+		
+		
+		
 	}
 }
