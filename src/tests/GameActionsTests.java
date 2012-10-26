@@ -12,6 +12,7 @@ import clue.Board;
 import clue.BoardCell;
 import clue.Card;
 import clue.ComputerPlayer;
+import clue.HumanPlayer;
 import clue.Player;
 import clue.RoomCell;
 import clue.WalkwayCell;
@@ -31,23 +32,23 @@ public class GameActionsTests {
 
 	@Test
 	public void testCheckAccusation() {
-		testBoard.setAnswer(new Card("Lars", Card.CardType.PERSON), new Card("Pool", Card.CardType.ROOM), new Card("bomb", Card.CardType.WEAPON));
+		testBoard.setAnswer(new Card("Lars", Card.CardType.PERSON), new Card("Pool", Card.CardType.ROOM), new Card("Knife", Card.CardType.WEAPON));
 
 		Card[] answer = testBoard.getAnswer();
 
 		Card[] accusation = new Card[3];
 
 		// Correct accusation
-		Assert.assertTrue(testBoard.checkAccusation("Lars", "Pool", "Bomb"));
+		Assert.assertTrue(testBoard.checkAccusation("Lars", "Pool", "Knife"));
 
 		// Incorrect accusation
-		Assert.assertFalse(testBoard.checkAccusation("Craig", "Kitchen", "Bomb"));
+		Assert.assertFalse(testBoard.checkAccusation("Craig", "Kitchen", "Knife"));
 
 		// Incorrect accusation
 		Assert.assertFalse(testBoard.checkAccusation("Andrew", "Pool", "Pile of dirt"));
 
 		// Incorrect accusation
-		Assert.assertFalse(testBoard.checkAccusation("Lars", "Library", "Bomb"));
+		Assert.assertFalse(testBoard.checkAccusation("Lars", "Library", "Knife"));
 	}
 
 	@Test
@@ -66,12 +67,12 @@ public class GameActionsTests {
 			if (rc.getRoomInitial() == (cp.getLastRoomVisited())){
 				Assert.assertTrue(cp.pickLocation(targets) != rc);
 			}
-			
+
 			//Check to see if they will go into the room if it is NOT the last visited room
 			Assert.assertEquals(cp.pickLocation(targets), rc);
 		}
 
-		
+
 
 		//Random choice test
 		HashSet<BoardCell> randomTargets = new HashSet<BoardCell>();
@@ -108,8 +109,30 @@ public class GameActionsTests {
 	}
 
 	@Test
-	public void testDisproveSuggestion() {
-		Assert.fail("nope");	
+	public void testDisproveSuggestion() {	
+		ComputerPlayer cp = new ComputerPlayer("Andrew", "Pink", 40);
+		ArrayList<Card> cards = new ArrayList<Card>(); 
+		cards.add(new Card("Panda", Card.CardType.PERSON));
+		cards.add(new Card("Kitchen", Card.CardType.ROOM));
+		cards.add(new Card("Candlestick", Card.CardType.WEAPON));
+		cp.setCards(cards);
+
+
+		//		ArrayList<Card> suggestion = new ArrayList<Card>();
+		//		suggestion.add(new Card("Panda", Card.CardType.PERSON));
+		//		suggestion.add(new Card("Kitchen", Card.CardType.ROOM));
+		//		suggestion.add(new Card("Candlestick", Card.CardType.WEAPON));
+
+		//Checks to see if it will know if there are the suggested cards in the other players deck
+		
+			//Assert.assertFalse(testBoard.handleSuggestion("Panda", "Pool", "Gun"));
+		
+
+
+		//If there are multiple cards that match return a random card
+
+
+
 	}
 
 	@Test

@@ -1,5 +1,6 @@
 package clue;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 
 public class ComputerPlayer extends Player {
@@ -17,7 +18,8 @@ public class ComputerPlayer extends Player {
 		//call calctargets
 		return null;
 	}
-	public void createSuggestion() {
+	///make sure to check the parameters for this function
+	public void createSuggestion(ArrayList<Card> suggestion) {
 		
 	}
 	public void updateSeen(Card seen) {

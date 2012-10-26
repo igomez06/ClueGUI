@@ -15,6 +15,8 @@ public class Player {
 		this.color = color;
 	}
 
+	
+
 	public Card disproveSuggestion(String person, String room, String weapon) {
 		return null;
 	}
@@ -29,6 +31,9 @@ public class Player {
 
 	public ArrayList<Card> getCards() {
 		return cards;
+	}
+	public void setCards(ArrayList<Card> cards) {
+		this.cards = cards;
 	}
 
 	public String getColor() {
