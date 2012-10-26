@@ -23,4 +23,7 @@ public class ComputerPlayer extends Player {
 	public void updateSeen(Card seen) {
 		
 	}
+	public char getLastRoomVisited() {
+		return lastRoomVisited;
+	}
 }

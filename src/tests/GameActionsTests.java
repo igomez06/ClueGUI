@@ -51,7 +51,7 @@ public class GameActionsTests {
 	}
 
 	@Test
-	public void testStartingLocation() {
+	public void testSelectingTarget() {
 		//Room Preference tests
 		HashSet<BoardCell> targets = new HashSet<BoardCell>();
 		ComputerPlayer cp = new ComputerPlayer("Craig", "Blue", 20);
@@ -61,9 +61,19 @@ public class GameActionsTests {
 		targets.add(new WalkwayCell());
 		targets.add(new WalkwayCell());
 
-		for (int i = 0; i < targets.size(); i++) {
+		for (int i = 0; i < 10; i++) {
+			//testing to make sure that they don't go into the last room they were in
+			if (rc.getRoomInitial() == (cp.getLastRoomVisited())){
+				Assert.assertTrue(cp.pickLocation(targets) != rc);
+			}
+			
+			//Check to see if they will go into the room if it is NOT the last visited room
 			Assert.assertEquals(cp.pickLocation(targets), rc);
 		}
+
+		
+
+		//Random choice test
 		HashSet<BoardCell> randomTargets = new HashSet<BoardCell>();
 		WalkwayCell wc1 = new WalkwayCell();
 		WalkwayCell wc2 = new WalkwayCell();
@@ -73,7 +83,7 @@ public class GameActionsTests {
 		randomTargets.add(wc2);
 		randomTargets.add(wc3);
 		randomTargets.add(wc4);
-		//Random choice test
+
 		int wc1Counter = 0;
 		int wc2Counter = 0;
 		int wc3Counter = 0;
@@ -89,7 +99,7 @@ public class GameActionsTests {
 				wc4Counter++;
 			}
 		}
-		
+
 		Assert.assertTrue(wc1Counter > 1 && wc1Counter < 100);
 		Assert.assertTrue(wc2Counter > 1 && wc2Counter < 100);
 		Assert.assertTrue(wc3Counter > 1 && wc3Counter < 100);
