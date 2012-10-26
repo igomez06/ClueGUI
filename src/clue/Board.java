@@ -15,6 +15,7 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Scanner;
 
+import clue.Card.CardType;
 import clue.RoomCell.DoorDirection;
 import exceptions.BadConfigFormatException;
 
@@ -23,6 +24,8 @@ public class Board {
 	private Map<Character, String> rooms;	//maps the 1-char initial to a Room object
 	private ArrayList<Player> players;
 	private ArrayList<Card> cards;
+	
+	private Card[] answer;
 
 	private int numRows;					//determined when you read in file
 	private int numCols;					//determined when you read in file
@@ -37,6 +40,8 @@ public class Board {
 		cells = new ArrayList<BoardCell>();
 		players = new ArrayList<Player>();
 		cards = new ArrayList<Card>();
+		answer = new Card[3];
+		
 		path = new LinkedList<Integer>();			//path traveled during recursion leading to target
 		targets = new HashSet<BoardCell>();			
 		loadConfigFiles(configFile, legendFile, playerFile, weaponFile);
@@ -392,6 +397,17 @@ public class Board {
 
 	public ArrayList<Card> getCards() {
 		return cards;
+	}
+
+	public Card[] getAnswer() {
+		return answer;
+	}
+
+	public void setAnswer(Card person, Card room, Card weapon) {
+		answer[0] = person;
+		answer[1] = room;
+		answer[2] = weapon;
+		
 	}
 
 
