@@ -62,9 +62,20 @@ public class GameSetupTest {
 		Assert.assertEquals(numberOfRoomCards, 9);
 		
 		// check if specific cards are in the deck
-		Card weapon = new Card("pile of dirt", Card.CardType.WEAPON);
-		Assert.assertTrue(cards.contains(weapon));
-
+		String person = "Lars";
+		String weapon = "pile of dirt";
+		String room = "Pool";
+		boolean personExists = false;
+		boolean weaponExists = false;
+		boolean roomExists = false;
+		for( Card card : cards ) {
+			if( card.getName().equalsIgnoreCase(person) ) personExists = true;
+			if( card.getName().equalsIgnoreCase(weapon) ) weaponExists = true;
+			if( card.getName().equalsIgnoreCase(room) ) roomExists = true;
+		}
+		Assert.assertTrue(personExists);
+		Assert.assertTrue(weaponExists);
+		Assert.assertTrue(roomExists);
 		
 	}
 	
