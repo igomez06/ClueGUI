@@ -22,6 +22,7 @@ public class Board {
 	private ArrayList<BoardCell> cells;		//contains the board layout
 	private Map<Character, String> rooms;	//maps the 1-char initial to a Room object
 	private ArrayList<Player> players;
+	private ArrayList<Card> cards;
 
 	private int numRows;					//determined when you read in file
 	private int numCols;					//determined when you read in file
@@ -35,6 +36,7 @@ public class Board {
 		rooms = new HashMap<Character, String>();	//order does not matter for legend
 		cells = new ArrayList<BoardCell>();
 		players = new ArrayList<Player>();
+		cards = new ArrayList<Card>();
 		path = new LinkedList<Integer>();			//path traveled during recursion leading to target
 		targets = new HashSet<BoardCell>();			
 		loadConfigFiles(configFile, legendFile, playerFile, weaponFile);
@@ -73,7 +75,6 @@ public class Board {
 
 		try {
 			reader = new FileReader(legendFile);
-			//reader = new FileReader("RaderLegend.csv");
 			in = new Scanner(reader);
 		} catch (FileNotFoundException e1) {
 			System.out.println("File Not Found");
@@ -90,6 +91,10 @@ public class Board {
 					if (name.indexOf(',') >= 0) {
 						throw new BadConfigFormatException("Bad Config File: Too Many Items...");
 					}
+				}
+				if( !name.equalsIgnoreCase("closet") && !name.equalsIgnoreCase("walkway") ) {
+					Card room = new Card(name, Card.CardType.ROOM);
+					cards.add(room);
 				}
 				rooms.put(initial, name);
 			}
@@ -148,7 +153,7 @@ public class Board {
 			return;
 		}
 
-		//PlayeFile reader
+		//PlayerFile reader
 		try {
 			reader = new FileReader(playerFile);
 
@@ -164,7 +169,8 @@ public class Board {
 				if(line.length > 4) throw new BadConfigFormatException("Player file has more than 4 items per line");
 				Player p = new ComputerPlayer(line[0], line[1], calcIndex(Integer.parseInt(line[2]), Integer.parseInt(line[3])));
 				players.add(p);
-
+				Card person = new Card(line[0], Card.CardType.PERSON);
+				cards.add(person);
 			}
 		} catch(BadConfigFormatException e) {
 			System.out.println(e.getMessage());
@@ -182,6 +188,7 @@ public class Board {
 
 		while(in.hasNextLine()){
 			Card weapon = new Card(in.nextLine(), Card.CardType.WEAPON);
+			cards.add(weapon);
 		}
 
 
@@ -381,6 +388,10 @@ public class Board {
 
 	public ArrayList<Player> getPlayers() {
 		return players;
+	}
+
+	public ArrayList<Card> getCards() {
+		return cards;
 	}
 
 

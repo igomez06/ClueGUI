@@ -1,6 +1,6 @@
 package tests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 
@@ -9,8 +9,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import clue.Board;
-import clue.ComputerPlayer;
-import clue.HumanPlayer;
+import clue.Card;
 import clue.Player;
 
 public class GameSetupTest {
@@ -44,7 +43,27 @@ public class GameSetupTest {
 
 	@Test
 	public void testLoadingCards() {
-		fail("failing");
+		ArrayList<Card> cards = testBoard.getCards();
+		// check total number of cards
+		Assert.assertEquals(cards.size(), 21);
+		
+		// check number of types of cards
+		int numberOfWeaponCards = 0;
+		int numberOfRoomCards = 0;
+		int numberOfPersonCards = 0;
+		for( Card card : cards ) {
+			if( card.getType() == Card.CardType.WEAPON ) numberOfWeaponCards++;
+			if( card.getType() == Card.CardType.ROOM ) numberOfRoomCards++;
+			if( card.getType() == Card.CardType.PERSON ) numberOfPersonCards++;
+		}
+		Assert.assertEquals(numberOfWeaponCards, 6);
+		Assert.assertEquals(numberOfPersonCards, 6);
+		Assert.assertEquals(numberOfRoomCards, 9);
+		
+		// check if specific cards are in the deck
+		Card weapon = new Card("pile of dirt", Card.CardType.WEAPON);
+		Assert.assertTrue(cards.contains(weapon));
+		
 	}
 	
 	@Test
