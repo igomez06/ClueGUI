@@ -1,0 +1,14 @@
+Craig Carlson
+Lars Walen
+
+Refactoring ClueBoard:
+1. The reader variable is the file reader variable which does not need to be a instance variable because it is only being used in one member function, so we converted it to a local variable. 
+Same goes for the Scanner in variable which we also made a local variable.
+
+2. Adjusted the Board constructor so that it will input the config file and the legend file so that it will pass both Rader's tests and our tests at the same time. This will elimate the need to manually enter the name of the config file and the legend file when you want to switch between the JUnit tests.
+
+3. Changed the ArrayList keeping track of visited cells for calcTargets to a regular array. This is more efficient, since the size of the array is constant.
+
+4. The arrayIndex member variable was only used in one function so it did not need to be a public instance variable. We adjusted it by making it a local variable, and we removed a redundant test that it was being used in.
+
+5. In the saveCellInformation function, we renamed variables c, s, and r to cellType, direction, and newRoomCell, respectively. This adds readability to the code.
