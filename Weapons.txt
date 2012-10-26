@@ -1,6 +1,6 @@
-candlestick
-knife
-shoelace
-gun
-hydrogen bomb
-pile of dirt
+Candlestick
+Knife
+Shoelace
+Gun
+Hydrogen bomb
+Pile of dirt

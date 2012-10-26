@@ -28,17 +28,17 @@ public class GameSetupTest {
 		Assert.assertEquals(hp.getName(), "Craig");
 		Assert.assertEquals(hp.getColor(), "Blue");
 		Assert.assertEquals(hp.getStartingLocation(), testBoard.calcIndex(1, 4));
-		
+
 		Player cp1 = players.get(1);
 		Assert.assertEquals(cp1.getName(), "Lars");
 		Assert.assertEquals(cp1.getColor(), "Red");
 		Assert.assertEquals(cp1.getStartingLocation(), testBoard.calcIndex(1, 14));
-		
+
 		Player cp2 = players.get(5);
 		Assert.assertEquals(cp2.getName(), "Panda");
 		Assert.assertEquals(cp2.getColor(), "Black");
 		Assert.assertEquals(cp2.getStartingLocation(), testBoard.calcIndex(11, 16));
-		
+
 	}
 
 	@Test
@@ -47,7 +47,7 @@ public class GameSetupTest {
 		ArrayList<Card> cards = testBoard.getCards();
 		// check total number of cards
 		Assert.assertEquals(cards.size(), 21);
-		
+
 		// check number of types of cards
 		int numberOfWeaponCards = 0;
 		int numberOfRoomCards = 0;
@@ -60,7 +60,7 @@ public class GameSetupTest {
 		Assert.assertEquals(numberOfWeaponCards, 6);
 		Assert.assertEquals(numberOfPersonCards, 6);
 		Assert.assertEquals(numberOfRoomCards, 9);
-		
+
 		// check if specific cards are in the deck
 		String person = "Lars";
 		String weapon = "pile of dirt";
@@ -76,11 +76,36 @@ public class GameSetupTest {
 		Assert.assertTrue(personExists);
 		Assert.assertTrue(weaponExists);
 		Assert.assertTrue(roomExists);
-		
+
 	}
-	
+
 	@Test
 	public void testDealingCards() {
-		fail("failing");
+		Player cp1 = players.get(1);
+		Player cp2 = players.get(2);
+		Player cp3 = players.get(3);
+		ArrayList<Card> cards = testBoard.getCards();
+		//check to make sure that all of the cards are gone
+		Assert.assertEquals(cards.size(), 0);
+
+		//Make sure that each player has the same number of cards
+		Assert.assertEquals(cp1.getCards().size(), cp2.getCards().size());
+		Assert.assertEquals(cp2.getCards().size(), cp3.getCards().size());
+		Assert.assertEquals(cp1.getCards().size(), cp3.getCards().size());
+
+		//make sure that one card is not given to multiple players
+		for( int k = 0; k < cards.size(); k++ ) {
+			String name = cards.get(k).getName();
+			int counter = 0;
+			for( int i = 0; i < players.size(); i++ ) {
+				for ( int j = 0; j < players.get(i).getCards().size(); j++ ) {
+					if (players.get(i).getCards().get(j).getName().equalsIgnoreCase(name)) counter++;
+				}
+			}
+			Assert.assertEquals(counter, 1);
+		}
+
+
 	}
 }
+
