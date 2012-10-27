@@ -5,6 +5,7 @@ import java.util.HashSet;
 
 public class ComputerPlayer extends Player {
 	private char lastRoomVisited;
+	ArrayList<Card> seenCards = new ArrayList<Card>();
 	
 	public ComputerPlayer(String name, String color, int startingLocation) {
 		super(name, color, startingLocation);
@@ -23,7 +24,7 @@ public class ComputerPlayer extends Player {
 		
 	}
 	public void updateSeen(Card seen) {
-		
+		seenCards.add(seen);
 	}
 	public char getLastRoomVisited() {
 		return lastRoomVisited;
