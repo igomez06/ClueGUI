@@ -11,7 +11,6 @@ import org.junit.Test;
 import clue.Board;
 import clue.BoardCell;
 import clue.Card;
-import clue.Card.CardType;
 import clue.ComputerPlayer;
 import clue.HumanPlayer;
 import clue.Player;
@@ -33,6 +32,7 @@ public class GameActionsTests {
 
 	@Test
 	public void testCheckAccusation() {
+		//  Test checking an accusation, including one that is correct, one with wrong person, one with wrong weapon and one with wrong room.
 		testBoard.setAnswer(new Card("Lars", Card.CardType.PERSON), new Card("Pool", Card.CardType.ROOM), new Card("Knife", Card.CardType.WEAPON));
 
 		Card[] answer = testBoard.getAnswer();
@@ -54,7 +54,10 @@ public class GameActionsTests {
 
 	@Test
 	public void testSelectingTarget() {
-		//Room Preference tests
+		//  Test selecting a target, including a set of targets that include a room, a 
+		// random selection from a set of targets that don't include a room, and a test that considers the last visited room.
+		
+		// Room Preference tests
 		HashSet<BoardCell> targets = new HashSet<BoardCell>();
 		ComputerPlayer cp = new ComputerPlayer("Craig", "Blue", 20);
 		RoomCell rc = new RoomCell();
@@ -110,7 +113,8 @@ public class GameActionsTests {
 	}
 
 	@Test
-	public void testDisproveSuggestion() {	
+	public void testDisproveSuggestion() {
+		// Test disproving Suggestions
 		ComputerPlayer cp = new ComputerPlayer("Andrew", "Pink", 40);
 		ArrayList<Card> cards = new ArrayList<Card>(); 
 		cards.add(new Card("Panda", Card.CardType.PERSON));
@@ -152,20 +156,20 @@ public class GameActionsTests {
 		ComputerPlayer cp3 = new ComputerPlayer("Panda", "Black", 3);
 		ComputerPlayer cp4 = new ComputerPlayer("Roz", "Green", 4);
 		HumanPlayer hp = new HumanPlayer("Patches", "Tickle me Pink", 5);
-		
+
 		cp1.addCard(new Card("a", Card.CardType.WEAPON));
 		cp2.addCard(new Card("b", Card.CardType.WEAPON));
 		cp3.addCard(new Card("c", Card.CardType.WEAPON));
 		cp4.addCard(new Card("d", Card.CardType.WEAPON));
 		hp.addCard(new Card("f", Card.CardType.WEAPON));
-		
+
 		players.clear();
 		players.add(cp1);
 		players.add(cp2);
 		players.add(cp3);
 		players.add(cp4);
 		players.add(hp);
-		
+
 		// Test unprovable suggestion
 		int count = 0;
 		for (int i = 0; i < players.size(); i++) {
@@ -174,7 +178,7 @@ public class GameActionsTests {
 			}
 		}
 		Assert.assertEquals(0, count);
-		
+
 		// Test suggestion only provable by player
 		Card result = new Card(" ", Card.CardType.PERSON);
 		for (int i = 0; i < players.size(); i++) {
@@ -198,7 +202,7 @@ public class GameActionsTests {
 		}
 		Assert.assertTrue(pandaCounter > 1 && pandaCounter < 100);
 		Assert.assertTrue(candleCounter > 1 && candleCounter < 100);
-		
+
 		// Test suggesting player does not receive own card
 		// a test that the player whose turn it is does not return a card
 		count = 0;
@@ -208,19 +212,45 @@ public class GameActionsTests {
 			}
 		}
 		Assert.assertEquals(0, count);
-				
+
 	}
 
 	@Test
 	public void testMakeSuggestion() {
-		Assert.fail("nope");
-		
-		
-		
-		
-		
-		
-		
-		
+
+		// Test making a suggestion, including one correct suggestion...
+		ComputerPlayer cp1 = new ComputerPlayer("Lars", "Red", 47);
+		ComputerPlayer cp2 = new ComputerPlayer("Craig", "Blue", 48);
+
+		cp1.addCard(new Card("a", Card.CardType.WEAPON));
+		cp1.addCard(new Card("1", Card.CardType.ROOM));
+		cp2.addCard(new Card("b", Card.CardType.WEAPON));
+		cp2.addCard(new Card("2", Card.CardType.ROOM));
+
+		ArrayList<Card> suggestion = new ArrayList<Card>();
+		suggestion.add(new Card("Panda", Card.CardType.PERSON));
+		suggestion.add(new Card("Kitchen", Card.CardType.ROOM));
+		suggestion.add(new Card("Candlestick", Card.CardType.WEAPON));
+
+		testBoard.setAnswer(suggestion.get(0), suggestion.get(1), suggestion.get(1));
+		//Testing whether the it will return null for the card if the suggestion is the right answer
+		Assert.assertNull(cp1.disproveSuggestion("Panda", "Kitchen", "Candlestick"));
+
+		//Making a suggestion with some random possibilities
+		int weaponCounter = 0;
+		int roomCounter = 0;
+		Card returnedCard = cp1.disproveSuggestion("Panda", "Pool", "Candlestick");
+		for (int i = 0; i < 100; i++) {
+			if (new Card("b", Card.CardType.WEAPON).equals(returnedCard)){
+				weaponCounter++;
+			} else if (new Card("b", Card.CardType.WEAPON).equals(returnedCard)) {
+				roomCounter++;
+			}
+		}
+
+		Assert.assertTrue(weaponCounter > 1 && weaponCounter < 100);
+		Assert.assertTrue(roomCounter > 1 && weaponCounter < 100);
+
+
 	}
 }

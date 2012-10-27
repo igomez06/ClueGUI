@@ -22,8 +22,10 @@ public class GameSetupTest {
 		players = testBoard.getPlayers();
 	}
 
+	
 	@Test
 	public void testLoadingPlayers() {
+		// Test loading people
 		Player hp = players.get(0);
 		Assert.assertEquals(hp.getName(), "Craig");
 		Assert.assertEquals(hp.getColor(), "Blue");
@@ -44,6 +46,7 @@ public class GameSetupTest {
 	@Test
 	public void testLoadingCards() {
 
+		// Test loading cards
 		ArrayList<Card> cards = testBoard.getCards();
 		// check total number of cards
 		Assert.assertEquals(cards.size(), 21);
@@ -81,6 +84,8 @@ public class GameSetupTest {
 
 	@Test
 	public void testDealingCards() {
+		// Deal test method that ensures all cards have been dealt, all players have 
+		//roughly the same number of cards, and no card has been dealt to two different players. 
 		Player cp1 = players.get(1);
 		Player cp2 = players.get(2);
 		Player cp3 = players.get(3);

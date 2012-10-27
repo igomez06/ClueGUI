@@ -13,6 +13,7 @@ public class Player {
 		this.name = name;
 		this.startingLocation = startingLocation;
 		this.color = color;
+		cards = new ArrayList<Card>();
 	}
 
 	

@@ -1,7 +1,4 @@
-/**Kira Combs
- * Nicola Hetrick
- * 10/11/12
- * 
+/**
  * Refactored by Lars Walen and Craig Carlson
  */
 package clue;
@@ -390,7 +387,7 @@ public class Board {
 	public boolean checkAccusation(String person, String room, String weapon) {
 		return false;
 	}
-	public void handleSuggestion(String person, String room, String weapon) {
+	public void handleSuggestion(ArrayList<Card> suggestion) {
 		//check with the solution in this players cards in the file
 		
 	}
