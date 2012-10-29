@@ -1,5 +1,5 @@
 Craig	Blue	1	4
-Lars	Red 	1	14
+Lars	Red	1	14
 Panda	Black	11	16
 Andrew	Pink	20	16
 Nathan	Yellow	23	6

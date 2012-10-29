@@ -36,7 +36,7 @@ public class GameSetupTest {
 		Assert.assertEquals(cp1.getColor(), "Red");
 		Assert.assertEquals(cp1.getStartingLocation(), testBoard.calcIndex(1, 14));
 
-		Player cp2 = players.get(5);
+		Player cp2 = players.get(2);
 		Assert.assertEquals(cp2.getName(), "Panda");
 		Assert.assertEquals(cp2.getColor(), "Black");
 		Assert.assertEquals(cp2.getStartingLocation(), testBoard.calcIndex(11, 16));
@@ -84,6 +84,7 @@ public class GameSetupTest {
 
 	@Test
 	public void testDealingCards() {
+		testBoard.deal();
 		// Deal test method that ensures all cards have been dealt, all players have 
 		//roughly the same number of cards, and no card has been dealt to two different players. 
 		Player cp1 = players.get(1);
@@ -91,7 +92,7 @@ public class GameSetupTest {
 		Player cp3 = players.get(3);
 		ArrayList<Card> cards = testBoard.getCards();
 		//check to make sure that all of the cards are gone
-		Assert.assertEquals(cards.size(), 0);
+		Assert.assertEquals(0, cards.size());
 
 		//Make sure that each player has the same number of cards
 		Assert.assertEquals(cp1.getCards().size(), cp2.getCards().size());

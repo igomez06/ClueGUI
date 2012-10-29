@@ -6,13 +6,14 @@ package clue;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.Random;
 import java.util.Scanner;
 
-import clue.Card.CardType;
 import clue.RoomCell.DoorDirection;
 import exceptions.BadConfigFormatException;
 
@@ -22,7 +23,7 @@ public class Board {
 	private ArrayList<Player> players;
 	private ArrayList<Card> cards;
 	
-	private Card[] answer;
+	private Solution answer;
 
 	private int numRows;					//determined when you read in file
 	private int numCols;					//determined when you read in file
@@ -37,15 +38,18 @@ public class Board {
 		cells = new ArrayList<BoardCell>();
 		players = new ArrayList<Player>();
 		cards = new ArrayList<Card>();
-		answer = new Card[3];
+		answer = new Solution();
 		
 		path = new LinkedList<Integer>();			//path traveled during recursion leading to target
 		targets = new HashSet<BoardCell>();			
+		
 		loadConfigFiles(configFile, legendFile, playerFile, weaponFile);
+		
 		visited = new boolean[numRows * numCols];			//tracks which indexes have been seen
 		for(int i = 0; i < numRows*numCols; i++) {
 			visited[i] = false;
 		}
+
 		calcAdjacencies();
 
 	}
@@ -376,25 +380,69 @@ public class Board {
 	}
 
 	public void selectAnswer() {
+		Collections.shuffle(cards);
 		
+		boolean havePerson = false;
+		boolean haveRoom = false;
+		boolean haveWeapon = false;
+		
+		for( int i = 0; i < cards.size(); i++ ) {
+			if( cards.get(i).getType() == Card.CardType.PERSON && !havePerson ) {
+				answer.person = cards.remove(i);
+				havePerson = true;
+			}
+			if( cards.get(i).getType() == Card.CardType.ROOM && !haveRoom ) {
+				answer.room = cards.remove(i);
+				haveRoom = true;
+			}
+			if( cards.get(i).getType() == Card.CardType.WEAPON && !haveWeapon ) {
+				answer.weapon = cards.remove(i);
+				haveWeapon = true;
+			}
+		}
 	}
+	
 	public void deal() {
 		
+		selectAnswer();
+
+		while( !cards.isEmpty() ) {
+			
+			for( Player player : players ) {
+				player.addCard(cards.remove(0));
+			}
+		}
 	}
+	
+	// What is this even for?
 	public void deal(ArrayList<String> cardList) {
 		
 	}
 	public boolean checkAccusation(String person, String room, String weapon) {
 		return false;
 	}
-	public void handleSuggestion(ArrayList<Card> suggestion) {
-		//check with the solution in this players cards in the file
+	public Card handleSuggestion(String person, String room, String weapon) {
 		
+		ArrayList<Card> solutions = new ArrayList<Card>();
+		
+		for( Player player : players ) {
+			Card result = player.disproveSuggestion(person, room, weapon);
+			if( result != null ) {
+				solutions.add(result);
+			}
+		}
+		
+		if( solutions.isEmpty() ) {
+			return null;
+		} else {
+			Collections.shuffle(solutions);
+			return solutions.get(0);
+		}
+
 	}
 
 	public class Solution {
-		public String person, weapon, room;
-
+		public Card person, weapon, room;
 	}
 
 	public ArrayList<Player> getPlayers() {
@@ -405,15 +453,20 @@ public class Board {
 		return cards;
 	}
 
-	public Card[] getAnswer() {
-		return answer;
+	// Pretty much only for testing
+	public Card[] getAnswerAsArray() {
+		Card[] answerArray = new Card[3];
+		answerArray[0] = answer.person;
+		answerArray[1] = answer.room;
+		answerArray[2] = answer.weapon;
+		return answerArray;
 	}
 
+	// Also for testing
 	public void setAnswer(Card person, Card room, Card weapon) {
-		answer[0] = person;
-		answer[1] = room;
-		answer[2] = weapon;
-		
+		answer.person = person;
+		answer.room = room;
+		answer.weapon = weapon;
 	}
 
 

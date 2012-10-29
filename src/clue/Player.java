@@ -1,6 +1,7 @@
 package clue;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Player {
 	protected String name;
@@ -16,14 +17,29 @@ public class Player {
 		cards = new ArrayList<Card>();
 	}
 
-	
+
 
 	public Card disproveSuggestion(String person, String room, String weapon) {
+
+		ArrayList<Card> solutions = new ArrayList<Card>();
+
 		// If player has one or more of the cards, return one of the ones they have randomly
-		
-		
+		for( Card card : cards ) {
+			if( card.getName().equalsIgnoreCase(person) && card.getType() == Card.CardType.PERSON ) {
+				solutions.add(card);
+			} else if( card.getName().equalsIgnoreCase(room) && card.getType() == Card.CardType.ROOM ) {
+				solutions.add(card);
+			} else if( card.getName().equalsIgnoreCase(weapon) && card.getType() == Card.CardType.WEAPON ) {
+				solutions.add(card);
+			}
+		}
 		// If player doesn't have any of the given cards...
-		return null;
+		if( solutions.isEmpty() ) {
+			return null;
+		} else {
+			Collections.shuffle(solutions);
+			return solutions.get(0);
+		}
 	}
 
 	public String getName() {
@@ -48,7 +64,5 @@ public class Player {
 		cards.add(card);
 	}
 
-	
-	
-	
+
 }

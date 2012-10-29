@@ -9,7 +9,6 @@ public class ComputerPlayer extends Player {
 	
 	public ComputerPlayer(String name, String color, int startingLocation) {
 		super(name, color, startingLocation);
-		// TODO Auto-generated constructor stub
 	}
 	public BoardCell pickLocation(HashSet<BoardCell> targets) {
 		//If the list of targets locations includes a room, select that location unless the player was just in that room.
@@ -20,7 +19,7 @@ public class ComputerPlayer extends Player {
 		return null;
 	}
 	///make sure to check the parameters for this function
-	public void createSuggestion(ArrayList<Card> suggestion) {
+	public void createSuggestion(ArrayList<Card> suggestion, ArrayList<Card> theirCards) {
 		
 	}
 	public void updateSeen(Card seen) {

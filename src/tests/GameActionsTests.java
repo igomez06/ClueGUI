@@ -35,7 +35,7 @@ public class GameActionsTests {
 		//  Test checking an accusation, including one that is correct, one with wrong person, one with wrong weapon and one with wrong room.
 		testBoard.setAnswer(new Card("Lars", Card.CardType.PERSON), new Card("Pool", Card.CardType.ROOM), new Card("Knife", Card.CardType.WEAPON));
 
-		Card[] answer = testBoard.getAnswer();
+		Card[] answer = testBoard.getAnswerAsArray();
 
 		Card[] accusation = new Card[3];
 
@@ -56,7 +56,7 @@ public class GameActionsTests {
 	public void testSelectingTarget() {
 		//  Test selecting a target, including a set of targets that include a room, a 
 		// random selection from a set of targets that don't include a room, and a test that considers the last visited room.
-		
+
 		// Room Preference tests
 		HashSet<BoardCell> targets = new HashSet<BoardCell>();
 		ComputerPlayer cp = new ComputerPlayer("Craig", "Blue", 20);
@@ -192,14 +192,18 @@ public class GameActionsTests {
 		cp2.addCard(new Card("Candlestick", Card.CardType.WEAPON));
 		pandaCounter = 0;
 		candleCounter = 0;
-		for( Player player : players ) {
-			Card returnedCard = player.disproveSuggestion("Panda", "Pool", "Candlestick");
+		for( int i = 0; i < 100; i++ ) {
+
+			Card returnedCard = testBoard.handleSuggestion("Panda", "Pool", "Candlestick");
 			if( new Card("Panda", Card.CardType.PERSON).equals( returnedCard ) ) {
 				pandaCounter++;
 			} else if( new Card("Candlestick", Card.CardType.WEAPON).equals( returnedCard ) ) {
 				candleCounter++;
 			}
+
 		}
+		System.out.println(pandaCounter);
+		System.out.println(candleCounter);
 		Assert.assertTrue(pandaCounter > 1 && pandaCounter < 100);
 		Assert.assertTrue(candleCounter > 1 && candleCounter < 100);
 
