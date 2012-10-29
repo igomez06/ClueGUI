@@ -418,9 +418,18 @@ public class Board {
 	public void deal(ArrayList<String> cardList) {
 		
 	}
+	
 	public boolean checkAccusation(String person, String room, String weapon) {
-		return false;
+		
+		if( person.equalsIgnoreCase(answer.person.getName()) 
+				&& room.equalsIgnoreCase(answer.room.getName())
+				&& weapon.equalsIgnoreCase(answer.weapon.getName()) ) {
+			return true;
+		} else {
+			return false;
+		}
 	}
+	
 	public Card handleSuggestion(String person, String room, String weapon, Player currentPlayer) {
 		
 		ArrayList<Card> solutions = new ArrayList<Card>();
