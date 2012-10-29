@@ -153,7 +153,6 @@ public class RaderAdjTests {
 	public void testTargetsOneStep() {
 		board.calcTargets(board.calcIndex(21, 7), 1);
 		Set<BoardCell> targets= board.getTargets();
-		System.out.println(targets);
 		Assert.assertEquals(2, targets.size());
 		Assert.assertTrue(targets.contains(board.getCellAt(board.calcIndex(20, 7))));
 		Assert.assertTrue(targets.contains(board.getCellAt(board.calcIndex(21, 6))));	
