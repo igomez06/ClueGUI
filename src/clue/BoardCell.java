@@ -4,7 +4,11 @@
  */
 package clue;
 
+import clue.RoomCell.DoorDirection;
+
 public abstract class BoardCell {
+	char cellInitial;
+		
 	public boolean isWalkway() {
 		return false;
 	}
@@ -13,6 +17,10 @@ public abstract class BoardCell {
 	}
 	public boolean isDoorway() {
 		return false;
+	}
+	
+	public char cellInitial() {
+		return cellInitial;
 	}
 	//draw method to be implemented
 	//row and column will be used in draw

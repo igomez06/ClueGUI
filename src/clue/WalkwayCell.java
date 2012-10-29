@@ -10,7 +10,8 @@ public class WalkwayCell extends BoardCell {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public WalkwayCell(int row, int col) {
+	public WalkwayCell(char cellType, int row, int col) {
+		this.cellInitial = cellType;
 		setRow(row);
 		setColumn(col);
 	}
