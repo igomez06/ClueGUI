@@ -16,25 +16,17 @@ public class ComputerPlayer extends Player {
 		//If the list of targets locations includes a room, select that location unless the player was just in that room.
 		//If the list does not include a room, or the room was just
 		//visited, randomly choose from all locations (gives some chance that the player will re-enter the room, but it's not automatic).
+		ArrayList<BoardCell> possibleWalkways = new ArrayList<BoardCell>();
 		for (BoardCell target : targets) {
 			if (target.isDoorway() && (target.cellInitial != lastRoomVisited)) {
 				lastRoomVisited = target.cellInitial;
 				return target;
-			}else if (target.cellInitial == lastRoomVisited) {
-				targets.remove(target);
+			}else if (target.isWalkway()) {
+				possibleWalkways.add(target);
 			}
 		}
-		int size = targets.size();
-		int item = new Random().nextInt(size); 
-		int i = 0;
-		BoardCell selectedWalkway = new WalkwayCell();
-		for(Object obj : targets)
-		{
-			if (i == item)
-				selectedWalkway = (BoardCell) obj;
-			i = i + 1;
-		}
-		return selectedWalkway;
+		Collections.shuffle(possibleWalkways);
+		return possibleWalkways.get(0);
 	}
 	///make sure to check the parameters for this function
 	public void createSuggestion(ArrayList<Card> suggestion, ArrayList<Card> theirCards) {
@@ -45,5 +37,8 @@ public class ComputerPlayer extends Player {
 	}
 	public char getLastRoomVisited() {
 		return lastRoomVisited;
+	}
+	public void setLastRoomVisited(char lastRoomVisited) {
+		this.lastRoomVisited = lastRoomVisited;
 	}
 }

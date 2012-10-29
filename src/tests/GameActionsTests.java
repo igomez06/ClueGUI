@@ -73,6 +73,7 @@ public class GameActionsTests {
 			}
 
 			//Check to see if they will go into the room if it is NOT the last visited room
+			cp.setLastRoomVisited('x');
 			Assert.assertEquals(rc, cp.pickLocation(targets));
 		}
 
