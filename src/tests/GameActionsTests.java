@@ -194,7 +194,7 @@ public class GameActionsTests {
 		candleCounter = 0;
 		for( int i = 0; i < 100; i++ ) {
 
-			Card returnedCard = testBoard.handleSuggestion("Panda", "Pool", "Candlestick");
+			Card returnedCard = testBoard.handleSuggestion("Panda", "Pool", "Candlestick", cp3);
 			if( new Card("Panda", Card.CardType.PERSON).equals( returnedCard ) ) {
 				pandaCounter++;
 			} else if( new Card("Candlestick", Card.CardType.WEAPON).equals( returnedCard ) ) {

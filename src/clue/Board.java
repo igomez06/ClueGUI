@@ -421,13 +421,13 @@ public class Board {
 	public boolean checkAccusation(String person, String room, String weapon) {
 		return false;
 	}
-	public Card handleSuggestion(String person, String room, String weapon) {
+	public Card handleSuggestion(String person, String room, String weapon, Player currentPlayer) {
 		
 		ArrayList<Card> solutions = new ArrayList<Card>();
 		
 		for( Player player : players ) {
 			Card result = player.disproveSuggestion(person, room, weapon);
-			if( result != null ) {
+			if( result != null && (player != currentPlayer) ) {
 				solutions.add(result);
 			}
 		}
