@@ -6,14 +6,13 @@ package clue;
 
 public class RoomCell extends BoardCell {
 	DoorDirection doorDirection; 
-	char roomInitial;
 	
 	public RoomCell() {
 		
 	}
 	
 	public RoomCell(char roomInitial, DoorDirection doorDirection, int row, int col) {
-		this.roomInitial = roomInitial;
+		this.cellInitial = roomInitial;
 		setDoorDirection(doorDirection);
 		setRow(row);
 		setColumn(col);		
@@ -28,7 +27,7 @@ public class RoomCell extends BoardCell {
 		doorDirection = d;
 	}
 	public char getRoomInitial() {
-		return roomInitial;
+		return cellInitial;
 	}
 	public boolean isRoom() {
 		return true;

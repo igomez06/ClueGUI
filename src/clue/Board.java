@@ -215,7 +215,7 @@ public class Board {
 		}
 		// WALKWAY CELL
 		if (cell.equals("W")) {
-			WalkwayCell w = new WalkwayCell(row, col);
+			WalkwayCell w = new WalkwayCell(cellType, row, col);
 			//cells.add(arrayIndex, w);
 			cells.add(w);
 			//arrayIndex++;
