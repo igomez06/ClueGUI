@@ -3,7 +3,6 @@ package clue;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Random;
 
 public class ComputerPlayer extends Player {
 	private char lastRoomVisited;

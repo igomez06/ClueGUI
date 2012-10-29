@@ -4,7 +4,6 @@
  */
 package clue;
 
-import clue.RoomCell.DoorDirection;
 
 public abstract class BoardCell {
 	char cellInitial;

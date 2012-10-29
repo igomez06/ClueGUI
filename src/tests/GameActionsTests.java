@@ -35,10 +35,6 @@ public class GameActionsTests {
 		//  Test checking an accusation, including one that is correct, one with wrong person, one with wrong weapon and one with wrong room.
 		testBoard.setAnswer(new Card("Lars", Card.CardType.PERSON), new Card("Pool", Card.CardType.ROOM), new Card("Knife", Card.CardType.WEAPON));
 
-		Card[] answer = testBoard.getAnswerAsArray();
-
-		Card[] accusation = new Card[3];
-
 		// Correct accusation
 		Assert.assertTrue(testBoard.checkAccusation("Lars", "Pool", "Knife"));
 
