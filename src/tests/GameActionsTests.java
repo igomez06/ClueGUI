@@ -211,7 +211,7 @@ public class GameActionsTests {
 		// a test that the player whose turn it is does not return a card
 		count = 0;
 		for (int i = 0; i < players.size(); i++) {
-			if( null != players.get(i).disproveSuggestion("X", "Y", "f") ) {
+			if( null != testBoard.handleSuggestion("X", "Y", "f", hp) ) {
 				count++;
 			}
 		}
