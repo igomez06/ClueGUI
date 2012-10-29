@@ -202,8 +202,6 @@ public class GameActionsTests {
 			}
 
 		}
-		System.out.println(pandaCounter);
-		System.out.println(candleCounter);
 		Assert.assertTrue(pandaCounter > 1 && pandaCounter < 100);
 		Assert.assertTrue(candleCounter > 1 && candleCounter < 100);
 
@@ -243,15 +241,17 @@ public class GameActionsTests {
 		//Making a suggestion with some random possibilities
 		int weaponCounter = 0;
 		int roomCounter = 0;
-		Card returnedCard = cp1.disproveSuggestion("Panda", "Pool", "Candlestick");
-		for (int i = 0; i < 100; i++) {
-			if (new Card("b", Card.CardType.WEAPON).equals(returnedCard)){
+		ComputerPlayer testPlayer = new ComputerPlayer("Lars", "Chartruese", 0);
+		testPlayer.addCard(new Card("Pool", Card.CardType.ROOM));
+		testPlayer.addCard(new Card("Candlestick", Card.CardType.WEAPON));
+		for( int i = 0; i < 100; i++ ) {
+			Card returnedCard = testPlayer.disproveSuggestion("Panda", "Pool", "Candlestick");
+			if( new Card("Candlestick", Card.CardType.WEAPON).equals(returnedCard) ) {
 				weaponCounter++;
-			} else if (new Card("b", Card.CardType.WEAPON).equals(returnedCard)) {
+			} else if( new Card("Pool", Card.CardType.ROOM).equals(returnedCard) ) {
 				roomCounter++;
 			}
 		}
-
 		Assert.assertTrue(weaponCounter > 1 && weaponCounter < 100);
 		Assert.assertTrue(roomCounter > 1 && weaponCounter < 100);
 
