@@ -13,10 +13,12 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Scanner;
 
+import javax.swing.JPanel;
+
 import clue.RoomCell.DoorDirection;
 import exceptions.BadConfigFormatException;
 
-public class Board {	
+public class Board extends JPanel{	
 	private ArrayList<BoardCell> cells;		//contains the board layout
 	private Map<Character, String> rooms;	//maps the 1-char initial to a Room object
 	private ArrayList<Player> players;
@@ -477,7 +479,9 @@ public class Board {
 		answer.weapon = weapon;
 	}
 
-
+public void paintComponet() {
+	
+}
 
 
 }
