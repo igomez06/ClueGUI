@@ -4,13 +4,16 @@
  */
 package clue;
 
+import java.awt.Color;
+import java.awt.Graphics;
+
 public class RoomCell extends BoardCell {
 	DoorDirection doorDirection; 
-	
+
 	public RoomCell() {
-		
+
 	}
-	
+
 	public RoomCell(char roomInitial, DoorDirection doorDirection, int row, int col) {
 		this.cellInitial = roomInitial;
 		setDoorDirection(doorDirection);
@@ -39,7 +42,17 @@ public class RoomCell extends BoardCell {
 			return false;
 		}
 	}
-
 	
+
 	//method to overwrite draw method
+	public void draw(Graphics g,Object o) {
+		g.drawRect(getColumn()*CELLWIDTH, getRow()*CELLWIDTH, CELLWIDTH, CELLWIDTH);
+		g.setColor(Color.RED);
+		
+		if(isDoorway()) {
+			
+		}
+
+
+	}
 }

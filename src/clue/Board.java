@@ -1,8 +1,9 @@
 /**
- * Refactored by Lars Walen and Craig Carlson
+ * Refactored by Isreal Gomez and Craig Carlson
  */
 package clue;
 
+import java.awt.Graphics;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -23,7 +24,7 @@ public class Board extends JPanel{
 	private Map<Character, String> rooms;	//maps the 1-char initial to a Room object
 	private ArrayList<Player> players;
 	private ArrayList<Card> cards;
-	
+
 	private Solution answer;
 
 	private int numRows;					//determined when you read in file
@@ -40,12 +41,12 @@ public class Board extends JPanel{
 		players = new ArrayList<Player>();
 		cards = new ArrayList<Card>();
 		answer = new Solution();
-		
+
 		path = new LinkedList<Integer>();			//path traveled during recursion leading to target
 		targets = new HashSet<BoardCell>();			
-		
+
 		loadConfigFiles(configFile, legendFile, playerFile, weaponFile);
-		
+
 		visited = new boolean[numRows * numCols];			//tracks which indexes have been seen
 		for(int i = 0; i < numRows*numCols; i++) {
 			visited[i] = false;
@@ -382,11 +383,11 @@ public class Board extends JPanel{
 
 	public void selectAnswer() {
 		Collections.shuffle(cards);
-		
+
 		boolean havePerson = false;
 		boolean haveRoom = false;
 		boolean haveWeapon = false;
-		
+
 		for( int i = 0; i < cards.size(); i++ ) {
 			if( cards.get(i).getType() == Card.CardType.PERSON && !havePerson ) {
 				answer.person = cards.remove(i);
@@ -402,26 +403,26 @@ public class Board extends JPanel{
 			}
 		}
 	}
-	
+
 	public void deal() {
-		
+
 		selectAnswer();
 
 		while( !cards.isEmpty() ) {
-			
+
 			for( Player player : players ) {
 				player.addCard(cards.remove(0));
 			}
 		}
 	}
-	
+
 	// What is this even for?
 	public void deal(ArrayList<String> cardList) {
-		
+
 	}
-	
+
 	public boolean checkAccusation(String person, String room, String weapon) {
-		
+
 		if( person.equalsIgnoreCase(answer.person.getName()) 
 				&& room.equalsIgnoreCase(answer.room.getName())
 				&& weapon.equalsIgnoreCase(answer.weapon.getName()) ) {
@@ -430,18 +431,18 @@ public class Board extends JPanel{
 			return false;
 		}
 	}
-	
+
 	public Card handleSuggestion(String person, String room, String weapon, Player currentPlayer) {
-		
+
 		ArrayList<Card> solutions = new ArrayList<Card>();
-		
+
 		for( Player player : players ) {
 			Card result = player.disproveSuggestion(person, room, weapon);
 			if( result != null && (player != currentPlayer) ) {
 				solutions.add(result);
 			}
 		}
-		
+
 		if( solutions.isEmpty() ) {
 			return null;
 		} else {
@@ -479,9 +480,12 @@ public class Board extends JPanel{
 		answer.weapon = weapon;
 	}
 
-public void paintComponet() {
-	
-}
+	public void paintComponet(Graphics g) {
+		super.paintComponent(g);
+		for (BoardCell bc : cells) {
+			bc.draw(g, this);
+		}
+	}
 
 
 }

@@ -4,9 +4,12 @@
  */
 package clue;
 
+import java.awt.Graphics;
+
 
 public abstract class BoardCell {
 	char cellInitial;
+	static final int CELLWIDTH = 32;
 		
 	public boolean isWalkway() {
 		return false;
@@ -22,6 +25,9 @@ public abstract class BoardCell {
 		return cellInitial;
 	}
 	//draw method to be implemented
+	public void draw(Graphics g, Object o) {
+		
+	}
 	//row and column will be used in draw
 	
 	public int getRow() {

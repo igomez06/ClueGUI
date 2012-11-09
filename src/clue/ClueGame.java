@@ -16,7 +16,8 @@ public class ClueGame extends JFrame {
 		setTitle("Da Bad Ass game");
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.add(createFileMenu());
-	}
+		repaint();
+		}
 	
 	private JMenu createFileMenu() {
 		JMenu menu = new JMenu("File");
@@ -37,7 +38,10 @@ public class ClueGame extends JFrame {
 	
 	public static void main(String[] args) {
 		ClueGame clueGui = new ClueGame();
+		clueGui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		clueGui.setVisible(true);
+		
+		
 	}
 	}
 

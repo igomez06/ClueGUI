@@ -4,6 +4,9 @@
  */
 package clue;
 
+import java.awt.Color;
+import java.awt.Graphics;
+
 public class WalkwayCell extends BoardCell {
 
 	public WalkwayCell() {
@@ -21,4 +24,10 @@ public class WalkwayCell extends BoardCell {
 	}
 	
 	//method to overwrite draw method
+	public void draw(Graphics g,Object o) {
+		g.drawRect(getColumn()*CELLWIDTH, getRow()*CELLWIDTH, CELLWIDTH, CELLWIDTH);
+		g.setColor(Color.BLUE);
+
+
+	}
 }
