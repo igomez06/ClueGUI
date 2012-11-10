@@ -17,7 +17,7 @@ public class ClueGame extends JFrame {
 		Board board = new Board( "RaderLayout.txt" , "RaderLegend.txt" , "Players.txt", "Weapons.txt" );
 		setLayout (new BorderLayout());
 		add(board, BorderLayout.CENTER);
-		setSize(new Dimension(600,600));
+		setSize(new Dimension(board.getNumRows()*30,board.getNumCols()*30));
 		
 		setTitle("Da Bad Ass game");
 		JMenuBar menuBar = new JMenuBar();
