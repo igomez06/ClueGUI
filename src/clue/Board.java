@@ -73,7 +73,6 @@ public class Board extends JPanel{
 		super.paintComponent(g);
 		System.out.println("test1");
 		for (BoardCell bc : cells) {
-			System.out.println("Calling print Component");
 			bc.draw(g);
 		}
 	}
