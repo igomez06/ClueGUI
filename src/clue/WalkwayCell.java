@@ -25,7 +25,7 @@ public class WalkwayCell extends BoardCell {
 	
 	//method to overwrite draw method
 	public void draw(Graphics g) {
-		g.setColor(Color.GREEN);
+		g.setColor(Color.BLACK);
 		g.drawRect(getColumn()*CELLWIDTH, getRow()*CELLWIDTH, CELLWIDTH, CELLWIDTH);
 		
 

@@ -1,5 +1,5 @@
 /**
- * Refactored by Isreal Gomez and Craig Carlson
+ * Refactored by Israel Gomez and Craig Carlson
  */
 package clue;
 
@@ -243,6 +243,10 @@ public class Board extends JPanel{
 					newRoomCell = new RoomCell(cellType, DoorDirection.UP, row, col);
 				} else if (direction == 'D') {
 					newRoomCell = new RoomCell(cellType, DoorDirection.DOWN, row, col);
+					
+					
+				} else if (direction == 'N') {
+					newRoomCell = new RoomCell(cellType, DoorDirection.NAME, row, col);
 					// NOT A DOOR
 				} else {
 					newRoomCell = new RoomCell(cellType, DoorDirection.NONE, row, col);

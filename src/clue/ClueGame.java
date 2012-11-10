@@ -17,7 +17,7 @@ public class ClueGame extends JFrame {
 		Board board = new Board( "RaderLayout.txt" , "RaderLegend.txt" , "Players.txt", "Weapons.txt" );
 		setLayout (new BorderLayout());
 		add(board, BorderLayout.CENTER);
-		setSize(new Dimension(board.getNumRows()*30,board.getNumCols()*30));
+		setSize(new Dimension(board.getNumRows()*32,board.getNumCols()*32));
 		
 		setTitle("Da Bad Ass game");
 		JMenuBar menuBar = new JMenuBar();
@@ -28,22 +28,11 @@ public class ClueGame extends JFrame {
 
 	private JMenu createFileMenu() {
 		JMenu menu = new JMenu("File");
-		menu.add(createFileExitItem());
 		menu.add(createDetectiveNotesItem());
+		menu.add(createFileExitItem());
 		return menu;
 	}
 
-	private JMenuItem createFileExitItem() {
-		JMenuItem item = new JMenuItem("Exit");
-		class MenuItemListener implements ActionListener {
-			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
-			}
-		}
-		item.addActionListener(new MenuItemListener());
-		return item;
-	}
-	
 	private JMenuItem createDetectiveNotesItem() {
 		JMenuItem item = new JMenuItem("Show Detective Notes");
 		class MenuItemListener implements ActionListener {
@@ -55,6 +44,19 @@ public class ClueGame extends JFrame {
 		item.addActionListener(new MenuItemListener());
 		return item;
 	}
+	
+	private JMenuItem createFileExitItem() {
+		JMenuItem item = new JMenuItem("Exit");
+		class MenuItemListener implements ActionListener {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		}
+		item.addActionListener(new MenuItemListener());
+		return item;
+	}
+	
+	
 	
 
 	public static void main(String[] args) {

@@ -21,7 +21,7 @@ public class RoomCell extends BoardCell {
 		setColumn(col);		
 	}
 	public enum DoorDirection {
-		UP, DOWN, LEFT, RIGHT, NONE;
+		UP, DOWN, LEFT, RIGHT, NONE, NAME;
 	}
 	public DoorDirection getDoorDirection() {
 		return doorDirection;
@@ -36,9 +36,17 @@ public class RoomCell extends BoardCell {
 		return true;
 	}
 	public boolean isDoorway() {
-		if (doorDirection != DoorDirection.NONE){
+		if (doorDirection != DoorDirection.NONE || doorDirection == DoorDirection.NAME){
 			return true;
 		} else {
+			return false;
+		}
+	}
+	public boolean isName() {
+		if(doorDirection == DoorDirection.NAME){
+			return true;
+		}
+		else {
 			return false;
 		}
 	}
@@ -48,8 +56,29 @@ public class RoomCell extends BoardCell {
 	public void draw(Graphics g) {
 		g.setColor(Color.BLUE);
 		g.fillRect(getColumn()*CELLWIDTH, getRow()*CELLWIDTH, CELLWIDTH, CELLWIDTH);
-		
-		if(isDoorway()) {
+		int adjCol = getColumn()*CELLWIDTH;
+		int adjRow = getRow()*CELLWIDTH;
+		if(isDoorway() == true) {
+			g.setColor(Color.GREEN);
+			System.out.println("test1");
+			if (doorDirection == DoorDirection.LEFT) {
+				g.setColor(Color.RED);
+				g.fillRect(adjCol, adjRow, 3, CELLWIDTH);
+				} 
+			if (doorDirection == DoorDirection.RIGHT) {
+				g.setColor(Color.RED);
+				g.fillRect((adjCol+CELLWIDTH-3), adjRow, 3, CELLWIDTH);
+				} 
+			if (doorDirection == DoorDirection.UP) {
+				g.setColor(Color.RED);
+				g.fillRect(adjCol, adjRow, CELLWIDTH, 3);
+				} 
+			if (doorDirection == DoorDirection.DOWN) {
+				g.setColor(Color.RED);
+				g.fillRect(adjCol, adjRow+CELLWIDTH-3, CELLWIDTH, 3);
+				} 
+		}
+		if(isName() == true){
 			
 		}
 
