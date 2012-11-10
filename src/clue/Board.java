@@ -80,7 +80,6 @@ public class Board extends JPanel{
 			bc.draw(g);
 		}
 		for (Player p : players) {
-			System.out.println("test2234");
 			p.draw(g);
 		}
 	}
