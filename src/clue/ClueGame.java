@@ -35,9 +35,9 @@ public class ClueGame extends JFrame {
 
 	private JMenuItem createDetectiveNotesItem() {
 		JMenuItem item = new JMenuItem("Show Detective Notes");
+		dNotes = new DetectiveNotes();
 		class MenuItemListener implements ActionListener {
 			public void actionPerformed(ActionEvent e) {
-				dNotes = new DetectiveNotes();
 				dNotes.setVisible(true);
 			}
 		}
