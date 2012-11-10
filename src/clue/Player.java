@@ -1,5 +1,7 @@
 package clue;
 
+import java.awt.Color;
+import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -7,13 +9,17 @@ public class Player {
 	protected String name;
 	protected int startingLocation;
 	protected ArrayList<Card> cards;
-	protected String color;
-
-	public Player(String name, String color, int startingLocation) {
+	protected Color color;
+	protected int col;
+	protected int row;
+	static final int CELLWIDTH = 30;
+	public Player(String name, Color color, int startingLocation, int col, int row) {
 		super();
 		this.name = name;
 		this.startingLocation = startingLocation;
 		this.color = color;
+		this.col = col;
+		this.row = row;
 		cards = new ArrayList<Card>();
 	}
 
@@ -57,11 +63,28 @@ public class Player {
 		this.cards = cards;
 	}
 
-	public String getColor() {
+	public Color getColor() {
 		return color;
 	}
 	public void addCard(Card card) {
 		cards.add(card);
+	}
+	
+	public void draw(Graphics g) {
+		g.setColor(getColor());
+		g.fillOval(getCol()*CELLWIDTH, getRow()*CELLWIDTH, 30, 30);
+	}
+
+
+
+	public int getCol() {
+		return col;
+	}
+
+
+
+	public int getRow() {
+		return row;
 	}
 
 

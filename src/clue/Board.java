@@ -4,9 +4,11 @@
 package clue;
 
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -18,6 +20,8 @@ import java.util.Scanner;
 import javax.swing.JPanel;
 
 import clue.RoomCell.DoorDirection;
+
+
 import exceptions.BadConfigFormatException;
 
 public class Board extends JPanel{	
@@ -71,9 +75,13 @@ public class Board extends JPanel{
 	}
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		System.out.println("test1");
+		
 		for (BoardCell bc : cells) {
 			bc.draw(g);
+		}
+		for (Player p : players) {
+			System.out.println("test2234");
+			p.draw(g);
 		}
 	}
 	public void loadConfigFiles(String configFile, String legendFile, String playerFile, String weaponFile) {
@@ -183,7 +191,7 @@ public class Board extends JPanel{
 				String playerLine = in.nextLine();
 				String[] line = playerLine.split("\t");
 				if(line.length > 4) throw new BadConfigFormatException("Player file has more than 4 items per line");
-				Player p = new ComputerPlayer(line[0], line[1], calcIndex(Integer.parseInt(line[2]), Integer.parseInt(line[3])));
+				Player p = new ComputerPlayer(line[0], convertColor(line[1]), calcIndex(Integer.parseInt(line[2]), Integer.parseInt(line[3])), Integer.parseInt(line[2]), Integer.parseInt(line[3]));
 				players.add(p);
 				Card person = new Card(line[0], Card.CardType.PERSON);
 				cards.add(person);
@@ -192,6 +200,7 @@ public class Board extends JPanel{
 			System.out.println(e.getMessage());
 			return;
 		}
+		
 
 		//Weapons file reader
 		try {
@@ -209,6 +218,19 @@ public class Board extends JPanel{
 
 
 	}
+	
+	// Be sure to trim the color, we don't want spaces around the name
+		public Color convertColor(String strColor) {
+			Color color; 
+			try {     
+				// We can use reflection to convert the string to a color
+				Field field = Class.forName("java.awt.Color").getField(strColor.trim());     
+				color = (Color)field.get(null); } 
+			catch (Exception e) {  
+				color = null; // Not defined } 
+			}
+			return color;
+		}
 
 	void saveCellInformation(String cell, int row, int col) {
 		char cellType = cell.charAt(0);
@@ -236,23 +258,23 @@ public class Board extends JPanel{
 				direction = cell.charAt(1);
 				// DOOR DIRECTION
 				if (direction == 'L') {
-					newRoomCell = new RoomCell(cellType, DoorDirection.LEFT, row, col);
+					newRoomCell = new RoomCell(cellType, DoorDirection.LEFT, row, col, rooms);
 				} else if (direction == 'R') {
-					newRoomCell = new RoomCell(cellType, DoorDirection.RIGHT, row, col);
+					newRoomCell = new RoomCell(cellType, DoorDirection.RIGHT, row, col, rooms);
 				} else if (direction == 'U') {
-					newRoomCell = new RoomCell(cellType, DoorDirection.UP, row, col);
+					newRoomCell = new RoomCell(cellType, DoorDirection.UP, row, col, rooms);
 				} else if (direction == 'D') {
-					newRoomCell = new RoomCell(cellType, DoorDirection.DOWN, row, col);
+					newRoomCell = new RoomCell(cellType, DoorDirection.DOWN, row, col, rooms);
 					
 					
 				} else if (direction == 'N') {
-					newRoomCell = new RoomCell(cellType, DoorDirection.NAME, row, col);
+					newRoomCell = new RoomCell(cellType, DoorDirection.NAME, row, col, rooms);
 					// NOT A DOOR
 				} else {
-					newRoomCell = new RoomCell(cellType, DoorDirection.NONE, row, col);
+					newRoomCell = new RoomCell(cellType, DoorDirection.NONE, row, col, rooms);
 				}
 			} else {
-				newRoomCell = new RoomCell(cellType, DoorDirection.NONE, row, col);
+				newRoomCell = new RoomCell(cellType, DoorDirection.NONE, row, col, rooms);
 			}
 			//cells.add(arrayIndex, r);
 			cells.add(newRoomCell);

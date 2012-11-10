@@ -6,19 +6,22 @@ package clue;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.Map;
 
 public class RoomCell extends BoardCell {
 	DoorDirection doorDirection; 
+	Map<Character, String> rooms;
 
 	public RoomCell() {
 
 	}
 
-	public RoomCell(char roomInitial, DoorDirection doorDirection, int row, int col) {
+	public RoomCell(char roomInitial, DoorDirection doorDirection, int row, int col, Map<Character, String> rooms) {
 		this.cellInitial = roomInitial;
 		setDoorDirection(doorDirection);
 		setRow(row);
-		setColumn(col);		
+		setColumn(col);	
+		this.rooms = rooms;
 	}
 	public enum DoorDirection {
 		UP, DOWN, LEFT, RIGHT, NONE, NAME;
@@ -60,7 +63,7 @@ public class RoomCell extends BoardCell {
 		int adjRow = getRow()*CELLWIDTH;
 		if(isDoorway() == true) {
 			g.setColor(Color.GREEN);
-			System.out.println("test1");
+			
 			if (doorDirection == DoorDirection.LEFT) {
 				g.setColor(Color.RED);
 				g.fillRect(adjCol, adjRow, 3, CELLWIDTH);
@@ -79,7 +82,7 @@ public class RoomCell extends BoardCell {
 				} 
 		}
 		if(isName() == true){
-			
+			g.drawString(rooms.get(getRoomInitial()), adjCol, adjRow);
 		}
 
 
