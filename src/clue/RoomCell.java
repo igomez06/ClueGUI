@@ -45,9 +45,9 @@ public class RoomCell extends BoardCell {
 	
 
 	//method to overwrite draw method
-	public void draw(Graphics g,Object o) {
-		g.drawRect(getColumn()*CELLWIDTH, getRow()*CELLWIDTH, CELLWIDTH, CELLWIDTH);
+	public void draw(Graphics g) {
 		g.setColor(Color.RED);
+		g.fillRect(getColumn()*CELLWIDTH, getRow()*CELLWIDTH, CELLWIDTH, CELLWIDTH);
 		
 		if(isDoorway()) {
 			

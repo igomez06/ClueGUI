@@ -69,6 +69,14 @@ public class Board extends JPanel{
 	public int getNumCols() {
 		return numCols;
 	}
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		System.out.println("test1");
+		for (BoardCell bc : cells) {
+			System.out.println("Calling print Component");
+			bc.draw(g);
+		}
+	}
 	public void loadConfigFiles(String configFile, String legendFile, String playerFile, String weaponFile) {
 		//call helper functions to load different types of config files
 		//generic try/catch statement that will utilize the BadConfigFormatException
@@ -480,13 +488,7 @@ public class Board extends JPanel{
 		answer.room = room;
 		answer.weapon = weapon;
 	}
-
-	public void paintComponet(Graphics g) {
-		super.paintComponent(g);
-		for (BoardCell bc : cells) {
-			bc.draw(g, this);
-		}
-	}
+	
 
 
 }

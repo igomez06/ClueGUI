@@ -8,8 +8,11 @@ import java.awt.Graphics;
 
 
 public abstract class BoardCell {
+	private int row;
+	private int column;
+	
 	char cellInitial;
-	static final int CELLWIDTH = 32;
+	static final int CELLWIDTH = 30;
 		
 	public boolean isWalkway() {
 		return false;
@@ -25,9 +28,7 @@ public abstract class BoardCell {
 		return cellInitial;
 	}
 	//draw method to be implemented
-	public void draw(Graphics g, Object o) {
-		
-	}
+	public abstract void draw(Graphics g);
 	//row and column will be used in draw
 	
 	public int getRow() {
@@ -43,6 +44,5 @@ public abstract class BoardCell {
 		this.column = column;
 	}
 
-	private int row;
-	private int column;
+	
 }
