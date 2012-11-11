@@ -2,20 +2,21 @@ package clue;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
-import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 //notes
 //guesses
 public class DetectiveNotes extends JDialog {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private People p;
 	private Rooms r;
 	private Weapons w;
@@ -57,6 +58,10 @@ public class DetectiveNotes extends JDialog {
 	}
 
 	public class People extends JPanel{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
 		private JCheckBox a,b,c,d,e,f;
 
 		public People() {
@@ -80,6 +85,10 @@ public class DetectiveNotes extends JDialog {
 	}
 
 	public class Rooms extends JPanel{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
 		private JCheckBox a,b,c,d,e,f,g,h,i, j;
 
 		public Rooms() {
@@ -110,6 +119,10 @@ public class DetectiveNotes extends JDialog {
 	}
 
 	public class Weapons extends JPanel{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
 		private JCheckBox a,b,c,d,e,f;
 		public Weapons(){
 			super();
@@ -133,10 +146,14 @@ public class DetectiveNotes extends JDialog {
 	//combo boxes
 	///////////
 	public class comboBoxPeople extends JPanel {
-		JComboBox person;
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+		JComboBox<String> person;
 		public comboBoxPeople() {
 			super();
-			person = new JComboBox();
+			person = new JComboBox<String>();
 			setLayout(new GridLayout(0,2));
 			createGuessPeople();
 			add(person, BorderLayout.CENTER);
@@ -144,7 +161,8 @@ public class DetectiveNotes extends JDialog {
 
 		}
 		public void createGuessPeople(){
-			person = new JComboBox ();
+			person = new JComboBox<String> ();
+			person.addItem("No Guess");
 			person.addItem("Craig");
 			person.addItem("Lars");
 			person.addItem("Panda");
@@ -154,17 +172,22 @@ public class DetectiveNotes extends JDialog {
 		}
 	}
 	public class comboBoxRooms extends JPanel {
-		 JComboBox rooms;
+		 /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+		JComboBox<String> rooms;
 		public comboBoxRooms() {
 			super();
-			rooms = new JComboBox();
+			rooms = new JComboBox<String>();
 			setLayout(new GridLayout(0,2));
 			createGuessRoom();
 			add(rooms, BorderLayout.CENTER);
 			setBorder (new TitledBorder(new EtchedBorder(), "Room Guess"));
 		}
 		public void createGuessRoom(){
-			rooms =new JComboBox();
+			rooms =new JComboBox<String>();
+			rooms.addItem("No Guess");
 			rooms.addItem("Conservatory");
 			rooms.addItem("Kitchen");
 			rooms.addItem("Ballroom");
@@ -178,10 +201,14 @@ public class DetectiveNotes extends JDialog {
 		}
 	}
 	public class comboBoxWeapons extends JPanel {
-		JComboBox weapons;
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+		JComboBox<String> weapons;
 		public comboBoxWeapons() {
 			super();
-			weapons = new JComboBox();
+			weapons = new JComboBox<String>();
 			setLayout(new GridLayout(0,2));
 			createGuessWeapon();
 			add(weapons, BorderLayout.CENTER);
@@ -189,7 +216,8 @@ public class DetectiveNotes extends JDialog {
 
 		}
 		public void createGuessWeapon(){
-			weapons = new JComboBox();
+			weapons = new JComboBox<String>();
+			weapons.addItem("No Guess");
 			weapons.addItem("Candlestick");
 			weapons.addItem("Knife");
 			weapons.addItem("Shoelace");

@@ -11,27 +11,22 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.border.EtchedBorder;
-import javax.swing.border.TitledBorder;
 
 public class ClueGame extends JFrame {
 	private DetectiveNotes dNotes;
 	private ControlDisplay ControlDisplay;
 	public ClueGame(){
 		Board board = new Board( "RaderLayout.txt" , "RaderLegend.txt" , "Players.txt", "Weapons.txt" );
-		setLayout (new GridLayout(1,2));
-		add(board);
-		setSize(new Dimension(board.getNumRows()*32,board.getNumCols()*32));
-		
+		setLayout (new BorderLayout(1,2));
+		add(board, BorderLayout.CENTER);
+		setSize(new Dimension(1200, 750));
 		setTitle("Clue");
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 		menuBar.add(createFileMenu());
 		
 		ControlDisplay = new ControlDisplay();
-		add(ControlDisplay);
+		add(ControlDisplay, BorderLayout.EAST);
 		
 	}
 
