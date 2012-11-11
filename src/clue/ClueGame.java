@@ -15,18 +15,22 @@ import javax.swing.JMenuItem;
 public class ClueGame extends JFrame {
 	private DetectiveNotes dNotes;
 	private ControlDisplay ControlDisplay;
+	private CardsGUI cards;
 	public ClueGame(){
 		Board board = new Board( "RaderLayout.txt" , "RaderLegend.txt" , "Players.txt", "Weapons.txt" );
-		setLayout (new BorderLayout(1,2));
+		setLayout (new BorderLayout());
 		add(board, BorderLayout.CENTER);
-		setSize(new Dimension(1200, 750));
+		setSize(new Dimension(850, 725));
 		setTitle("Clue");
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 		menuBar.add(createFileMenu());
 		
+		cards = new CardsGUI();
+		add(cards, BorderLayout.EAST);
+		
 		ControlDisplay = new ControlDisplay();
-		add(ControlDisplay, BorderLayout.EAST);
+		add(ControlDisplay, BorderLayout.SOUTH);
 		
 	}
 

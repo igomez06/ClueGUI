@@ -12,7 +12,7 @@ public abstract class BoardCell {
 	private int column;
 	
 	char cellInitial;
-	static final int CELLWIDTH = 30;
+	static final int CELLWIDTH = 25;
 		
 	public boolean isWalkway() {
 		return false;

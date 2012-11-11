@@ -12,7 +12,7 @@ public class Player {
 	protected Color color;
 	protected int col;
 	protected int row;
-	static final int CELLWIDTH = 30;
+	static final int CELLWIDTH = 25;
 	public Player(String name, Color color, int startingLocation, int col, int row) {
 		super();
 		this.name = name;
@@ -72,7 +72,7 @@ public class Player {
 	
 	public void draw(Graphics g) {
 		g.setColor(getColor());
-		g.fillOval(getCol()*CELLWIDTH, getRow()*CELLWIDTH, 30, 30);
+		g.fillOval(getCol()*CELLWIDTH, getRow()*CELLWIDTH, CELLWIDTH, CELLWIDTH);
 	}
 
 
