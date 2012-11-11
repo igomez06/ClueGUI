@@ -55,7 +55,7 @@ public class GameActionsTests {
 
 		// Room Preference tests
 		HashSet<BoardCell> targets = new HashSet<BoardCell>();
-		ComputerPlayer cp = new ComputerPlayer("Craig", "Blue", 20);
+		ComputerPlayer cp = new ComputerPlayer("Craig", Blue, 20);
 		RoomCell rc = new RoomCell();
 		targets.add(rc);
 		targets.add(new WalkwayCell());
@@ -112,7 +112,7 @@ public class GameActionsTests {
 	@Test
 	public void testDisproveSuggestion() {
 		// Test disproving Suggestions
-		ComputerPlayer cp = new ComputerPlayer("Andrew", "Pink", 40);
+		ComputerPlayer cp = new ComputerPlayer("Andrew", Pink, 40);
 		ArrayList<Card> cards = new ArrayList<Card>(); 
 		cards.add(new Card("Panda", Card.CardType.PERSON));
 		cards.add(new Card("Kitchen", Card.CardType.ROOM));

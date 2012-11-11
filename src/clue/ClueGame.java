@@ -3,6 +3,7 @@ package clue;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -10,19 +11,27 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.TitledBorder;
 
 public class ClueGame extends JFrame {
 	private DetectiveNotes dNotes;
+	private ControlDisplay ControlDisplay;
 	public ClueGame(){
 		Board board = new Board( "RaderLayout.txt" , "RaderLegend.txt" , "Players.txt", "Weapons.txt" );
-		setLayout (new BorderLayout());
-		add(board, BorderLayout.CENTER);
+		setLayout (new GridLayout(1,2));
+		add(board);
 		setSize(new Dimension(board.getNumRows()*32,board.getNumCols()*32));
 		
-		setTitle("Da Bad Ass game");
+		setTitle("Clue");
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 		menuBar.add(createFileMenu());
+		
+		ControlDisplay = new ControlDisplay();
+		add(ControlDisplay);
 		
 	}
 
@@ -54,10 +63,7 @@ public class ClueGame extends JFrame {
 		}
 		item.addActionListener(new MenuItemListener());
 		return item;
-	}
-	
-	
-	
+	}	
 
 	public static void main(String[] args) {
 		ClueGame clueGui = new ClueGame();
