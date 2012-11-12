@@ -116,7 +116,7 @@ public class BoardTests {
 				numDoors++;
 			}
 		}
-		Assert.assertEquals(12, numDoors);						//check that numDoors equals total door count
+		Assert.assertEquals(20, numDoors);						//check that numDoors equals total door count
 	}
 	@Test
 	public void TestRoomInitials() {

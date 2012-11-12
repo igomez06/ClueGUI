@@ -1,5 +1,6 @@
 package tests;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -55,7 +56,7 @@ public class GameActionsTests {
 
 		// Room Preference tests
 		HashSet<BoardCell> targets = new HashSet<BoardCell>();
-		ComputerPlayer cp = new ComputerPlayer("Craig", Blue, 20);
+		ComputerPlayer cp = new ComputerPlayer("Craig", Color.GREEN, 20, 1, 5);
 		RoomCell rc = new RoomCell();
 		targets.add(rc);
 		targets.add(new WalkwayCell());
@@ -112,7 +113,7 @@ public class GameActionsTests {
 	@Test
 	public void testDisproveSuggestion() {
 		// Test disproving Suggestions
-		ComputerPlayer cp = new ComputerPlayer("Andrew", Pink, 40);
+		ComputerPlayer cp = new ComputerPlayer("Andrew", Color.PINK, 40, 20, 14);
 		ArrayList<Card> cards = new ArrayList<Card>(); 
 		cards.add(new Card("Panda", Card.CardType.PERSON));
 		cards.add(new Card("Kitchen", Card.CardType.ROOM));
@@ -148,11 +149,11 @@ public class GameActionsTests {
 
 		// Test that all players are queried
 		// tests involving the human player
-		ComputerPlayer cp1 = new ComputerPlayer("Craig", "Blue", 1);
-		ComputerPlayer cp2 = new ComputerPlayer("Lars", "Red", 2);
-		ComputerPlayer cp3 = new ComputerPlayer("Panda", "Black", 3);
-		ComputerPlayer cp4 = new ComputerPlayer("Roz", "Green", 4);
-		HumanPlayer hp = new HumanPlayer("Patches", "Tickle me Pink", 5);
+		ComputerPlayer cp1 = new ComputerPlayer("Craig", Color.BLUE, 1, 1,1);
+		ComputerPlayer cp2 = new ComputerPlayer("Lars", Color.RED, 2, 1,2);
+		ComputerPlayer cp3 = new ComputerPlayer("Panda", Color.BLACK, 3, 1,2);
+		ComputerPlayer cp4 = new ComputerPlayer("Roz", Color.GREEN, 4, 2,2);
+		HumanPlayer hp = new HumanPlayer("Patches", Color.PINK, 5, 2,3);
 
 		cp1.addCard(new Card("a", Card.CardType.WEAPON));
 		cp2.addCard(new Card("b", Card.CardType.WEAPON));
@@ -218,8 +219,8 @@ public class GameActionsTests {
 	public void testMakeSuggestion() {
 
 		// Test making a suggestion, including one correct suggestion...
-		ComputerPlayer cp1 = new ComputerPlayer("Lars", "Red", 47);
-		ComputerPlayer cp2 = new ComputerPlayer("Craig", "Blue", 48);
+		ComputerPlayer cp1 = new ComputerPlayer("Lars", Color.RED, 47, 6, 7);
+		ComputerPlayer cp2 = new ComputerPlayer("Craig",Color.BLUE, 48, 6, 8);
 
 		cp1.addCard(new Card("a", Card.CardType.WEAPON));
 		cp1.addCard(new Card("1", Card.CardType.ROOM));
@@ -238,7 +239,7 @@ public class GameActionsTests {
 		//Making a suggestion with some random possibilities
 		int weaponCounter = 0;
 		int roomCounter = 0;
-		ComputerPlayer testPlayer = new ComputerPlayer("Lars", "Chartruese", 0);
+		ComputerPlayer testPlayer = new ComputerPlayer("Lars", Color.CYAN, 0, 0,1);
 		testPlayer.addCard(new Card("Pool", Card.CardType.ROOM));
 		testPlayer.addCard(new Card("Candlestick", Card.CardType.WEAPON));
 		for( int i = 0; i < 100; i++ ) {

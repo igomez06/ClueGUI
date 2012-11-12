@@ -2,6 +2,7 @@ package tests;
 
 import static org.junit.Assert.fail;
 
+import java.awt.Color;
 import java.util.ArrayList;
 
 import org.junit.Assert;
@@ -28,17 +29,17 @@ public class GameSetupTest {
 		// Test loading people
 		Player hp = players.get(0);
 		Assert.assertEquals(hp.getName(), "Craig");
-		Assert.assertEquals(hp.getColor(), "Blue");
+		Assert.assertEquals(hp.getColor(), Color.GREEN);
 		Assert.assertEquals(hp.getStartingLocation(), testBoard.calcIndex(1, 4));
 
 		Player cp1 = players.get(1);
 		Assert.assertEquals(cp1.getName(), "Lars");
-		Assert.assertEquals(cp1.getColor(), "Red");
+		Assert.assertEquals(cp1.getColor(), Color.RED);
 		Assert.assertEquals(cp1.getStartingLocation(), testBoard.calcIndex(1, 14));
 
 		Player cp2 = players.get(2);
 		Assert.assertEquals(cp2.getName(), "Panda");
-		Assert.assertEquals(cp2.getColor(), "Black");
+		Assert.assertEquals(cp2.getColor(), Color.BLACK);
 		Assert.assertEquals(cp2.getStartingLocation(), testBoard.calcIndex(11, 16));
 
 	}

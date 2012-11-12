@@ -9,48 +9,41 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 //this class is to draw the cards that are in the players hand
 public class CardsGUI extends JPanel{
-	private PersonCard pCard;
-	private RoomCard rCard;
-	private WeaponCard wCard;
 	
+	//Create three new jPanels
+	private DrawPanel p,r,w;
+	private String pCard = "Person Card";
+	private String rCard =  "Room Card";
+	private String wCard = "Weapon Card";
+
 	public CardsGUI() {
-		setLayout(new GridLayout(3,0));
-		pCard = new PersonCard();
-		rCard = new RoomCard();
-		wCard = new WeaponCard();
+		setLayout(new GridLayout(0,2));
+		p = new DrawPanel();
+		r = new DrawPanel();
+		w = new DrawPanel();
 		JLabel label = new JLabel("Your Cards");
+		p.createDisplay(pCard);
+		r.createDisplay(rCard);
+		w.createDisplay(wCard);
+		
 		add(label);
-		add(pCard);
-		add(rCard);
-		add(wCard);
-	}
-	public class PersonCard extends JPanel{
-		JTextField pc;
-		
-		public PersonCard() {
-			pc = new JTextField("enter card name");
-			add(pc);
-			setBorder (new TitledBorder(new EtchedBorder(), "Person Card"));
-		}
+		add(p);
+		add(r);
+		add(w);
 	}
 	
-	public class RoomCard extends JPanel{
-		JTextField pc;
+
+	public class DrawPanel extends JPanel {
+		JTextField card;
 		
-		public RoomCard() {
-			pc = new JTextField("enter card name");
-			add(pc);
-			setBorder (new TitledBorder(new EtchedBorder(), "Room Card"));
+		public DrawPanel() {
+			
 		}
-	}
-	
-	public class WeaponCard extends JPanel{
-		JTextField pc;
-		
-		public WeaponCard() {
-			pc = new JTextField("enter card name");
-			add(pc);
-			setBorder (new TitledBorder(new EtchedBorder(), "Weapon Card"));
+		public JTextField createDisplay (String name) {
+			card = new JTextField("Guess your Card");
+			add(card);
+			setBorder(new TitledBorder(new EtchedBorder(), name));
+			return card;
 		}
 	}
 }

@@ -90,7 +90,7 @@ public class RaderTests {
 			if (cell.isDoorway())
 				numDoors++;
 		}
-		Assert.assertEquals(16, numDoors);
+		Assert.assertEquals(26, numDoors);
 	}
 
 	
