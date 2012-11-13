@@ -2,5 +2,5 @@ Craig	GREEN	1	5
 Lars	RED	1	14
 Panda	BLACK	8	16
 Andrew	PINK	20	14
-Nathan	YELLOW	22	6
+Israel	YELLOW	22	6
 Roz	ORANGE	12	0

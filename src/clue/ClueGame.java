@@ -6,18 +6,26 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 
 public class ClueGame extends JFrame {
 	private DetectiveNotes dNotes;
 	private ControlDisplay ControlDisplay;
 	private CardsGUI cards;
+	private HumanPlayer human;
+	JFrame welcome = new JFrame();
+	private Board board = new Board( "RaderLayout.txt" , "RaderLegend.txt" , "Players.txt", "Weapons.txt" );
 	public ClueGame(){
-		Board board = new Board( "RaderLayout.txt" , "RaderLegend.txt" , "Players.txt", "Weapons.txt" );
+		
+		
+		//Create welcome message and tell them their name
+		JOptionPane.showMessageDialog(welcome , "You are "  + board.getPlayers().get(0).getName() + " press Next Player to begin playing", "Welcome to Clue", JOptionPane.INFORMATION_MESSAGE);
 		setLayout (new BorderLayout());
 		add(board, BorderLayout.CENTER);
 		setSize(new Dimension(850, 725));
@@ -71,5 +79,6 @@ public class ClueGame extends JFrame {
 
 
 	}
+	
 }
 

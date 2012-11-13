@@ -52,6 +52,8 @@ public class Board extends JPanel{
 
 		loadConfigFiles(configFile, legendFile, playerFile, weaponFile);
 
+		//Declare a random player as the human player
+		
 		visited = new boolean[numRows * numCols];			//tracks which indexes have been seen
 		for(int i = 0; i < numRows*numCols; i++) {
 			visited[i] = false;
@@ -280,6 +282,8 @@ public class Board extends JPanel{
 			//arrayIndex++;
 		}	
 	}
+	
+	
 
 	public int calcIndex(int row, int column) {
 		return row*numCols + column;

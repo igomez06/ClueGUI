@@ -13,6 +13,7 @@ public class Player {
 	protected int col;
 	protected int row;
 	static final int CELLWIDTH = 25;
+	protected boolean humanPlayer;
 	public Player(String name, Color color, int startingLocation, int col, int row) {
 		super();
 		this.name = name;
@@ -69,7 +70,7 @@ public class Player {
 	public void addCard(Card card) {
 		cards.add(card);
 	}
-	
+
 	public void draw(Graphics g) {
 		g.setColor(getColor());
 		g.fillOval(getCol()*CELLWIDTH, getRow()*CELLWIDTH, CELLWIDTH, CELLWIDTH);
@@ -81,11 +82,14 @@ public class Player {
 		return col;
 	}
 
-
-
 	public int getRow() {
 		return row;
 	}
 
-
+	public boolean isHuman() {
+		if (this.humanPlayer == true ) {
+			return true;
+		}
+		return false;
+	}
 }
