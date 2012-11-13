@@ -49,6 +49,7 @@ public class DetectiveNotes extends JDialog {
 		JPanel panel = new JPanel();
 		JComboBox jBox = new JComboBox();
 		panel.setLayout(new GridLayout(0,2));
+		jBox.addItem("No Guess");
 		for (Card c : board.getCards() ) {
 			if ( c.getType() == card){
 				jBox.addItem(c.getName());
