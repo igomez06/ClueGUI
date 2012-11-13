@@ -58,6 +58,9 @@ public class Board extends JPanel{
 		}
 
 		calcAdjacencies();
+		for(Card c: cards){
+			System.out.println(c);
+		}
 
 	}
 
