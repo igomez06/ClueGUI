@@ -16,11 +16,11 @@ import clue.Card.CardType;
 //notes
 //guesses
 public class DetectiveNotes extends JDialog {
-	private ArrayList<Card> cards;	
+	private Board board;
 	public DetectiveNotes() {
+		board = new Board("RaderLayout.txt", "RaderLegend.txt", "Players.txt", "Weapons.txt");
 		setSize(750,500);
 		setTitle("Detective Notes");
-		cards = new ArrayList<Card>();
 		setLayout(new GridLayout(3,2));
 		add(checkBoxes("People", CardType.PERSON));
 		add(comboBoxes("Room Guess", CardType.ROOM));
@@ -35,9 +35,9 @@ public class DetectiveNotes extends JDialog {
 	public JPanel checkBoxes (String name, CardType card) {
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(0,2));
-		for (Card c : cards ) {
+		for (Card c : board.getCards() ) {
 			if ( c.getType() == card){
-				add(new JCheckBox(c.getName()));
+				panel.add(new JCheckBox(c.getName()));
 			}
 		}
 		panel.setBorder(new TitledBorder(new EtchedBorder(), name));
@@ -47,13 +47,15 @@ public class DetectiveNotes extends JDialog {
 
 	public JPanel comboBoxes (String name, CardType card) {
 		JPanel panel = new JPanel();
+		JComboBox jBox = new JComboBox();
 		panel.setLayout(new GridLayout(0,2));
-		for (Card c : cards ) {
+		for (Card c : board.getCards() ) {
 			if ( c.getType() == card){
-				JComboBox cb = new JComboBox();
-				cb.addItem(c.getName());
+				jBox.addItem(c.getName());
+				
 			}
 		}
+		panel.add(jBox);
 		panel.setBorder(new TitledBorder(new EtchedBorder(), name));
 		return panel;
 	}
