@@ -23,9 +23,9 @@ public class CardsGUI extends JPanel{
 		r = new DrawPanel();
 		w = new DrawPanel();
 		JLabel label = new JLabel("Your Cards");
-		p.createDisplay(pCard, player.getCards().get(0));
-		r.createDisplay(rCard, player.getCards().get(1));
-		w.createDisplay(wCard, player.getCards().get(2));
+		p.createDisplay(player.getCards().get(0).getType().toString(), player.getCards().get(0));
+		r.createDisplay(player.getCards().get(1).getType().toString(), player.getCards().get(1));
+		w.createDisplay(player.getCards().get(2).getType().toString(), player.getCards().get(2));
 		
 		add(label);
 		add(p);

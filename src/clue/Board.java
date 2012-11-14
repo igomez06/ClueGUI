@@ -39,10 +39,9 @@ public class Board extends JPanel{
 	private LinkedList<Integer> path;					//list of paths
 	private HashSet<BoardCell> targets;					//stores final targets
 	private boolean[] visited;
-	private HumanPlayer human;
-	private ArrayList<Card> humanCards = new ArrayList<Card>();
-	private ArrayList<ComputerPlayer> computerPlayers;
-	
+	private Player human;
+
+
 	//Default constructor
 	public Board(String configFile, String legendFile, String playerFile, String weaponFile) {
 		rooms = new HashMap<Character, String>();	//order does not matter for legend
@@ -51,7 +50,7 @@ public class Board extends JPanel{
 		cards = new ArrayList<Card>();
 		answer = new Solution();
 		human = new HumanPlayer();
-		computerPlayers = new ArrayList<ComputerPlayer>();
+
 		path = new LinkedList<Integer>();			//path traveled during recursion leading to target
 		targets = new HashSet<BoardCell>();			
 
@@ -442,55 +441,56 @@ public class Board extends JPanel{
 				answer.weapon = cards.remove(i);
 				haveWeapon = true;
 			}
-			
+
 		}
 	}
 
 	public void HumanCards() {
-		
+
 		boolean havePerson = false;
 		boolean haveRoom = false;
 		boolean haveWeapon = false;
-		
+
 
 		for( int i = 0; i < cards.size(); i++) {
 			if(( cards.get(i).getType() == Card.CardType.PERSON) && (havePerson == false )) {
 				//System.out.println(cards.get(i).getName());
-				human.addCard(cards.remove(i)); 
-				
-				
+				players.get(0).addCard(cards.remove(i)); 
+
+
 				havePerson = true;
 			}
 			if( (cards.get(i).getType() == Card.CardType.ROOM) && (haveRoom == false )) {
 				//System.out.println(cards.get(i).getName());
-				human.addCard(cards.remove(i));
-				
-				
+				players.get(0).addCard(cards.remove(i));
+
+
 				haveRoom = true;
 			}
 			if( (cards.get(i).getType() == Card.CardType.WEAPON) && (haveWeapon == false)) {
 				//System.out.println(cards.get(i).getName());
-				human.addCard(cards.remove(i));
-				
-				
+				players.get(0).addCard(cards.remove(i));
+
+
 				haveWeapon = true;
 			}
 		}
-		
+
 	}
 
 	public void deal() {
 
-		
+
 		//human = players.get(0);
 		selectAnswer();
 		HumanCards();		
 
-		
-//		for (Card c : human.getCards()){
-//			System.out.println(c.getName());
-//		}
-		
+
+		for (Card c : players.get(0).getCards()){
+			System.out.println(c.getName());
+		}
+		human = players.get(0);
+
 		while( !cards.isEmpty() ) {
 
 			for( int i = 1; i < players.size(); i++ ) {
@@ -501,7 +501,7 @@ public class Board extends JPanel{
 	}
 
 
-	public HumanPlayer getHuman() {
+	public Player getHuman() {
 		return human;
 	}
 	public boolean checkAccusation(String person, String room, String weapon) {
@@ -546,7 +546,7 @@ public class Board extends JPanel{
 	public ArrayList<Card> getCards() {
 		return cards;
 	}
-	
+
 
 	// Pretty much only for testing
 	public Card[] getAnswerAsArray() {

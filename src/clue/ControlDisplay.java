@@ -1,6 +1,8 @@
 package clue;
 
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -42,7 +44,7 @@ public class ControlDisplay extends JPanel{
 		JTextField wt;
 
 		public WhoseTurn() {
-			wt = new JTextField("someones turn");
+			wt = new JTextField();
 			add(wt);
 			setBorder(new TitledBorder(new EtchedBorder(), "Whose Turn?"));
 		}
@@ -54,7 +56,16 @@ public class ControlDisplay extends JPanel{
 		public NextButton() {
 			nextB = new JButton("Next Player");
 			add(nextB);
+			nextB.addActionListener(new ButtonListener());
 		}
+
+		public class ButtonListener implements ActionListener {
+			public void actionPerformed(ActionEvent e) {
+				//Logic for Next turn
+				System.out.println("next turn");
+			} 
+		}
+
 	}
 
 	public class MakeAcc extends JPanel {
@@ -62,7 +73,16 @@ public class ControlDisplay extends JPanel{
 		public MakeAcc() {
 			ma = new JButton("Make Accusation");
 			add(ma);
+			ma.addActionListener(new ButtonListener());
 		}
+
+		public class ButtonListener implements ActionListener {
+			public void actionPerformed(ActionEvent e) {
+				//Logic for Next turn
+				System.out.println("make accu");
+			} 
+		}
+
 	}
 
 	public class Die extends JPanel {
