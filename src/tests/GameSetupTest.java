@@ -85,6 +85,7 @@ public class GameSetupTest {
 
 	@Test
 	public void testDealingCards() {
+		
 		testBoard.deal();
 		// Deal test method that ensures all cards have been dealt, all players have 
 		//roughly the same number of cards, and no card has been dealt to two different players. 

@@ -28,7 +28,7 @@ public class Board extends JPanel{
 	private ArrayList<BoardCell> cells;		//contains the board layout
 	private Map<Character, String> rooms;	//maps the 1-char initial to a Room object
 	private ArrayList<Player> players;
-	private ArrayList<Card> cards;
+	private static ArrayList<Card> cards;
 
 	private Solution answer;
 
@@ -39,21 +39,25 @@ public class Board extends JPanel{
 	private LinkedList<Integer> path;					//list of paths
 	private HashSet<BoardCell> targets;					//stores final targets
 	private boolean[] visited;
-
+	private HumanPlayer human;
+	private ArrayList<Card> humanCards = new ArrayList<Card>();
+	private ArrayList<ComputerPlayer> computerPlayers;
+	
+	//Default constructor
 	public Board(String configFile, String legendFile, String playerFile, String weaponFile) {
 		rooms = new HashMap<Character, String>();	//order does not matter for legend
 		cells = new ArrayList<BoardCell>();
 		players = new ArrayList<Player>();
 		cards = new ArrayList<Card>();
 		answer = new Solution();
-
+		human = new HumanPlayer();
+		computerPlayers = new ArrayList<ComputerPlayer>();
 		path = new LinkedList<Integer>();			//path traveled during recursion leading to target
 		targets = new HashSet<BoardCell>();			
 
 		loadConfigFiles(configFile, legendFile, playerFile, weaponFile);
+		deal();
 
-		//Declare a random player as the human player
-		
 		visited = new boolean[numRows * numCols];			//tracks which indexes have been seen
 		for(int i = 0; i < numRows*numCols; i++) {
 			visited[i] = false;
@@ -77,7 +81,7 @@ public class Board extends JPanel{
 	}
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		
+
 		for (BoardCell bc : cells) {
 			bc.draw(g);
 		}
@@ -192,16 +196,16 @@ public class Board extends JPanel{
 				String playerLine = in.nextLine();
 				String[] line = playerLine.split("\t");
 				if(line.length > 4) throw new BadConfigFormatException("Player file has more than 4 items per line");
-				Player p = new ComputerPlayer(line[0], convertColor(line[1]), calcIndex(Integer.parseInt(line[2]), Integer.parseInt(line[3])), Integer.parseInt(line[2]), Integer.parseInt(line[3]));
+				Player p = new Player(line[0], convertColor(line[1]), calcIndex(Integer.parseInt(line[2]), Integer.parseInt(line[3])), Integer.parseInt(line[2]), Integer.parseInt(line[3]));
 				players.add(p);
-				Card person = new Card(line[0], Card.CardType.PERSON);
-				cards.add(person);
+				Card personCard = new Card(line[0], Card.CardType.PERSON);
+				cards.add(personCard);
 			}
 		} catch(BadConfigFormatException e) {
 			System.out.println(e.getMessage());
 			return;
 		}
-		
+
 
 		//Weapons file reader
 		try {
@@ -219,19 +223,19 @@ public class Board extends JPanel{
 
 
 	}
-	
+
 	// Be sure to trim the color, we don't want spaces around the name
-		public Color convertColor(String strColor) {
-			Color color; 
-			try {     
-				// We can use reflection to convert the string to a color
-				Field field = Class.forName("java.awt.Color").getField(strColor.trim());     
-				color = (Color)field.get(null); } 
-			catch (Exception e) {  
-				color = null; // Not defined } 
-			}
-			return color;
+	public Color convertColor(String strColor) {
+		Color color; 
+		try {     
+			// We can use reflection to convert the string to a color
+			Field field = Class.forName("java.awt.Color").getField(strColor.trim());     
+			color = (Color)field.get(null); } 
+		catch (Exception e) {  
+			color = null; // Not defined } 
 		}
+		return color;
+	}
 
 	void saveCellInformation(String cell, int row, int col) {
 		char cellType = cell.charAt(0);
@@ -266,8 +270,8 @@ public class Board extends JPanel{
 					newRoomCell = new RoomCell(cellType, DoorDirection.UP, row, col, rooms);
 				} else if (direction == 'D') {
 					newRoomCell = new RoomCell(cellType, DoorDirection.DOWN, row, col, rooms);
-					
-					
+
+
 				} else if (direction == 'N') {
 					newRoomCell = new RoomCell(cellType, DoorDirection.NAME, row, col, rooms);
 					// NOT A DOOR
@@ -282,8 +286,8 @@ public class Board extends JPanel{
 			//arrayIndex++;
 		}	
 	}
-	
-	
+
+
 
 	public int calcIndex(int row, int column) {
 		return row*numCols + column;
@@ -438,26 +442,68 @@ public class Board extends JPanel{
 				answer.weapon = cards.remove(i);
 				haveWeapon = true;
 			}
+			
 		}
+	}
+
+	public void HumanCards() {
+		
+		boolean havePerson = false;
+		boolean haveRoom = false;
+		boolean haveWeapon = false;
+		
+
+		for( int i = 0; i < cards.size(); i++) {
+			if(( cards.get(i).getType() == Card.CardType.PERSON) && (havePerson == false )) {
+				//System.out.println(cards.get(i).getName());
+				human.addCard(cards.remove(i)); 
+				
+				
+				havePerson = true;
+			}
+			if( (cards.get(i).getType() == Card.CardType.ROOM) && (haveRoom == false )) {
+				//System.out.println(cards.get(i).getName());
+				human.addCard(cards.remove(i));
+				
+				
+				haveRoom = true;
+			}
+			if( (cards.get(i).getType() == Card.CardType.WEAPON) && (haveWeapon == false)) {
+				//System.out.println(cards.get(i).getName());
+				human.addCard(cards.remove(i));
+				
+				
+				haveWeapon = true;
+			}
+		}
+		
 	}
 
 	public void deal() {
 
+		
+		//human = players.get(0);
 		selectAnswer();
+		HumanCards();		
 
+		
+//		for (Card c : human.getCards()){
+//			System.out.println(c.getName());
+//		}
+		
 		while( !cards.isEmpty() ) {
 
-			for( Player player : players ) {
-				player.addCard(cards.remove(0));
+			for( int i = 1; i < players.size(); i++ ) {
+				players.get(i).addCard(cards.remove(0));
 			}
 		}
+		System.out.println("complete deal\n");
 	}
 
-	// What is this even for?
-	public void deal(ArrayList<String> cardList) {
 
+	public HumanPlayer getHuman() {
+		return human;
 	}
-
 	public boolean checkAccusation(String person, String room, String weapon) {
 
 		if( person.equalsIgnoreCase(answer.person.getName()) 
@@ -500,6 +546,7 @@ public class Board extends JPanel{
 	public ArrayList<Card> getCards() {
 		return cards;
 	}
+	
 
 	// Pretty much only for testing
 	public Card[] getAnswerAsArray() {
@@ -516,7 +563,7 @@ public class Board extends JPanel{
 		answer.room = room;
 		answer.weapon = weapon;
 	}
-	
+
 
 
 }

@@ -1,6 +1,7 @@
 package clue;
 
 import java.awt.GridLayout;
+import java.util.ArrayList;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -16,15 +17,15 @@ public class CardsGUI extends JPanel{
 	private String rCard =  "Room Card";
 	private String wCard = "Weapon Card";
 
-	public CardsGUI() {
+	public CardsGUI(Player player) {
 		setLayout(new GridLayout(0,2));
 		p = new DrawPanel();
 		r = new DrawPanel();
 		w = new DrawPanel();
 		JLabel label = new JLabel("Your Cards");
-		p.createDisplay(pCard);
-		r.createDisplay(rCard);
-		w.createDisplay(wCard);
+		p.createDisplay(pCard, player.getCards().get(0));
+		r.createDisplay(rCard, player.getCards().get(1));
+		w.createDisplay(wCard, player.getCards().get(2));
 		
 		add(label);
 		add(p);
@@ -39,8 +40,8 @@ public class CardsGUI extends JPanel{
 		public DrawPanel() {
 			
 		}
-		public JTextField createDisplay (String name) {
-			card = new JTextField("Guess your Card");
+		public JTextField createDisplay (String name, Card c) {
+			card = new JTextField(c.getName());
 			add(card);
 			setBorder(new TitledBorder(new EtchedBorder(), name));
 			return card;

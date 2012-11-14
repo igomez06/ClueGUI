@@ -14,6 +14,10 @@ public class Player {
 	protected int row;
 	static final int CELLWIDTH = 25;
 	protected boolean humanPlayer;
+	
+	public Player() {
+		cards = new ArrayList<Card>();
+	}
 	public Player(String name, Color color, int startingLocation, int col, int row) {
 		super();
 		this.name = name;

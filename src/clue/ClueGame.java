@@ -17,13 +17,13 @@ import javax.swing.JOptionPane;
 public class ClueGame extends JFrame {
 	private DetectiveNotes dNotes;
 	private ControlDisplay ControlDisplay;
-	private CardsGUI cards;
-	private HumanPlayer human;
+	private CardsGUI cardsGUI;
+	
 	JFrame welcome = new JFrame();
-	private Board board = new Board( "RaderLayout.txt" , "RaderLegend.txt" , "Players.txt", "Weapons.txt" );
+	private Board board;
 	public ClueGame(){
 		
-		
+		board = new Board( "RaderLayout.txt" , "RaderLegend.txt" , "Players.txt", "Weapons.txt" );
 		//Create welcome message and tell them their name
 		JOptionPane.showMessageDialog(welcome , "You are "  + board.getPlayers().get(0).getName() + " press Next Player to begin playing", "Welcome to Clue", JOptionPane.INFORMATION_MESSAGE);
 		setLayout (new BorderLayout());
@@ -34,8 +34,8 @@ public class ClueGame extends JFrame {
 		setJMenuBar(menuBar);
 		menuBar.add(createFileMenu());
 		
-		cards = new CardsGUI();
-		add(cards, BorderLayout.EAST);
+		cardsGUI = new CardsGUI(board.getPlayers().get(0));
+		add(cardsGUI, BorderLayout.EAST);
 		
 		ControlDisplay = new ControlDisplay();
 		add(ControlDisplay, BorderLayout.SOUTH);
