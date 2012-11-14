@@ -1,10 +1,6 @@
 package clue;
 
-import java.awt.BorderLayout;
 import java.awt.GridLayout;
-import java.awt.Panel;
-import java.util.ArrayList;
-
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -17,8 +13,8 @@ import clue.Card.CardType;
 //guesses
 public class DetectiveNotes extends JDialog {
 	private Board board;
-	public DetectiveNotes() {
-		board = new Board("RaderLayout.txt", "RaderLegend.txt", "Players.txt", "Weapons.txt");
+	public DetectiveNotes(Board b) {
+		this.board = b;
 		setSize(750,500);
 		setTitle("Detective Notes");
 		setLayout(new GridLayout(3,2));
@@ -35,7 +31,7 @@ public class DetectiveNotes extends JDialog {
 	public JPanel checkBoxes (String name, CardType card) {
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(0,2));
-		for (Card c : board.getCards() ) {
+		for (Card c : this.board.getClone() ) {
 			if ( c.getType() == card){
 				panel.add(new JCheckBox(c.getName()));
 			}
@@ -50,7 +46,7 @@ public class DetectiveNotes extends JDialog {
 		JComboBox jBox = new JComboBox();
 		panel.setLayout(new GridLayout(0,2));
 		jBox.addItem("No Guess");
-		for (Card c : board.getCards() ) {
+		for (Card c : this.board.getClone() ) {
 			if ( c.getType() == card){
 				jBox.addItem(c.getName());
 				

@@ -6,14 +6,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class Player {
-	protected String name;
-	protected int startingLocation;
-	protected ArrayList<Card> cards;
-	protected Color color;
-	protected int col;
-	protected int row;
+	private String name;
+	private int startingLocation;
+	private ArrayList<Card> cards;
+	private Color color;
+	private int col;
+	private int row;
 	static final int CELLWIDTH = 25;
-	protected boolean humanPlayer;
+	private boolean humanPlayer;
 	
 	public Player() {
 		cards = new ArrayList<Card>();

@@ -25,20 +25,22 @@ public class ClueGame extends JFrame {
 		
 		board = new Board( "RaderLayout.txt" , "RaderLegend.txt" , "Players.txt", "Weapons.txt" );
 		//Create welcome message and tell them their name
-		JOptionPane.showMessageDialog(welcome , "You are "  + board.getPlayers().get(0).getName() + " press Next Player to begin playing", "Welcome to Clue", JOptionPane.INFORMATION_MESSAGE);
+		
 		setLayout (new BorderLayout());
 		add(board, BorderLayout.CENTER);
+		
 		setSize(new Dimension(850, 725));
 		setTitle("Clue");
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 		menuBar.add(createFileMenu());
-		
+		System.out.println(board.getCards().size());
 		cardsGUI = new CardsGUI(board.getPlayers().get(0));
 		add(cardsGUI, BorderLayout.EAST);
 		
 		ControlDisplay = new ControlDisplay();
 		add(ControlDisplay, BorderLayout.SOUTH);
+		JOptionPane.showMessageDialog(welcome , "You are "  + board.getPlayers().get(0).getName() + " press Next Player to begin playing", "Welcome to Clue", JOptionPane.INFORMATION_MESSAGE);
 		
 	}
 
@@ -51,7 +53,7 @@ public class ClueGame extends JFrame {
 
 	private JMenuItem createDetectiveNotesItem() {
 		JMenuItem item = new JMenuItem("Show Detective Notes");
-		dNotes = new DetectiveNotes();
+		dNotes = new DetectiveNotes(board);
 		class MenuItemListener implements ActionListener {
 			public void actionPerformed(ActionEvent e) {
 				dNotes.setVisible(true);

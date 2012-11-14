@@ -14,6 +14,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -28,9 +29,10 @@ public class Board extends JPanel{
 	private ArrayList<BoardCell> cells;		//contains the board layout
 	private Map<Character, String> rooms;	//maps the 1-char initial to a Room object
 	private ArrayList<Player> players;
-	private static ArrayList<Card> cards;
-
+	private ArrayList<Card> cards;
+	private ArrayList<Card> cloneCards;
 	private Solution answer;
+	private Player human;
 
 	private int numRows;					//determined when you read in file
 	private int numCols;					//determined when you read in file
@@ -39,7 +41,7 @@ public class Board extends JPanel{
 	private LinkedList<Integer> path;					//list of paths
 	private HashSet<BoardCell> targets;					//stores final targets
 	private boolean[] visited;
-	private Player human;
+
 
 
 	//Default constructor
@@ -48,14 +50,18 @@ public class Board extends JPanel{
 		cells = new ArrayList<BoardCell>();
 		players = new ArrayList<Player>();
 		cards = new ArrayList<Card>();
+		cloneCards = cloneList(cards);
 		answer = new Solution();
 		human = new HumanPlayer();
+		
 
 		path = new LinkedList<Integer>();			//path traveled during recursion leading to target
 		targets = new HashSet<BoardCell>();			
 
 		loadConfigFiles(configFile, legendFile, playerFile, weaponFile);
+		cloneCards = cloneList(cards);
 		deal();
+		
 
 		visited = new boolean[numRows * numCols];			//tracks which indexes have been seen
 		for(int i = 0; i < numRows*numCols; i++) {
@@ -500,7 +506,20 @@ public class Board extends JPanel{
 		System.out.println("complete deal\n");
 	}
 
+	//Clone the ArrayList of cards
+	public static ArrayList<Card> cloneList(ArrayList<Card> original) {
+		
+		ArrayList<Card> clone = new ArrayList<Card>(original.size());
+		for(Card c: original) {
+			clone.add(c);
+		}
+		return clone;
+	}
 
+	public ArrayList<Card> getClone() {
+		return cloneCards;
+	}
+	
 	public Player getHuman() {
 		return human;
 	}
