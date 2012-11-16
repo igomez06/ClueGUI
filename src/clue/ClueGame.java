@@ -34,7 +34,6 @@ public class ClueGame extends JFrame {
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 		menuBar.add(createFileMenu());
-		System.out.println(board.getCards().size());
 		cardsGUI = new CardsGUI(board.getPlayers().get(0));
 		add(cardsGUI, BorderLayout.EAST);
 		

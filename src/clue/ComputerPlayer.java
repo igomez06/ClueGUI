@@ -9,8 +9,8 @@ public class ComputerPlayer extends Player {
 	private char lastRoomVisited;
 	ArrayList<Card> seenCards = new ArrayList<Card>();
 
-	public ComputerPlayer(String name, Color color, int startingLocation, int col, int row) {
-		super(name, color, startingLocation, col, row);
+	public ComputerPlayer(String name, Color color, int startingLocation, int col, int row, Board board) {
+		super(name, color, startingLocation, col, row, board);
 	}
 	public BoardCell pickLocation(HashSet<BoardCell> targets) {
 		//If the list of targets locations includes a room, select that location unless the player was just in that room.

@@ -7,8 +7,8 @@ public class HumanPlayer extends Player{
 		
 	}
  
-	public HumanPlayer(String name, Color color, int startingLocation, int col, int row) {
-		super(name, color, startingLocation, col, row);
+	public HumanPlayer(String name, Color color, int startingLocation, int col, int row, Board board) {
+		super(name, color, startingLocation, col, row, board);
 		// TODO Auto-generated constructor stub
 	}
 	

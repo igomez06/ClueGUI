@@ -22,12 +22,14 @@ public class ControlDisplay extends JPanel{
 	private Guess guess;
 	private Result rs;
 	private Board board;
-	private int roll;
 	private Player currentPlayer;
-	public ControlDisplay(Board board) {
+	
+	
+	public ControlDisplay(Board b) {
 		super();
+		this.board = b;
 		setLayout(new GridLayout(2,3));
-		this.board = board;
+		board.setControlDisplay(this);
 		whoseTurn = new WhoseTurn(board);
 		whoseTurn.setWhoseTurn(board.getPlayers().get(0).getName());
 		nb = new NextButton();
@@ -45,13 +47,6 @@ public class ControlDisplay extends JPanel{
 
 	}
 
-	public void Move(){
-		Random generator = new Random();
-		roll = generator.nextInt(6) + 1;
-		repaint();
-
-
-	}
 	public class WhoseTurn extends JPanel {
 		private JLabel whoseTurn;
 
@@ -81,15 +76,16 @@ public class ControlDisplay extends JPanel{
 		public class ButtonListener implements ActionListener {
 			public void actionPerformed(ActionEvent e) {
 				//Logic for Next turn
-				if (board.isHadTurn() == true || board.getWhichPerson() != 0) {
+				System.out.println("testing");
+				
+				if (board.hadTurn == true || board.getWhichPerson() != 0) {
 					board.NextTurn();
 				}else {
 					JOptionPane message = new JOptionPane();
-					message.showMessageDialog(board, "What is your accusation", "You either need to make an accusation or move.", JOptionPane.ERROR_MESSAGE);
+					message.showMessageDialog(board, "You either need to make an accusation or move.", "Error", JOptionPane.ERROR_MESSAGE);
 					message.setVisible(true);
 				}
 			} 
-
 		}
 
 	}
@@ -112,11 +108,16 @@ public class ControlDisplay extends JPanel{
 	}
 
 	public class Die extends JPanel {
-		JTextField die;
+		JLabel die;
 		public Die() {
-			die = new JTextField("Roll is " + roll);
+			die = new JLabel();
+			die.setText("");
 			add(die);
 			setBorder(new TitledBorder(new EtchedBorder(), "Die Roll"));
+		}
+		
+		public void setRoll(int r) {
+			die.setText(String.valueOf(r));
 		}
 
 
@@ -157,5 +158,9 @@ public class ControlDisplay extends JPanel{
 	public void setCurrentPlayer(Player currentPlayer) {
 		this.currentPlayer = currentPlayer;
 	}
+	public Die getDie() {
+		return die;
+	}
+	
 
 }

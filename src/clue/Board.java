@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Scanner;
-
 import javax.swing.JPanel;
 
 import clue.RoomCell.DoorDirection;
@@ -41,7 +40,7 @@ public class Board extends JPanel{
 	private int numRows;					//determined when you read in file
 	private int numCols;					//determined when you read in file
 	private int roll;
-	private boolean hadTurn;
+	public boolean hadTurn;
 	private Map<Integer, LinkedList<Integer>> adjMtx;
 	private LinkedList<Integer> path;					//list of paths
 	private HashSet<BoardCell> targets;					//stores final targets
@@ -59,15 +58,15 @@ public class Board extends JPanel{
 		answer = new Solution();
 		human = new HumanPlayer();
 		
-		whichPerson = -1;
-		hadTurn = true;
+		
 		path = new LinkedList<Integer>();			//path traveled during recursion leading to target
 		targets = new HashSet<BoardCell>();			
 
 		loadConfigFiles(configFile, legendFile, playerFile, weaponFile);
 		cloneCards = cloneList(cards);
 		deal();
-		
+		whichPerson = -1;
+		hadTurn = true;
 
 		visited = new boolean[numRows * numCols];			//tracks which indexes have been seen
 		for(int i = 0; i < numRows*numCols; i++) {
@@ -509,7 +508,6 @@ public class Board extends JPanel{
 
 
 		for (Card c : players.get(0).getCards()){
-			System.out.println(c.getName());
 		}
 		human = players.get(0);
 
@@ -519,7 +517,7 @@ public class Board extends JPanel{
 				players.get(i).addCard(cards.remove(0));
 			}
 		}
-		System.out.println("complete deal\n");
+
 	}
 
 	//Clone the ArrayList of cards
@@ -609,12 +607,21 @@ public class Board extends JPanel{
 		}
 		
 		//whose turn it is
+		System.out.println(currentPlayer.getName());
+		//Outputs the name of whose turn it is
 		controlDisplay.getWhoseTurn().setWhoseTurn(currentPlayer.getName());
 		
+		//Roll the die
+		roll();
+		clearListsAndSetToFalse();
+		
+		//calulate the targets
+		calcTargets(players.get(whichPerson).getStartingLocation())
 		
 	}
 
 	public boolean isHadTurn() {
+		System.out.println("testing");
 		return hadTurn;
 	}
 
@@ -629,6 +636,22 @@ public class Board extends JPanel{
 		return whichPerson;
 	}
 	
+	public void roll() {
+		
+		controlDisplay.getDie().setRoll(getRandom());
+		
+	}
+	
+	public void setControlDisplay(ControlDisplay cd) {
+		this.controlDisplay = cd;
+	}
+	
+	public int getRandom(){
+		int number = 0;
+		Random generator = new Random();
+		number = generator.nextInt(6) + 1;
+		return number;
+	}
 	
 
 
