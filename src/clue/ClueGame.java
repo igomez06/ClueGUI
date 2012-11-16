@@ -38,7 +38,7 @@ public class ClueGame extends JFrame {
 		cardsGUI = new CardsGUI(board.getPlayers().get(0));
 		add(cardsGUI, BorderLayout.EAST);
 		
-		ControlDisplay = new ControlDisplay();
+		ControlDisplay = new ControlDisplay(board);
 		add(ControlDisplay, BorderLayout.SOUTH);
 		JOptionPane.showMessageDialog(welcome , "You are "  + board.getPlayers().get(0).getName() + " press Next Player to begin playing", "Welcome to Clue", JOptionPane.INFORMATION_MESSAGE);
 		

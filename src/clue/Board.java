@@ -5,6 +5,7 @@ package clue;
 
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Graphics;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -16,6 +17,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Scanner;
 
 import javax.swing.JPanel;
@@ -25,7 +27,8 @@ import clue.RoomCell.DoorDirection;
 
 import exceptions.BadConfigFormatException;
 
-public class Board extends JPanel{	
+public class Board extends JPanel{
+	
 	private ArrayList<BoardCell> cells;		//contains the board layout
 	private Map<Character, String> rooms;	//maps the 1-char initial to a Room object
 	private ArrayList<Player> players;
@@ -33,17 +36,19 @@ public class Board extends JPanel{
 	private ArrayList<Card> cloneCards;
 	private Solution answer;
 	private Player human;
-
+	private int whichPerson;
+	private Player currentPlayer;
 	private int numRows;					//determined when you read in file
 	private int numCols;					//determined when you read in file
-
+	private int roll;
+	private boolean hadTurn;
 	private Map<Integer, LinkedList<Integer>> adjMtx;
 	private LinkedList<Integer> path;					//list of paths
 	private HashSet<BoardCell> targets;					//stores final targets
 	private boolean[] visited;
-
-
-
+	private ControlDisplay controlDisplay;
+	
+	
 	//Default constructor
 	public Board(String configFile, String legendFile, String playerFile, String weaponFile) {
 		rooms = new HashMap<Character, String>();	//order does not matter for legend
@@ -54,7 +59,8 @@ public class Board extends JPanel{
 		answer = new Solution();
 		human = new HumanPlayer();
 		
-
+		whichPerson = -1;
+		hadTurn = true;
 		path = new LinkedList<Integer>();			//path traveled during recursion leading to target
 		targets = new HashSet<BoardCell>();			
 
@@ -197,11 +203,21 @@ public class Board extends JPanel{
 		}
 
 		try {
+			String playerLine = in.nextLine();
+			String[] line = playerLine.split("\t");
+			
+			//get the human player
+			if(line.length > 4) throw new BadConfigFormatException("Player file has more than 4 items per line");
+			Player p = new HumanPlayer(line[0], convertColor(line[1]), calcIndex(Integer.parseInt(line[2]), Integer.parseInt(line[3])), Integer.parseInt(line[2]), Integer.parseInt(line[3]));
+			players.add(p);
+			Card hPersonCard = new Card(line[0], Card.CardType.PERSON);
+			cards.add(hPersonCard);
+			//Get the computer players after getting the human player
 			while (in.hasNextLine()){
-				String playerLine = in.nextLine();
-				String[] line = playerLine.split("\t");
+				playerLine = in.nextLine();
+				line = playerLine.split("\t");
 				if(line.length > 4) throw new BadConfigFormatException("Player file has more than 4 items per line");
-				Player p = new Player(line[0], convertColor(line[1]), calcIndex(Integer.parseInt(line[2]), Integer.parseInt(line[3])), Integer.parseInt(line[2]), Integer.parseInt(line[3]));
+				p = new ComputerPlayer(line[0], convertColor(line[1]), calcIndex(Integer.parseInt(line[2]), Integer.parseInt(line[3])), Integer.parseInt(line[2]), Integer.parseInt(line[3]));
 				players.add(p);
 				Card personCard = new Card(line[0], Card.CardType.PERSON);
 				cards.add(personCard);
@@ -582,6 +598,39 @@ public class Board extends JPanel{
 		answer.room = room;
 		answer.weapon = weapon;
 	}
+	public void NextTurn() {
+		whichPerson++;
+		currentPlayer = players.get(whichPerson);
+		//if at the end of the player list go back to the start
+		hadTurn =false;
+		if (whichPerson  == players.size()) {
+			whichPerson = 0;
+			hadTurn = false;
+		}
+		
+		//whose turn it is
+		controlDisplay.getWhoseTurn().setWhoseTurn(currentPlayer.getName());
+		
+		
+	}
+
+	public boolean isHadTurn() {
+		return hadTurn;
+	}
+
+	public void setHadTurn(boolean hadTurn) {
+		this.hadTurn = hadTurn;
+	}
+
+	public Player getCurrentPlayer() {
+		return currentPlayer;
+	}
+	public int getWhichPerson() {
+		return whichPerson;
+	}
+	
+	
+
 
 
 
