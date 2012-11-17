@@ -5,8 +5,9 @@ package clue;
 
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Graphics;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.lang.reflect.Field;
@@ -15,15 +16,14 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Scanner;
+
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import clue.RoomCell.DoorDirection;
-
-
 import exceptions.BadConfigFormatException;
 
 public class Board extends JPanel{
@@ -40,7 +40,8 @@ public class Board extends JPanel{
 	private int numRows;					//determined when you read in file
 	private int numCols;					//determined when you read in file
 	private int roll;
-	public boolean hadTurn;
+	private boolean hadTurn;
+	private boolean pastAccusation;
 	private Map<Integer, LinkedList<Integer>> adjMtx;
 	private LinkedList<Integer> path;					//list of paths
 	private HashSet<BoardCell> targets;					//stores final targets
@@ -58,7 +59,7 @@ public class Board extends JPanel{
 		answer = new Solution();
 		human = new HumanPlayer();
 		
-		
+		pastAccusation = false;
 		path = new LinkedList<Integer>();			//path traveled during recursion leading to target
 		targets = new HashSet<BoardCell>();			
 
@@ -74,7 +75,60 @@ public class Board extends JPanel{
 		}
 
 		calcAdjacencies();
+		
+		addMouseListener(new Click(this));
 
+	}
+	
+	private class Click implements MouseListener {
+		Board board;
+		
+		Click(Board b) {
+			this.board = b;
+		}
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			BoardCell bc;
+			int col = e.getX() / BoardCell.CELLWIDTH;
+			int row = e.getY() / BoardCell.CELLWIDTH;
+			
+			if (e.getX() > (BoardCell.CELLWIDTH*numCols) || e.getY() > (BoardCell.CELLWIDTH*numRows)){
+				return;
+			}
+			
+			bc = getCellAt(calcIndex(row, col));
+			if( hadTurn == false ) {
+				
+				if(targets.contains(bc)) {
+					
+					players.get(whichPerson).moveSpot(bc.getRow(), bc.getColumn());
+					board.clearListsAndSetToFalse();
+					hadTurn = true;
+					if(board.getCellAt(players.get(0).getLocation()).isRoom() && whichPerson == 0 ){
+						System.out.println("test");
+						Suggestion suggestion = new Suggestion(board, players.get(whichPerson));
+						System.out.println("test2");
+						suggestion.setVisible(true);
+					}
+					pastAccusation = true;
+				} else {
+					JOptionPane error = new JOptionPane("Invalid click");
+					error.showMessageDialog(board, "Clicked in invalid cell", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+				
+			}
+			
+			board.repaint();
+			
+		}
+		@Override
+		public void mousePressed(MouseEvent e) {}
+		@Override
+		public void mouseReleased(MouseEvent e) {}
+		@Override
+		public void mouseEntered(MouseEvent e) {}
+		@Override
+		public void mouseExited(MouseEvent e) {}
 	}
 
 	public ArrayList<BoardCell> getCells() {
@@ -223,7 +277,7 @@ public class Board extends JPanel{
 			
 			//get the human player
 			if(line.length > 4) throw new BadConfigFormatException("Player file has more than 4 items per line");
-			Player p = new HumanPlayer(line[0], convertColor(line[1]), calcIndex(Integer.parseInt(line[2]), Integer.parseInt(line[3])), Integer.parseInt(line[2]), Integer.parseInt(line[3]), this);
+			Player p = new HumanPlayer(line[0], convertColor(line[1]), calcIndex(Integer.parseInt(line[3]), Integer.parseInt(line[2])), Integer.parseInt(line[2]), Integer.parseInt(line[3]), this);
 			players.add(p);
 			Card hPersonCard = new Card(line[0], Card.CardType.PERSON);
 			cards.add(hPersonCard);
@@ -232,7 +286,7 @@ public class Board extends JPanel{
 				playerLine = in.nextLine();
 				line = playerLine.split("\t");
 				if(line.length > 4) throw new BadConfigFormatException("Player file has more than 4 items per line");
-				p = new ComputerPlayer(line[0], convertColor(line[1]), calcIndex(Integer.parseInt(line[2]), Integer.parseInt(line[3])), Integer.parseInt(line[2]), Integer.parseInt(line[3]), this);
+				p = new ComputerPlayer(line[0], convertColor(line[1]), calcIndex(Integer.parseInt(line[3]), Integer.parseInt(line[2])), Integer.parseInt(line[2]), Integer.parseInt(line[3]), this);
 				players.add(p);
 				Card personCard = new Card(line[0], Card.CardType.PERSON);
 				cards.add(personCard);
@@ -522,9 +576,6 @@ public class Board extends JPanel{
 		selectAnswer();
 		HumanCards();		
 
-
-		for (Card c : players.get(0).getCards()){
-		}
 		human = players.get(0);
 
 		while( !cards.isEmpty() ) {
@@ -613,12 +664,12 @@ public class Board extends JPanel{
 		answer.weapon = weapon;
 	}
 	public void NextTurn() {
-		whichPerson++;
-		currentPlayer = players.get(whichPerson);
+		whichPerson = getWhichPerson() + 1;
+		currentPlayer = players.get(getWhichPerson());
 		//if at the end of the player list go back to the start
-		if (whichPerson  == players.size()) {
-			whichPerson = 0;
-			hadTurn = false;
+		if (getWhichPerson()  == players.size()) {
+			pastAccusation = false;
+			whichPerson = 0;	
 		}
 		
 		//whose turn it is
@@ -631,17 +682,24 @@ public class Board extends JPanel{
 		clearListsAndSetToFalse();
 		
 		//calulate the targets
-		calcTargets(players.get(whichPerson).getLocation(), roll);
+		calcTargets(players.get(getWhichPerson()).getLocation(), roll);
 		
 		//clear the guess
+		controlDisplay.getGuess().clear();
 		
 		hadTurn = false;
 		repaint();
 		
 		if(whichPerson != 0) {
-			ComputerPlayer player = (ComputerPlayer) players.get(whichPerson);
+			ComputerPlayer compPlayer = (ComputerPlayer) players.get(whichPerson);
 			if(controlDisplay.getResult().getResult().equals("No Clues this round")){
-				//player
+				
+				compPlayer.makeAccusation(controlDisplay.getGuess().getPerson(), controlDisplay.getGuess().getRoom() , controlDisplay.getGuess().getWeapon());
+				
+			}else{
+				
+				controlDisplay.getResult().setResult("");
+				compPlayer.doTurn(targets);
 			}
 		}
 	}
@@ -677,6 +735,21 @@ public class Board extends JPanel{
 		Random generator = new Random();
 		number = generator.nextInt(6) + 1;
 		return number;
+	}
+	public boolean isPastAccusation() {
+		return pastAccusation;
+	}
+	
+	public int getColumnIndex( int i) {
+		return(i / numCols);
+	}
+	
+	public int getRowIndex(int i) {
+		return(i/numRows);
+	}
+	
+	public ControlDisplay getControl() {
+		return controlDisplay;
 	}
 	
 

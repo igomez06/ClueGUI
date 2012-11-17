@@ -15,6 +15,7 @@ import javax.swing.border.TitledBorder;
 
 public class ControlDisplay extends JPanel{
 
+	
 	private WhoseTurn whoseTurn;
 	private NextButton nb;
 	private MakeAcc ma;
@@ -35,7 +36,7 @@ public class ControlDisplay extends JPanel{
 		nb = new NextButton();
 		ma = new MakeAcc();
 		die = new Die();
-		guess = new Guess();
+		guess = new Guess(board);
 		result = new Result();
 
 		add(whoseTurn);
@@ -78,7 +79,7 @@ public class ControlDisplay extends JPanel{
 				//Logic for Next turn
 				System.out.println("testing");
 				
-				if (board.hadTurn == true || board.getWhichPerson() != 0) {
+				if (board.isHadTurn() == true || board.getWhichPerson() != 0) {
 					board.NextTurn();
 				}else {
 					JOptionPane message = new JOptionPane();
@@ -124,13 +125,36 @@ public class ControlDisplay extends JPanel{
 	}
 
 	public class Guess extends JPanel {
-		JTextField guess;
-		public Guess() {
-			guess = new JTextField("Guess");
+		private JLabel guess;
+		private String person,room,weapon;
+		public Guess(Board board) {
+			guess = new JLabel("Guess");
 			add(guess);
+			guess.setText("\t\t\t");
 			setBorder(new TitledBorder(new EtchedBorder(), "Guess"));
 
 
+		}
+		public void setGuess(String p, String r, String w){
+			this.person = p;
+			this.room = r;
+			this.weapon = w;
+			
+			guess.setText(person + "in the " + room + " with the" + weapon);
+			
+		}
+		public String getPerson() {
+			return person;
+		}
+		public String getRoom() {
+			return room;
+		}
+		public String getWeapon() {
+			return weapon;
+		}
+		
+		public void clear() {
+			guess.setText("\t\t\t");
 		}
 	}
 
@@ -161,7 +185,9 @@ public class ControlDisplay extends JPanel{
 		return result;
 	}
 	
-	
+	public Guess getGuess() {
+		return guess;
+	}
 
 	public Player getCurrentPlayer() {
 		return currentPlayer;
@@ -173,6 +199,7 @@ public class ControlDisplay extends JPanel{
 	public Die getDie() {
 		return die;
 	}
+	
 	
 	
 

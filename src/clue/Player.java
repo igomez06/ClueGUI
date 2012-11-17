@@ -16,7 +16,7 @@ public class Player {
 	private int row;
 	static final int CELLWIDTH = 25;
 	private boolean humanPlayer;
-	private int location;
+	protected int location;
 	protected Board board;
 	public Player() {
 		cards = new ArrayList<Card>();
@@ -125,8 +125,11 @@ public class Player {
 	
 	public void moveSpot(int row, int col) {
 		location = board.calcIndex(row, col);
+		System.out.println(name + "to" + location);
 	}
 	public int getLocation() {
 		return location;
 	}
+	
+	public void makeSuggestion(String person, String room, String weapon) {}
 }
