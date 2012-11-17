@@ -56,7 +56,8 @@ public class RoomCell extends BoardCell {
 	
 
 	//method to overwrite draw method
-	public void draw(Graphics g) {
+	@Override
+	public void draw(Graphics g, boolean target, Board board) {
 		g.setColor(Color.BLUE);
 		g.fillRect(getColumn()*CELLWIDTH, getRow()*CELLWIDTH, CELLWIDTH, CELLWIDTH);
 		int adjCol = getColumn()*CELLWIDTH;
@@ -87,4 +88,6 @@ public class RoomCell extends BoardCell {
 
 
 	}
+
+	
 }

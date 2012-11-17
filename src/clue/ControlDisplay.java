@@ -20,7 +20,7 @@ public class ControlDisplay extends JPanel{
 	private MakeAcc ma;
 	private Die die;
 	private Guess guess;
-	private Result rs;
+	private Result result;
 	private Board board;
 	private Player currentPlayer;
 	
@@ -36,14 +36,14 @@ public class ControlDisplay extends JPanel{
 		ma = new MakeAcc();
 		die = new Die();
 		guess = new Guess();
-		rs = new Result();
+		result = new Result();
 
 		add(whoseTurn);
 		add(nb);
 		add(ma);
 		add(die);
 		add(guess);
-		add(rs);
+		add(result);
 
 	}
 
@@ -135,21 +135,33 @@ public class ControlDisplay extends JPanel{
 	}
 
 	public class Result extends JPanel {
-		JTextField result;
+		JLabel result;
 		public Result () {
-			result = new JTextField("Result");
+			result = new JLabel("");
 			add(result);
 			setBorder(new TitledBorder(new EtchedBorder(), "Result"));
 		}
+		public String getResult() {
+			return result.getText();
+		}
+		public void setResult(String r) {
+			result.setText(r);
+		}
+		
 	}
 
 	public WhoseTurn getWhoseTurn() {
 		return whoseTurn;
 	}
-
+	
 	public void setWhoseTurn(WhoseTurn whoseTurn) {
 		this.whoseTurn = whoseTurn;
 	}
+	public Result getResult() {
+		return result;
+	}
+	
+	
 
 	public Player getCurrentPlayer() {
 		return currentPlayer;
@@ -161,6 +173,7 @@ public class ControlDisplay extends JPanel{
 	public Die getDie() {
 		return die;
 	}
+	
 	
 
 }

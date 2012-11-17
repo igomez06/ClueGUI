@@ -1,4 +1,4 @@
-Craig	GREEN	1	5
+Craig	GREEN	5	1
 Lars	RED	1	14
 Panda	BLACK	8	16
 Andrew	PINK	20	14

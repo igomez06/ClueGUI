@@ -28,7 +28,7 @@ public abstract class BoardCell {
 		return cellInitial;
 	}
 	//draw method to be implemented
-	public abstract void draw(Graphics g);
+	public abstract void draw(Graphics g, boolean isTarget, Board board);
 	//row and column will be used in draw
 	
 	public int getRow() {
@@ -44,5 +44,6 @@ public abstract class BoardCell {
 		this.column = column;
 	}
 
+	
 	
 }

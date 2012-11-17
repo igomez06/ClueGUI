@@ -5,6 +5,8 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import javax.swing.JOptionPane;
+
 public class Player {
 	private String name;
 	private int startingLocation;
@@ -55,6 +57,27 @@ public class Player {
 			return solutions.get(0);
 		}
 	}
+	
+	public void makeAccusation(String person, String room, String weapon) {
+		boolean result = board.checkAccusation(person, room, weapon);
+		String accu;
+		String correctAns;
+		accu = this.name + " accused " + person + " in the " + room + "with the " + weapon;
+		correctAns = "The result was: ";
+		
+		if( board.getWhichPerson() !=0 && result == true ){
+			correctAns = correctAns + "The computer won";
+		}else if (board.getWhichPerson() == 0 && result ==true) {
+			correctAns = correctAns + "You win";
+		}else{
+			correctAns = correctAns + "Wrong";
+		}
+		
+		JOptionPane.showMessageDialog(null, accu+correctAns);
+		
+		
+		
+	}
 
 	public String getName() {
 		return name;
@@ -100,7 +123,10 @@ public class Player {
 		return false;
 	}
 	
-	public moveSpot(int row, int col) {
+	public void moveSpot(int row, int col) {
 		location = board.calcIndex(row, col);
+	}
+	public int getLocation() {
+		return location;
 	}
 }

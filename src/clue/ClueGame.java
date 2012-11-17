@@ -40,7 +40,7 @@ public class ClueGame extends JFrame {
 		ControlDisplay = new ControlDisplay(board);
 		add(ControlDisplay, BorderLayout.SOUTH);
 		JOptionPane.showMessageDialog(welcome , "You are "  + board.getPlayers().get(0).getName() + " press Next Player to begin playing", "Welcome to Clue", JOptionPane.INFORMATION_MESSAGE);
-		
+		setLocationRelativeTo(null);
 	}
 
 	private JMenu createFileMenu() {

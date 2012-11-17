@@ -93,10 +93,26 @@ public class Board extends JPanel{
 		super.paintComponent(g);
 
 		for (BoardCell bc : cells) {
-			bc.draw(g);
+			bc.draw(g, false, this);
 		}
 		for (Player p : players) {
 			p.draw(g);
+		}
+		
+		//Highlights where you can click to move
+		
+		if(getWhichPerson() == 0) {
+			if(hadTurn == false) {
+				calcTargets(players.get(whichPerson).getLocation(), roll );
+			}
+			
+			for (BoardCell bc : cells) {
+				if (targets.contains(bc)){
+					bc.draw(g,true,this);
+				}else {
+					bc.draw(g, false, this);
+				}
+			}
 		}
 	}
 	public void loadConfigFiles(String configFile, String legendFile, String playerFile, String weaponFile) {
@@ -207,7 +223,7 @@ public class Board extends JPanel{
 			
 			//get the human player
 			if(line.length > 4) throw new BadConfigFormatException("Player file has more than 4 items per line");
-			Player p = new HumanPlayer(line[0], convertColor(line[1]), calcIndex(Integer.parseInt(line[2]), Integer.parseInt(line[3])), Integer.parseInt(line[2]), Integer.parseInt(line[3]));
+			Player p = new HumanPlayer(line[0], convertColor(line[1]), calcIndex(Integer.parseInt(line[2]), Integer.parseInt(line[3])), Integer.parseInt(line[2]), Integer.parseInt(line[3]), this);
 			players.add(p);
 			Card hPersonCard = new Card(line[0], Card.CardType.PERSON);
 			cards.add(hPersonCard);
@@ -216,7 +232,7 @@ public class Board extends JPanel{
 				playerLine = in.nextLine();
 				line = playerLine.split("\t");
 				if(line.length > 4) throw new BadConfigFormatException("Player file has more than 4 items per line");
-				p = new ComputerPlayer(line[0], convertColor(line[1]), calcIndex(Integer.parseInt(line[2]), Integer.parseInt(line[3])), Integer.parseInt(line[2]), Integer.parseInt(line[3]));
+				p = new ComputerPlayer(line[0], convertColor(line[1]), calcIndex(Integer.parseInt(line[2]), Integer.parseInt(line[3])), Integer.parseInt(line[2]), Integer.parseInt(line[3]), this);
 				players.add(p);
 				Card personCard = new Card(line[0], Card.CardType.PERSON);
 				cards.add(personCard);
@@ -600,7 +616,6 @@ public class Board extends JPanel{
 		whichPerson++;
 		currentPlayer = players.get(whichPerson);
 		//if at the end of the player list go back to the start
-		hadTurn =false;
 		if (whichPerson  == players.size()) {
 			whichPerson = 0;
 			hadTurn = false;
@@ -616,8 +631,19 @@ public class Board extends JPanel{
 		clearListsAndSetToFalse();
 		
 		//calulate the targets
-		calcTargets(players.get(whichPerson).getStartingLocation())
+		calcTargets(players.get(whichPerson).getLocation(), roll);
 		
+		//clear the guess
+		
+		hadTurn = false;
+		repaint();
+		
+		if(whichPerson != 0) {
+			ComputerPlayer player = (ComputerPlayer) players.get(whichPerson);
+			if(controlDisplay.getResult().getResult().equals("No Clues this round")){
+				//player
+			}
+		}
 	}
 
 	public boolean isHadTurn() {
@@ -637,8 +663,8 @@ public class Board extends JPanel{
 	}
 	
 	public void roll() {
-		
-		controlDisplay.getDie().setRoll(getRandom());
+		roll = getRandom();
+		controlDisplay.getDie().setRoll(roll);
 		
 	}
 	
