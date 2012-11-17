@@ -102,8 +102,13 @@ public class Player {
 	}
 
 	public void draw(Graphics g) {
-		g.setColor(getColor());
-		g.fillOval(getCol()*CELLWIDTH, getRow()*CELLWIDTH, CELLWIDTH, CELLWIDTH);
+		g.setColor(this.color);
+		//g.fillOval(board.getRowIndex(location) * CELLWIDTH, board.getColumnIndex(location) * CELLWIDTH, CELLWIDTH, CELLWIDTH);
+		
+		g.fillOval(getRow() * CELLWIDTH, getCol() * CELLWIDTH, CELLWIDTH, CELLWIDTH);
+		g.setColor(Color.BLACK);
+		g.fillOval(getCol() * CELLWIDTH, getRow()*CELLWIDTH, CELLWIDTH, CELLWIDTH);
+		
 	}
 
 
