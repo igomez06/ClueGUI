@@ -10,7 +10,7 @@ import java.awt.Graphics;
 public abstract class BoardCell {
 	private int y;
 	private int x;
-	
+	private int location;
 	char cellInitial;
 	static final int CELLWIDTH = 25;
 		
@@ -43,6 +43,13 @@ public abstract class BoardCell {
 	public void setX(int column) {
 		this.x = column;
 	}
+	public int getLocation() {
+		return location;
+	}
+	public void setLocation(int location) {
+		this.location = location;
+	}
+
 
 	
 	

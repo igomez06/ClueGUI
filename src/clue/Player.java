@@ -14,6 +14,16 @@ public class Player {
 	private Color color;
 	private int y;
 	private int x;
+	public static int getCellwidth() {
+		return CELLWIDTH;
+	}
+	public void setY(int y) {
+		this.y = y;
+	}
+	public void setX(int x) {
+		this.x = x;
+	}
+
 	static final int CELLWIDTH = 25;
 	private boolean humanPlayer;
 	protected int position;
@@ -109,16 +119,13 @@ public class Player {
 
 	}
 
-
-
 	public int getX() {
 		return x;
 	}
-
+	
 	public int getY() {
 		return y;
 	}
-
 	public boolean isHuman() {
 		if (this.humanPlayer == true ) {
 			return true;

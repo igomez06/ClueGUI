@@ -40,7 +40,7 @@ public class Suggestion extends JDialog{
 	
 	public JPanel comboBoxes (String name, CardType card) {
 		JPanel panel = new JPanel();
-		JComboBox<String> CBox = new JComboBox<String>();
+		JComboBox CBox = new JComboBox ();
 		panel.setLayout(new GridLayout(0,2));
 		for (Card c : this.board.getClone() ) {
 			if ( c.getType() == card){

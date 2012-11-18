@@ -682,25 +682,26 @@ public class Board extends JPanel{
 		answer.weapon = weapon;
 	}
 	public void NextTurn() {
-		whichPerson = getWhichPerson() + 1;
-		currentPlayer = players.get(getWhichPerson());
+		whichPerson++;
+		currentPlayer = players.get(whichPerson);
 		//if at the end of the player list go back to the start
-		if (getWhichPerson()  == players.size()-1) {
-			pastAccusation = false;
-			whichPerson = 0;	
-		}
-		
+//		if (whichPerson  == players.size() -1) {
+//			pastAccusation = false;
+//			whichPerson = 0;
+//			currentPlayer = players.get(whichPerson);
+//		}
 		//whose turn it is
-		//System.out.println(currentPlayer.getName());
+		System.out.println(whichPerson);
 		//Outputs the name of whose turn it is
 		controlDisplay.getWhoseTurn().setWhoseTurn(currentPlayer.getName());
 		
+		System.out.println(currentPlayer.getName());
 		//Roll the die
 		roll();
 		clearListsAndSetToFalse();
 		
 		//calulate the targets
-		calcTargets(players.get(getWhichPerson()).getPosition(), roll);
+		calcTargets(players.get(whichPerson).getPosition(), roll);
 		
 		//clear the guess
 		controlDisplay.getGuess().clear();
@@ -709,6 +710,7 @@ public class Board extends JPanel{
 		repaint();
 		
 		if(whichPerson != 0) {
+			//currentPlayer = players.get(whichPerson);
 			ComputerPlayer compPlayer = (ComputerPlayer) currentPlayer;
 			if(controlDisplay.getResult().getResult().equals("No Clues this round")){
 				
@@ -717,9 +719,19 @@ public class Board extends JPanel{
 			}else{
 				
 				controlDisplay.getResult().setResult("");
+				
 				compPlayer.doTurn(targets);
 			}
+			System.out.println("test");
+			if (whichPerson  == players.size() -1) {
+				System.out.println("sorry");
+				pastAccusation = false;
+				whichPerson = -1;
+				//currentPlayer = players.get(whichPerson);
+			}
 		}
+		
+	
 	}
 
 	public boolean isHadTurn() {
