@@ -677,7 +677,7 @@ public class Board extends JPanel{
 		whichPerson = getWhichPerson() + 1;
 		currentPlayer = players.get(getWhichPerson());
 		//if at the end of the player list go back to the start
-		if (getWhichPerson()  == players.size()) {
+		if (getWhichPerson()  == players.size()-1) {
 			pastAccusation = false;
 			whichPerson = 0;	
 		}
@@ -715,7 +715,6 @@ public class Board extends JPanel{
 	}
 
 	public boolean isHadTurn() {
-		System.out.println("testing");
 		return hadTurn;
 	}
 
@@ -756,13 +755,15 @@ public class Board extends JPanel{
 	}
 	
 	public int getYIndex(int i) {
-		System.out.println("number of cols y: " + i/numRows_Y);
+		System.out.println("number of rows y: " + i/numRows_Y);
 		return(i/numRows_Y);
 	}
 	
 	public ControlDisplay getControl() {
 		return controlDisplay;
 	}
+	
+	
 	
 
 

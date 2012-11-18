@@ -73,7 +73,7 @@ public class ComputerPlayer extends Player {
 				weapon = c.getName();
 			}
 		}
-		room = board.getRooms().get(board.getRoomCellAt(board.getXIndex(getPosition()), board.getYIndex(getPosition())).getRoomInitial());
+		room = board.getRooms().get(board.getRoomCellAt(board.getXIndex(position), board.getYIndex(position)).getRoomInitial());
 		
 
 		Card sugRes = board.handleSuggestion(person, room, weapon, this);
@@ -90,6 +90,8 @@ public class ComputerPlayer extends Player {
 		
 	
 	}
+	
+	
 
 	public void updateSeen(Card seen) {
 		seenCards.add(seen);

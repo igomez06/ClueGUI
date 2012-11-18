@@ -18,7 +18,7 @@ public class ControlDisplay extends JPanel{
 	
 	private WhoseTurn whoseTurn;
 	private NextButton nb;
-	private MakeAcc ma;
+	private MakeAccu ma;
 	private Die die;
 	private Guess guess;
 	private Result result;
@@ -34,7 +34,7 @@ public class ControlDisplay extends JPanel{
 		whoseTurn = new WhoseTurn(board);
 		whoseTurn.setWhoseTurn(board.getPlayers().get(0).getName());
 		nb = new NextButton();
-		ma = new MakeAcc();
+		ma = new MakeAccu();
 		die = new Die();
 		guess = new Guess(board);
 		result = new Result();
@@ -77,7 +77,7 @@ public class ControlDisplay extends JPanel{
 		public class ButtonListener implements ActionListener {
 			public void actionPerformed(ActionEvent e) {
 				//Logic for Next turn
-				System.out.println("testing");
+				//System.out.println("testing");
 				
 				if (board.isHadTurn() == true || board.getWhichPerson() != 0) {
 					board.NextTurn();
@@ -91,22 +91,38 @@ public class ControlDisplay extends JPanel{
 
 	}
 
-	public class MakeAcc extends JPanel {
+	
+	
+	public class MakeAccu extends JPanel {
 		JButton ma;
-		public MakeAcc() {
+		public MakeAccu() {
 			ma = new JButton("Make Accusation");
 			add(ma);
-			ma.addActionListener(new ButtonListener());
+			ma.addActionListener(new ButtonListener(board));
 		}
 
 		public class ButtonListener implements ActionListener {
+			Board board;
+			public ButtonListener(Board b) {
+				this.board = b;
+			}
 			public void actionPerformed(ActionEvent e) {
-				//Logic for Next turn
-				System.out.println("make accu");
+				if(board.getWhichPerson() == 0 && board.isHadTurn() == false){
+					if(board.isPastAccusation() == false){
+						Accusation accu = new Accusation(board, board.getCurrentPlayer());
+						accu.setVisible(true);
+					}
+				}else {
+					return;
+				}
 			} 
 		}
 
+		
+
 	}
+	
+	
 
 	public class Die extends JPanel {
 		JLabel die;
