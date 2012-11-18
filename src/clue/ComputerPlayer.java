@@ -104,10 +104,16 @@ public class ComputerPlayer extends Player {
 	}
 	public void doTurn(HashSet<BoardCell> bc) {
 		BoardCell boardCell = pickLocation(bc);
-		ArrayList<BoardCell> bList = board.getCells();
-		position = bList.indexOf(boardCell);
+		int x = boardCell.getX();
+		int y = boardCell.getY();
+		moveSpot(x,y);
 		if(board.getCellAt(getPosition()).isRoom() == true) {
-			makeSuggestion( );
+			//makeSuggestion( );
 		}
+		board.repaint();
+	}
+	
+	public void moveComp(BoardCell newCell){
+		position = board.calcIndex(newCell.getX(), newCell.getY());
 	}
 }

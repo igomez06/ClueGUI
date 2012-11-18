@@ -113,8 +113,8 @@ public class ControlDisplay extends JPanel{
 					//System.out.println("inside first if in accu");
 					if(board.isPastAccusation() == false){
 						//System.out.println("\ninside second if");
-						System.out.println("current Player: " + board.getPlayers().get(0).getName());
-						Accusation accu = new Accusation(board);
+						//System.out.println("current Player: " + board.getPlayers().get(0).getName());
+						Accusation accu = new Accusation(board, getCurrentPlayer());
 					}
 				}else {
 					return;

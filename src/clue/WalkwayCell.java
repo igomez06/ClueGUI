@@ -13,10 +13,10 @@ public class WalkwayCell extends BoardCell {
 		// TODO Auto-generated constructor stub
 	}
 
-	public WalkwayCell(char cellType, int row, int col) {
+	public WalkwayCell(char cellType, int y, int x) {
 		this.cellInitial = cellType;
-		setRow(row);
-		setColumn(col);
+		setY(y);
+		setX(x);
 	}
 
 	public boolean isWalkway() {
@@ -28,11 +28,11 @@ public class WalkwayCell extends BoardCell {
 	public void draw(Graphics g, boolean target, Board board) {
 
 		if(target == true){
-			g.setColor(Color.RED);
-			g.fillRect(getColumn()*CELLWIDTH, getRow()*CELLWIDTH, CELLWIDTH, CELLWIDTH);
+			g.setColor(Color.magenta);
+			g.fillRect(getX()*CELLWIDTH +5, getY()*CELLWIDTH +5, CELLWIDTH-10, CELLWIDTH-10);
 		}else{
 			g.setColor(Color.BLACK);
-			g.drawRect(getColumn()*CELLWIDTH, getRow()*CELLWIDTH, CELLWIDTH, CELLWIDTH);
+			g.drawRect(getX()*CELLWIDTH, getY()*CELLWIDTH, CELLWIDTH, CELLWIDTH);
 		}
 
 

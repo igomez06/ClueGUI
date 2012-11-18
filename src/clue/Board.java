@@ -98,7 +98,7 @@ public class Board extends JPanel{
 			if (e.getX() > (BoardCell.CELLWIDTH*numCols_X) || e.getY() > (BoardCell.CELLWIDTH*numRows_Y)){
 				return;
 			}
-			System.out.println("x:" + e.getX()/BoardCell.CELLWIDTH + " Y:" + e.getY()/BoardCell.CELLWIDTH);
+			//System.out.println("x:" + e.getX()/BoardCell.CELLWIDTH + " Y:" + e.getY()/BoardCell.CELLWIDTH);
 			
 			
 			//make a cell to where you want to move the person
@@ -107,7 +107,7 @@ public class Board extends JPanel{
 				
 				if(targets.contains(bc)) {
 					
-					players.get(whichPerson).moveSpot(bc.getRow(), bc.getColumn());
+					players.get(whichPerson).moveSpot(bc.getY(), bc.getX());
 					board.clearListsAndSetToFalse();
 					hadTurn = true;
 					if(board.getCellAt(players.get(0).getPosition()).isRoom() && whichPerson == 0 ){
@@ -144,10 +144,10 @@ public class Board extends JPanel{
 	public Map<Character, String> getRooms() {
 		return rooms;
 	}
-	public int getNumRows() {
+	public int getNumY() {
 		return numRows_Y;
 	}
-	public int getNumCols() {
+	public int getNumX() {
 		return numCols_X;
 	}
 	public void paintComponent(Graphics g) {
@@ -691,7 +691,7 @@ public class Board extends JPanel{
 		}
 		
 		//whose turn it is
-		System.out.println(currentPlayer.getName());
+		//System.out.println(currentPlayer.getName());
 		//Outputs the name of whose turn it is
 		controlDisplay.getWhoseTurn().setWhoseTurn(currentPlayer.getName());
 		
@@ -709,7 +709,7 @@ public class Board extends JPanel{
 		repaint();
 		
 		if(whichPerson != 0) {
-			ComputerPlayer compPlayer = (ComputerPlayer) players.get(whichPerson);
+			ComputerPlayer compPlayer = (ComputerPlayer) currentPlayer;
 			if(controlDisplay.getResult().getResult().equals("No Clues this round")){
 				
 				compPlayer.makeAccusation(controlDisplay.getGuess().getPerson(), controlDisplay.getGuess().getRoom() , controlDisplay.getGuess().getWeapon());
@@ -759,12 +759,12 @@ public class Board extends JPanel{
 	}
 	
 	public int getXIndex( int i) {
-		System.out.println("number of cols x: " + i % numCols_X);
+		//System.out.println("number of cols x: " + i % numCols_X);
 		return(i % numCols_X);
 	}
 	
 	public int getYIndex(int i) {
-		System.out.println("number of rows y: " + i/numRows_Y);
+		//System.out.println("number of rows y: " + i/numRows_Y);
 		return(i/numRows_Y);
 	}
 	

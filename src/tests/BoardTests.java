@@ -32,8 +32,8 @@ public class BoardTests {
 	@Test
 	public void TestNumRowsColumns() {
 		//Ensure proper number of rows and columns
-		Assert.assertEquals(NUM_COLS, newBoard.getNumCols());
-		Assert.assertEquals(NUM_ROWS, newBoard.getNumRows());
+		Assert.assertEquals(NUM_COLS, newBoard.getNumX());
+		Assert.assertEquals(NUM_ROWS, newBoard.getNumY());
 	}
 	@Test
 	// Changed 3rd, 5th, and 6th due to zero indexing failure. 
@@ -106,7 +106,7 @@ public class BoardTests {
 	@Test
 	public void TestNumDoorways() {
 		int numDoors = 0;
-		int totalCells = newBoard.getNumCols() * newBoard.getNumRows();
+		int totalCells = newBoard.getNumX() * newBoard.getNumY();
 		Assert.assertEquals(552, totalCells);	//check that totalCells equals size of board
 		Assert.assertEquals(552, newBoard.getCells().size());
 		BoardCell cell;

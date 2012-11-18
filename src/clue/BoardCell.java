@@ -8,8 +8,8 @@ import java.awt.Graphics;
 
 
 public abstract class BoardCell {
-	private int row;
-	private int column;
+	private int y;
+	private int x;
 	
 	char cellInitial;
 	static final int CELLWIDTH = 25;
@@ -31,17 +31,17 @@ public abstract class BoardCell {
 	public abstract void draw(Graphics g, boolean isTarget, Board board);
 	//row and column will be used in draw
 	
-	public int getRow() {
-		return row;
+	public int getY() {
+		return y;
 	}
-	public void setRow(int row) {
-		this.row = row;
+	public void setY(int row) {
+		this.y = row;
 	}
-	public int getColumn() {
-		return column;
+	public int getX() {
+		return x;
 	}
-	public void setColumn(int column) {
-		this.column = column;
+	public void setX(int column) {
+		this.x = column;
 	}
 
 	

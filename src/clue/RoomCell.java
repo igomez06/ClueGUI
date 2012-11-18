@@ -16,11 +16,11 @@ public class RoomCell extends BoardCell {
 
 	}
 
-	public RoomCell(char roomInitial, DoorDirection doorDirection, int row, int col, Map<Character, String> rooms) {
+	public RoomCell(char roomInitial, DoorDirection doorDirection, int y, int x, Map<Character, String> rooms) {
 		this.cellInitial = roomInitial;
 		setDoorDirection(doorDirection);
-		setRow(row);
-		setColumn(col);	
+		setY(y);
+		setX(x);	
 		this.rooms = rooms;
 	}
 	public enum DoorDirection {
@@ -58,15 +58,15 @@ public class RoomCell extends BoardCell {
 	//method to overwrite draw method
 	@Override
 	public void draw(Graphics g, boolean target, Board board) {
-		int adjCol = getColumn()*CELLWIDTH;
-		int adjRow = getRow()*CELLWIDTH;
+		int adjCol = getX()*CELLWIDTH;
+		int adjRow = getY()*CELLWIDTH;
 		
 		if (target == true){
 			g.setColor(Color.YELLOW);
-			g.fillRect(getColumn()*CELLWIDTH, getRow()*CELLWIDTH, CELLWIDTH, CELLWIDTH);
+			g.fillRect(getX()*CELLWIDTH, getY()*CELLWIDTH, CELLWIDTH, CELLWIDTH);
 		}else{
 			g.setColor(Color.BLUE);
-			g.fillRect(getColumn()*CELLWIDTH, getRow()*CELLWIDTH, CELLWIDTH, CELLWIDTH);
+			g.fillRect(getX()*CELLWIDTH, getY()*CELLWIDTH, CELLWIDTH, CELLWIDTH);
 			
 		}
 

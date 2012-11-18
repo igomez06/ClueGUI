@@ -60,6 +60,7 @@ public class Player {
 	}
 
 	public void makeAccusation(String person, String room, String weapon) {
+		System.out.println("made accusation");
 		boolean result = board.checkAccusation(person, room, weapon);
 		String accu;
 		String correctAns;
@@ -126,14 +127,16 @@ public class Player {
 	}
 
 	public void moveSpot(int newX, int newY) {
-		System.out.println(name + " from X:" + board.getXIndex(position) + " Y:" + board.getYIndex(position));
+		//System.out.println(name + " from X:" + board.getXIndex(position) + " Y:" + board.getYIndex(position));
 
 		this.x = newX;
 		this.y = newY;
 		position = board.calcIndex(newX, newY);
-		System.out.println(name + " to X:" + board.getXIndex(position) + " Y:" + board.getYIndex(position));
+		//System.out.println(name + " to X:" + board.getXIndex(position) + " Y:" + board.getYIndex(position));
 
 	}
+	
+	
 	public int getPosition() {
 		return position;
 	}
@@ -148,5 +151,15 @@ public class Player {
 	}
 	public void setHumanPlayer(boolean humanPlayer) {
 		this.humanPlayer = humanPlayer;
+	}
+	
+	public int getXIndex( int i) {
+		//System.out.println("number of cols x: " + i % numCols_X);
+		return(i % board.getNumX());
+	}
+	
+	public int getYIndex(int i) {
+		//System.out.println("number of rows y: " + i/numRows_Y);
+		return(i/board.getNumY());
 	}
 }

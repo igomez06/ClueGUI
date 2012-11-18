@@ -28,7 +28,7 @@ public class Suggestion extends JDialog{
 		setVisible(true);
 		this.board = b;
 		setSize(new Dimension(300,400));
-		setTitle("Accusation");
+		setTitle("Suggestion");
 		setLayout(new GridLayout(5,1));
 		add(comboBoxes("Person Guess", CardType.PERSON));
 		add(comboBoxes("Weapon Guess", CardType.WEAPON));
@@ -40,7 +40,7 @@ public class Suggestion extends JDialog{
 	
 	public JPanel comboBoxes (String name, CardType card) {
 		JPanel panel = new JPanel();
-		JComboBox CBox = new JComboBox();
+		JComboBox<String> CBox = new JComboBox<String>();
 		panel.setLayout(new GridLayout(0,2));
 		for (Card c : this.board.getClone() ) {
 			if ( c.getType() == card){
@@ -80,7 +80,7 @@ public class Suggestion extends JDialog{
 	private class SugButtonListener implements ActionListener {
 		public void actionPerformed(ActionEvent e){
 			if(buttonCount == 0){
-				board.getHuman().makeAccusation(personGuess, roomGuess, weaponGuess);
+				board.getHuman().makeSuggestion(personGuess, roomGuess, weaponGuess);
 				board.setHadTurn(true);
 				setVisible(false);
 			}else{

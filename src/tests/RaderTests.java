@@ -47,8 +47,8 @@ public class RaderTests {
 	@Test
 	public void testBoardDimensions() {
 		// Ensure we have the proper number of rows and columns
-		assertEquals(NUM_ROWS, board.getNumRows());
-		assertEquals(NUM_COLUMNS, board.getNumCols()); //changed to match our function.		
+		assertEquals(NUM_ROWS, board.getNumY());
+		assertEquals(NUM_COLUMNS, board.getNumX()); //changed to match our function.		
 	}
 	
 	// Test a doorway in each direction, plus two cell that is not
@@ -82,7 +82,7 @@ public class RaderTests {
 	public void testNumberOfDoorways() 
 	{
 		int numDoors = 0;
-		int totalCells = board.getNumCols() * board.getNumRows();
+		int totalCells = board.getNumX() * board.getNumY();
 		Assert.assertEquals(506, totalCells);
 		for (int i=0; i<totalCells; i++)
 		{
