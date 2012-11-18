@@ -12,24 +12,24 @@ public class Player {
 	private int startingLocation;
 	private ArrayList<Card> cards;
 	private Color color;
-	private int col;
-	private int row;
+	private int y;
+	private int x;
 	static final int CELLWIDTH = 25;
 	private boolean humanPlayer;
-	protected int location;
+	protected int position;
 	protected Board board;
 	public Player() {
 		cards = new ArrayList<Card>();
 	}
-	public Player(String name, Color color, int startingLocation, int col, int row, Board b) {
+	public Player(String name, Color color, int startingLocation, int y, int x, Board b) {
 		super();
 		this.name = name;
 		this.board = b;
 		this.startingLocation = startingLocation;
-		this.location = startingLocation;
+		this.position = startingLocation;
 		this.color = color;
-		this.col = col;
-		this.row = row;
+		this.y = x;
+		this.x = y;
 		cards = new ArrayList<Card>();
 	}
 
@@ -103,22 +103,18 @@ public class Player {
 
 	public void draw(Graphics g) {
 		g.setColor(this.color);
-		//g.fillOval(board.getRowIndex(location) * CELLWIDTH, board.getColumnIndex(location) * CELLWIDTH, CELLWIDTH, CELLWIDTH);
-		
-		g.fillOval(getRow() * CELLWIDTH, getCol() * CELLWIDTH, CELLWIDTH, CELLWIDTH);
-		g.setColor(Color.BLACK);
-		g.fillOval(getCol() * CELLWIDTH, getRow()*CELLWIDTH, CELLWIDTH, CELLWIDTH);
+		g.fillOval(y * CELLWIDTH, x * CELLWIDTH, CELLWIDTH, CELLWIDTH);
 		
 	}
 
 
 
-	public int getCol() {
-		return col;
+	public int getX() {
+		return x;
 	}
 
-	public int getRow() {
-		return row;
+	public int getY() {
+		return y;
 	}
 
 	public boolean isHuman() {
@@ -128,12 +124,21 @@ public class Player {
 		return false;
 	}
 	
-	public void moveSpot(int row, int col) {
-		location = board.calcIndex(row, col);
-		System.out.println(name + "to" + location);
+	public void moveSpot(int newX, int newY) {
+		System.out.println(name + " from X:" + board.getXIndex(position) + " Y:" + board.getYIndex(position));
+		
+		this.x = newX;
+		this.y = newY;
+		position = board.calcIndex(newX, newY);
+		System.out.println(name + " to X:" + board.getXIndex(position) + " Y:" + board.getYIndex(position));
+		
 	}
-	public int getLocation() {
-		return location;
+	public int getPosition() {
+		return position;
+	}
+	
+	public void setposition(int p) {
+		this.position = p;
 	}
 	
 	public void makeSuggestion(String person, String room, String weapon) {}

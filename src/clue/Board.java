@@ -37,8 +37,8 @@ public class Board extends JPanel{
 	private Player human;
 	private int whichPerson;
 	private Player currentPlayer;
-	private int numRows;					//determined when you read in file
-	private int numCols;					//determined when you read in file
+	private int numRows_Y;					//determined when you read in file
+	private int numCols_X;					//determined when you read in file
 	private int roll;
 	private boolean hadTurn;
 	private boolean pastAccusation;
@@ -69,8 +69,8 @@ public class Board extends JPanel{
 		whichPerson = -1;
 		hadTurn = true;
 
-		visited = new boolean[numRows * numCols];			//tracks which indexes have been seen
-		for(int i = 0; i < numRows*numCols; i++) {
+		visited = new boolean[numRows_Y * numCols_X];			//tracks which indexes have been seen
+		for(int i = 0; i < numRows_Y*numCols_X; i++) {
 			visited[i] = false;
 		}
 
@@ -88,15 +88,18 @@ public class Board extends JPanel{
 		}
 		@Override
 		public void mouseClicked(MouseEvent e) {
-			BoardCell bc;
-			int col = e.getX() / BoardCell.CELLWIDTH;
-			int row = e.getY() / BoardCell.CELLWIDTH;
 			
-			if (e.getX() > (BoardCell.CELLWIDTH*numCols) || e.getY() > (BoardCell.CELLWIDTH*numRows)){
+			int clickXCol = e.getX() / BoardCell.CELLWIDTH;
+			int clickYRow = e.getY() / BoardCell.CELLWIDTH;
+			
+			if (e.getX() > (BoardCell.CELLWIDTH*numCols_X) || e.getY() > (BoardCell.CELLWIDTH*numRows_Y)){
 				return;
 			}
+			System.out.println("x:" + e.getX()/BoardCell.CELLWIDTH + " Y:" + e.getY()/BoardCell.CELLWIDTH);
 			
-			bc = getCellAt(calcIndex(row, col));
+			
+			//make a cell to where you want to move the person
+			BoardCell bc = getCellAt(calcIndex(clickYRow, clickXCol));
 			if( hadTurn == false ) {
 				
 				if(targets.contains(bc)) {
@@ -104,9 +107,10 @@ public class Board extends JPanel{
 					players.get(whichPerson).moveSpot(bc.getRow(), bc.getColumn());
 					board.clearListsAndSetToFalse();
 					hadTurn = true;
-					if(board.getCellAt(players.get(0).getLocation()).isRoom() && whichPerson == 0 ){
+					if(board.getCellAt(players.get(0).getPosition()).isRoom() && whichPerson == 0 ){
 						System.out.println("test");
 						Suggestion suggestion = new Suggestion(board, players.get(whichPerson));
+						
 						System.out.println("test2");
 						suggestion.setVisible(true);
 					}
@@ -138,26 +142,26 @@ public class Board extends JPanel{
 		return rooms;
 	}
 	public int getNumRows() {
-		return numRows;
+		return numRows_Y;
 	}
 	public int getNumCols() {
-		return numCols;
+		return numCols_X;
 	}
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
+		
 		for (BoardCell bc : cells) {
 			bc.draw(g, false, this);
 		}
 		for (Player p : players) {
 			p.draw(g);
 		}
-		
 		//Highlights where you can click to move
 		
 		if(getWhichPerson() == 0) {
 			if(hadTurn == false) {
-				calcTargets(players.get(whichPerson).getLocation(), roll );
+				calcTargets(players.get(whichPerson).getPosition(), roll );
 			}
 			
 			for (BoardCell bc : cells) {
@@ -168,6 +172,8 @@ public class Board extends JPanel{
 				}
 			}
 		}
+		
+		
 	}
 	public void loadConfigFiles(String configFile, String legendFile, String playerFile, String weaponFile) {
 		//call helper functions to load different types of config files
@@ -236,7 +242,7 @@ public class Board extends JPanel{
 			saveCellInformation(str, row, col);
 			col++;
 			row++;
-			numCols = col;
+			numCols_X = col;
 			while (in.hasNext()){
 				str = in.nextLine();
 				col = 0;
@@ -251,12 +257,12 @@ public class Board extends JPanel{
 				}
 				saveCellInformation(str, row, col);
 				col++;
-				if (col != numCols) {
+				if (col != numCols_X) {
 					throw new BadConfigFormatException("Bad Config File: Number of Columns NOT CONSISTENT");
 				}
 				row++;
 			}
-			numRows = row;
+			numRows_Y = row;
 		} catch(BadConfigFormatException e) {
 			System.out.println(e.getMessage());
 			return;
@@ -277,7 +283,9 @@ public class Board extends JPanel{
 			
 			//get the human player
 			if(line.length > 4) throw new BadConfigFormatException("Player file has more than 4 items per line");
-			Player p = new HumanPlayer(line[0], convertColor(line[1]), calcIndex(Integer.parseInt(line[3]), Integer.parseInt(line[2])), Integer.parseInt(line[2]), Integer.parseInt(line[3]), this);
+			Player p = new HumanPlayer(line[0], convertColor(line[1]), calcIndex(Integer.parseInt(line[3]), Integer.parseInt(line[2])), Integer.parseInt(line[3]), Integer.parseInt(line[2]), this);
+			System.out.println(p.getY() + " row config test");
+			System.out.println(p.getX() + " col config Test");
 			players.add(p);
 			Card hPersonCard = new Card(line[0], Card.CardType.PERSON);
 			cards.add(hPersonCard);
@@ -286,7 +294,7 @@ public class Board extends JPanel{
 				playerLine = in.nextLine();
 				line = playerLine.split("\t");
 				if(line.length > 4) throw new BadConfigFormatException("Player file has more than 4 items per line");
-				p = new ComputerPlayer(line[0], convertColor(line[1]), calcIndex(Integer.parseInt(line[3]), Integer.parseInt(line[2])), Integer.parseInt(line[2]), Integer.parseInt(line[3]), this);
+				p = new ComputerPlayer(line[0], convertColor(line[1]), calcIndex(Integer.parseInt(line[3]), Integer.parseInt(line[2])), Integer.parseInt(line[3]), Integer.parseInt(line[2]), this);
 				players.add(p);
 				Card personCard = new Card(line[0], Card.CardType.PERSON);
 				cards.add(personCard);
@@ -379,8 +387,8 @@ public class Board extends JPanel{
 
 
 
-	public int calcIndex(int row, int column) {
-		return row*numCols + column;
+	public int calcIndex(int rowY, int columnX) {
+		return rowY*numCols_X + columnX;
 	}
 
 	public RoomCell getRoomCellAt(int row, int column) {
@@ -397,7 +405,7 @@ public class Board extends JPanel{
 	public void calcAdjacencies(){
 		adjMtx = new HashMap<Integer, LinkedList<Integer>>();
 		BoardCell cell;
-		for(int i = 0; i < numRows*numCols; ++i) {
+		for(int i = 0; i < numRows_Y*numCols_X; ++i) {
 			LinkedList<Integer> adj = new LinkedList<Integer>();
 			cell = cells.get(i); 
 			if (cell.isRoom()) {
@@ -411,34 +419,34 @@ public class Board extends JPanel{
 					if(rCell.getDoorDirection() == DoorDirection.LEFT)
 						adj.push(i-1);
 					if(rCell.getDoorDirection() == DoorDirection.UP)
-						adj.push(i - numCols);
+						adj.push(i - numCols_X);
 					if(rCell.getDoorDirection() == DoorDirection.DOWN)
-						adj.push(i + numCols);
+						adj.push(i + numCols_X);
 				} 
 				//else push no data to the linked list because no adjacencies
 				//need this to fix null pointer
 			} else {
 				//should be a walkway cell				
 				//deals with bottom of grid 
-				if((i + numCols) < numRows*numCols) {
-					cell = cells.get(i + numCols); 
+				if((i + numCols_X) < numRows_Y*numCols_X) {
+					cell = cells.get(i + numCols_X); 
 					if(cell.isRoom())
 						//will add if DoorDirection is UP, bc checking downward adj
-						accessCheck(cell, DoorDirection.UP, adj, i+numCols);
+						accessCheck(cell, DoorDirection.UP, adj, i+numCols_X);
 					else
-						adj.push(i + numCols);
+						adj.push(i + numCols_X);
 				}
 				//deals with top of grid
-				if((i - numCols) >= 0) {
-					cell = cells.get(i - numCols); 
+				if((i - numCols_X) >= 0) {
+					cell = cells.get(i - numCols_X); 
 					if(cell.isRoom())
 						//will add if DoorDirection is DOWN, bc checking upward adj
-						accessCheck(cell, DoorDirection.DOWN, adj, i-numCols);
+						accessCheck(cell, DoorDirection.DOWN, adj, i-numCols_X);
 					else
-						adj.push(i - numCols);
+						adj.push(i - numCols_X);
 				}
 				// deals with left side of grid
-				if(!(i % numCols == 0)) {
+				if(!(i % numCols_X == 0)) {
 					cell = cells.get(i -1); 
 					if(cell.isRoom())
 						//will add if DoorDirection is RIGHT, bc checking left adj
@@ -447,7 +455,7 @@ public class Board extends JPanel{
 						adj.push(i-1);
 				}
 				//deals with right side of grid
-				if(!((i+1) % numCols == 0)) {
+				if(!((i+1) % numCols_X == 0)) {
 					cell = cells.get(i + 1); 
 					if(cell.isRoom())
 						//will add if DoorDirection is LEFT, bc checking right adj
@@ -496,7 +504,7 @@ public class Board extends JPanel{
 		}
 	}
 	public void clearListsAndSetToFalse() {
-		for(int i = 0; i < numCols*numRows; i++) {
+		for(int i = 0; i < numCols_X*numRows_Y; i++) {
 			visited[i] = false;
 		}
 		//clears path LinkedList and targetTreeSet
@@ -632,6 +640,8 @@ public class Board extends JPanel{
 			Collections.shuffle(solutions);
 			return solutions.get(0);
 		}
+		
+	
 
 	}
 
@@ -682,7 +692,7 @@ public class Board extends JPanel{
 		clearListsAndSetToFalse();
 		
 		//calulate the targets
-		calcTargets(players.get(getWhichPerson()).getLocation(), roll);
+		calcTargets(players.get(getWhichPerson()).getPosition(), roll);
 		
 		//clear the guess
 		controlDisplay.getGuess().clear();
@@ -740,12 +750,14 @@ public class Board extends JPanel{
 		return pastAccusation;
 	}
 	
-	public int getColumnIndex( int i) {
-		return(i / numCols);
+	public int getXIndex( int i) {
+		System.out.println("number of cols x: " + i % numCols_X);
+		return(i % numCols_X);
 	}
 	
-	public int getRowIndex(int i) {
-		return(i/numRows);
+	public int getYIndex(int i) {
+		System.out.println("number of cols y: " + i/numRows_Y);
+		return(i/numRows_Y);
 	}
 	
 	public ControlDisplay getControl() {

@@ -11,8 +11,8 @@ public class ComputerPlayer extends Player {
 	private char lastRoomVisited;
 	ArrayList<Card> seenCards = new ArrayList<Card>();
 
-	public ComputerPlayer(String name, Color color, int startingLocation, int col, int row, Board board) {
-		super(name, color, startingLocation, col, row, board);
+	public ComputerPlayer(String name, Color color, int startingLocation, int y, int x, Board board) {
+		super(name, color, startingLocation, y, x, board);
 	}
 	public BoardCell pickLocation(HashSet<BoardCell> targets) {
 		//If the list of targets locations includes a room, select that location unless the player was just in that room.
@@ -73,7 +73,7 @@ public class ComputerPlayer extends Player {
 				weapon = c.getName();
 			}
 		}
-		room = board.getRooms().get(board.getRoomCellAt(board.getColumnIndex(location), board.getRowIndex(location)).getRoomInitial());
+		room = board.getRooms().get(board.getRoomCellAt(board.getXIndex(getPosition()), board.getYIndex(getPosition())).getRoomInitial());
 		
 
 		Card sugRes = board.handleSuggestion(person, room, weapon, this);
@@ -103,8 +103,8 @@ public class ComputerPlayer extends Player {
 	public void doTurn(HashSet<BoardCell> bc) {
 		BoardCell boardCell = pickLocation(bc);
 		ArrayList<BoardCell> bList = board.getCells();
-		location = bList.indexOf(boardCell);
-		if(board.getCellAt(location).isRoom() == true) {
+		position = bList.indexOf(boardCell);
+		if(board.getCellAt(getPosition()).isRoom() == true) {
 			makeSuggestion( );
 		}
 	}

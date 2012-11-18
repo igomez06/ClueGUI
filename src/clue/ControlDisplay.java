@@ -140,7 +140,7 @@ public class ControlDisplay extends JPanel{
 			this.room = r;
 			this.weapon = w;
 			
-			guess.setText(person + "in the " + room + " with the" + weapon);
+			guess.setText(person + " in the " + room + " with the " + weapon);
 			
 		}
 		public String getPerson() {
