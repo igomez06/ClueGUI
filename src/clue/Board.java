@@ -112,7 +112,7 @@ public class Board extends JPanel{
 					hadTurn = true;
 					if(board.getCellAt(players.get(0).getPosition()).isRoom() && whichPerson == 0 ){
 						System.out.println("test");
-						Suggestion suggestion = new Suggestion(board, players.get(whichPerson));
+						Suggestion suggestion = new Suggestion(board);
 						
 						System.out.println("test2");
 						suggestion.setVisible(true);
@@ -779,6 +779,10 @@ public class Board extends JPanel{
 	}
 	public ArrayList<Card> getPersonList() {
 		return personList;
+	}
+	
+	public String RoomName(char roomCode) {
+		return rooms.get(roomCode);
 	}
 	
 	

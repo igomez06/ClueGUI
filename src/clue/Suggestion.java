@@ -9,77 +9,83 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.TitledBorder;
+
+import clue.Card.CardType;
 
 public class Suggestion extends JDialog{
 
-	private JComboBox suggWeapon, suggPerson ;
-	private JButton submit, cancel;
-	private JLabel yourRoomLabel, cRoomLabel, personGuessLabel, weaponGuessLabel;
-	private String person, weapon;
 	private Board board;
-	
-	public Suggestion(Board b, Player player){
-		this.board = b;
-		setSize(new Dimension(300,200));
-		setTitle("Suggestion");
-		setLayout(new GridLayout(4,2));
+	private Player player;
+	private String personGuess, roomGuess, weaponGuess;
+	private int counter = 0;
+	private int buttonCount = 0;
+	public Suggestion(Board b){
+		super();
+		//System.out.println("Inside accu");
 		setVisible(true);
-		yourRoomLabel = new JLabel("Your room");
-		personGuessLabel = new JLabel("Person");
-		weaponGuessLabel = new JLabel("Weapon");
-		cRoomLabel = new JLabel(board.getRooms().get(b.getCellAt(player.getPosition()).cellInitial()));
-		suggPerson = new JComboBox();
-		person = board.getPlayers().get(0).getName();
-		for (Player p : b.getPlayers()){
-			suggPerson.addItem(p.getName());
-		}
-		weapon = board.getPlayers().get(0).getName();
-		for (Card c : board.getCards()){
-			if( c.getType() == Card.CardType.WEAPON){
-				suggWeapon.addItem(c.getName());
-			}
-		}
+		this.board = b;
+		setSize(new Dimension(300,400));
+		setTitle("Accusation");
+		setLayout(new GridLayout(5,1));
+		add(comboBoxes("Person Guess", CardType.PERSON));
+		add(comboBoxes("Weapon Guess", CardType.WEAPON));
+		add(button("Submit"));
+		add(button("Cancel"));
+		roomGuess = board.getRooms().get(board.getCellAt(board.getCurrentPlayer().getPosition()).cellInitial());
 		
-		submit = new JButton("Submit");
-		cancel = new JButton("Cancel");
-		submit.addActionListener(new ButtonListener(this));
-		cancel.addActionListener(new ButtonListener(this));
-		
-		add(suggWeapon);
-		add(suggPerson);
-		add(submit);
-		add(cancel);
-		add(yourRoomLabel);
-		add(cRoomLabel);
-		add(personGuessLabel);
-		add(weaponGuessLabel);
-		
+	}
+	
+	public JPanel comboBoxes (String name, CardType card) {
+		JPanel panel = new JPanel();
+		JComboBox CBox = new JComboBox();
+		panel.setLayout(new GridLayout(0,2));
+		for (Card c : this.board.getClone() ) {
+			if ( c.getType() == card){
+				CBox.addItem(c.getName());
 				
+			}
+		}
+		panel.add(CBox);
+		panel.setBorder(new TitledBorder(new EtchedBorder(), name));
+		CBox.addActionListener(new SugComboListener());
+		counter++;
+		return panel;
 	}
 	
-	private class ComboListener implements ActionListener {
-		public void actionPerformed(ActionEvent e) {
-			if(e.getSource() == suggPerson) {
-				person = (String) suggPerson.getSelectedItem();
-			}else if(e.getSource() == suggWeapon) {
-				weapon = (String) suggWeapon.getSelectedItem();
+	public JPanel button(String name){
+		JButton jb = new JButton(name);
+		JPanel panel = new JPanel();
+		panel.setLayout(new GridLayout(0,2));
+		panel.add(jb);
+		jb.addActionListener(new SugButtonListener());
+		buttonCount++;
+		return panel;
+	}
+	
+	private class SugComboListener implements ActionListener {
+		public void actionPerformed(ActionEvent e){
+			if(counter == 0){
+				personGuess = e.getSource().toString();
+			}else if(counter == 1){
+				roomGuess = e.getSource().toString();
+			}else{
+				weaponGuess = e.getSource().toString();
 			}
 		}
 	}
 	
-	private class ButtonListener implements ActionListener {
-		Suggestion s;
-		public ButtonListener(Suggestion sug) {
-			this.s = sug;
-		}
-		public void actionPerformed(ActionEvent e) {
-			if(e.getSource() == submit) {
-				board.getPlayers().get(0).makeSuggestion(person, cRoomLabel.getText(), weapon);
-				s.setVisible(false);
-			}else if(e.getSource() == cancel) {
-				s.setVisible(false);
+	private class SugButtonListener implements ActionListener {
+		public void actionPerformed(ActionEvent e){
+			if(buttonCount == 0){
+				board.getHuman().makeAccusation(personGuess, roomGuess, weaponGuess);
+				board.setHadTurn(true);
+				setVisible(false);
+			}else{
+				setVisible(false);
 			}
-			board.repaint();
 		}
 	}
 }

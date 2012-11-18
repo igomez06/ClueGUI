@@ -115,7 +115,6 @@ public class ControlDisplay extends JPanel{
 						//System.out.println("\ninside second if");
 						System.out.println("current Player: " + board.getPlayers().get(0).getName());
 						Accusation accu = new Accusation(board);
-						accu.setVisible(true);
 					}
 				}else {
 					return;

@@ -18,19 +18,20 @@ public class Accusation extends JDialog{
 	
 	private Board board;
 	private Player player;
-	private Card personGuess, roomGuess, weaponGuess;
+	private String personGuess, roomGuess, weaponGuess;
 	private int counter = 0;
 	private int buttonCount = 0;
 	public Accusation(Board b){
 		super();
 		//System.out.println("Inside accu");
+		setVisible(true);
 		this.board = b;
 		setSize(new Dimension(300,400));
 		setTitle("Accusation");
 		setLayout(new GridLayout(5,1));
-		add(comboBoxes("Room Guess", CardType.PERSON));
+		add(comboBoxes("Person Guess", CardType.PERSON));
 		add(comboBoxes("Room Guess", CardType.ROOM));
-		add(comboBoxes("Room Guess", CardType.WEAPON));
+		add(comboBoxes("Weapon Guess", CardType.WEAPON));
 		add(button("Submit"));
 		add(button("Cancel"));
 		
@@ -67,11 +68,11 @@ public class Accusation extends JDialog{
 	private class ComboListener implements ActionListener {
 		public void actionPerformed(ActionEvent e){
 			if(counter == 0){
-				personGuess = (Card) e.getSource();
+				personGuess = e.getSource().toString();
 			}else if(counter == 1){
-				roomGuess = (Card) e.getSource();
+				roomGuess = e.getSource().toString();
 			}else{
-				weaponGuess = (Card) e.getSource();
+				weaponGuess = e.getSource().toString();
 			}
 		}
 	}
@@ -79,7 +80,11 @@ public class Accusation extends JDialog{
 	private class ButtonListener implements ActionListener {
 		public void actionPerformed(ActionEvent e){
 			if(buttonCount == 0){
-				
+				board.getHuman().makeAccusation(personGuess, roomGuess, weaponGuess);
+				board.setHadTurn(true);
+				setVisible(false);
+			}else{
+				setVisible(false);
 			}
 		}
 	}
