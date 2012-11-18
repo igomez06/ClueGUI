@@ -31,6 +31,9 @@ public class Board extends JPanel{
 	private ArrayList<BoardCell> cells;		//contains the board layout
 	private Map<Character, String> rooms;	//maps the 1-char initial to a Room object
 	private ArrayList<Player> players;
+	private ArrayList<Card> weaponsList;
+	private ArrayList<Card> roomsList;
+	private ArrayList<Card> personList;
 	private ArrayList<Card> cards;
 	private ArrayList<Card> cloneCards;
 	private Solution answer;
@@ -67,7 +70,7 @@ public class Board extends JPanel{
 		cloneCards = cloneList(cards);
 		deal();
 		whichPerson = -1;
-		hadTurn = true;
+		hadTurn = false;
 
 		visited = new boolean[numRows_Y * numCols_X];			//tracks which indexes have been seen
 		for(int i = 0; i < numRows_Y*numCols_X; i++) {
@@ -210,6 +213,7 @@ public class Board extends JPanel{
 				if( !name.equalsIgnoreCase("closet") && !name.equalsIgnoreCase("walkway") ) {
 					Card room = new Card(name, Card.CardType.ROOM);
 					cards.add(room);
+					//roomsList.add(room);
 				}
 				rooms.put(initial, name);
 			}
@@ -286,9 +290,11 @@ public class Board extends JPanel{
 			Player p = new HumanPlayer(line[0], convertColor(line[1]), calcIndex(Integer.parseInt(line[3]), Integer.parseInt(line[2])), Integer.parseInt(line[3]), Integer.parseInt(line[2]), this);
 			System.out.println(p.getY() + " row config test");
 			System.out.println(p.getX() + " col config Test");
+			p.setHumanPlayer(true);
 			players.add(p);
 			Card hPersonCard = new Card(line[0], Card.CardType.PERSON);
 			cards.add(hPersonCard);
+			//personList.add(hPersonCard);
 			//Get the computer players after getting the human player
 			while (in.hasNextLine()){
 				playerLine = in.nextLine();
@@ -298,6 +304,7 @@ public class Board extends JPanel{
 				players.add(p);
 				Card personCard = new Card(line[0], Card.CardType.PERSON);
 				cards.add(personCard);
+				//personList.add(personCard);
 			}
 		} catch(BadConfigFormatException e) {
 			System.out.println(e.getMessage());
@@ -317,6 +324,7 @@ public class Board extends JPanel{
 		while(in.hasNextLine()){
 			Card weapon = new Card(in.nextLine(), Card.CardType.WEAPON);
 			cards.add(weapon);
+			//weaponsList.add(weapon);
 		}
 
 
@@ -715,6 +723,7 @@ public class Board extends JPanel{
 	}
 
 	public boolean isHadTurn() {
+		
 		return hadTurn;
 	}
 
@@ -761,6 +770,15 @@ public class Board extends JPanel{
 	
 	public ControlDisplay getControl() {
 		return controlDisplay;
+	}
+	public ArrayList<Card> getWeaponsList() {
+		return weaponsList;
+	}
+	public ArrayList<Card> getRoomsList() {
+		return roomsList;
+	}
+	public ArrayList<Card> getPersonList() {
+		return personList;
 	}
 	
 	

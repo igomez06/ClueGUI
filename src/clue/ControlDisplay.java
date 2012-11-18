@@ -15,7 +15,7 @@ import javax.swing.border.TitledBorder;
 
 public class ControlDisplay extends JPanel{
 
-	
+
 	private WhoseTurn whoseTurn;
 	private NextButton nb;
 	private MakeAccu ma;
@@ -24,8 +24,8 @@ public class ControlDisplay extends JPanel{
 	private Result result;
 	private Board board;
 	private Player currentPlayer;
-	
-	
+
+
 	public ControlDisplay(Board b) {
 		super();
 		this.board = b;
@@ -34,7 +34,7 @@ public class ControlDisplay extends JPanel{
 		whoseTurn = new WhoseTurn(board);
 		whoseTurn.setWhoseTurn(board.getPlayers().get(0).getName());
 		nb = new NextButton();
-		ma = new MakeAccu();
+		ma = new MakeAccu(board);
 		die = new Die();
 		guess = new Guess(board);
 		result = new Result();
@@ -55,13 +55,13 @@ public class ControlDisplay extends JPanel{
 			setBorder(new TitledBorder (new EtchedBorder(), "Whose Turn"));
 			whoseTurn = new JLabel("");
 			add(whoseTurn);
-			
+
 		}
 		public void setWhoseTurn (String name) {
-			
+
 			setBorder(new TitledBorder(new EtchedBorder(), "Whose Turn?"));
 			whoseTurn.setText(name);
-			
+
 
 		}
 	}
@@ -78,7 +78,7 @@ public class ControlDisplay extends JPanel{
 			public void actionPerformed(ActionEvent e) {
 				//Logic for Next turn
 				//System.out.println("testing");
-				
+
 				if (board.isHadTurn() == true || board.getWhichPerson() != 0) {
 					board.NextTurn();
 				}else {
@@ -91,11 +91,13 @@ public class ControlDisplay extends JPanel{
 
 	}
 
-	
-	
+
+
 	public class MakeAccu extends JPanel {
 		JButton ma;
-		public MakeAccu() {
+		Board board;
+		public MakeAccu(Board b) {
+			this.board = b;
 			ma = new JButton("Make Accusation");
 			add(ma);
 			ma.addActionListener(new ButtonListener(board));
@@ -103,13 +105,16 @@ public class ControlDisplay extends JPanel{
 
 		public class ButtonListener implements ActionListener {
 			Board board;
-			public ButtonListener(Board b) {
-				this.board = b;
-			}
+			ButtonListener(Board b) {this.board = b;}
 			public void actionPerformed(ActionEvent e) {
-				if(board.getWhichPerson() == 0 && board.isHadTurn() == false){
+				//System.out.println(board.getWhichPerson());
+				//System.out.println("had Turn: " + board.isHadTurn());
+				if( board.getWhichPerson() <= 0 && board.isHadTurn() == false){
+					//System.out.println("inside first if in accu");
 					if(board.isPastAccusation() == false){
-						Accusation accu = new Accusation(board, board.getCurrentPlayer());
+						//System.out.println("\ninside second if");
+						System.out.println("current Player: " + board.getPlayers().get(0).getName());
+						Accusation accu = new Accusation(board);
 						accu.setVisible(true);
 					}
 				}else {
@@ -118,11 +123,7 @@ public class ControlDisplay extends JPanel{
 			} 
 		}
 
-		
-
 	}
-	
-	
 
 	public class Die extends JPanel {
 		JLabel die;
@@ -132,7 +133,7 @@ public class ControlDisplay extends JPanel{
 			add(die);
 			setBorder(new TitledBorder(new EtchedBorder(), "Die Roll"));
 		}
-		
+
 		public void setRoll(int r) {
 			die.setText(String.valueOf(r));
 		}
@@ -155,9 +156,9 @@ public class ControlDisplay extends JPanel{
 			this.person = p;
 			this.room = r;
 			this.weapon = w;
-			
+
 			guess.setText(person + " in the " + room + " with the " + weapon);
-			
+
 		}
 		public String getPerson() {
 			return person;
@@ -168,7 +169,7 @@ public class ControlDisplay extends JPanel{
 		public String getWeapon() {
 			return weapon;
 		}
-		
+
 		public void clear() {
 			guess.setText("\t\t\t");
 		}
@@ -187,20 +188,20 @@ public class ControlDisplay extends JPanel{
 		public void setResult(String r) {
 			result.setText(r);
 		}
-		
+
 	}
 
 	public WhoseTurn getWhoseTurn() {
 		return whoseTurn;
 	}
-	
+
 	public void setWhoseTurn(WhoseTurn whoseTurn) {
 		this.whoseTurn = whoseTurn;
 	}
 	public Result getResult() {
 		return result;
 	}
-	
+
 	public Guess getGuess() {
 		return guess;
 	}
@@ -215,8 +216,8 @@ public class ControlDisplay extends JPanel{
 	public Die getDie() {
 		return die;
 	}
-	
-	
-	
+
+
+
 
 }

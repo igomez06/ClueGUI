@@ -21,8 +21,9 @@ public class Suggestion extends JDialog{
 	public Suggestion(Board b, Player player){
 		this.board = b;
 		setSize(new Dimension(300,200));
-		setTitle("Make a Guess");
+		setTitle("Suggestion");
 		setLayout(new GridLayout(4,2));
+		setVisible(true);
 		yourRoomLabel = new JLabel("Your room");
 		personGuessLabel = new JLabel("Person");
 		weaponGuessLabel = new JLabel("Weapon");

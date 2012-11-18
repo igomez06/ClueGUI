@@ -31,6 +31,7 @@ public class Player {
 		this.y = x;
 		this.x = y;
 		cards = new ArrayList<Card>();
+		
 	}
 
 
@@ -57,14 +58,14 @@ public class Player {
 			return solutions.get(0);
 		}
 	}
-	
+
 	public void makeAccusation(String person, String room, String weapon) {
 		boolean result = board.checkAccusation(person, room, weapon);
 		String accu;
 		String correctAns;
 		accu = this.name + " accused " + person + " in the " + room + "with the " + weapon;
 		correctAns = "The result was: ";
-		
+
 		if( board.getWhichPerson() !=0 && result == true ){
 			correctAns = correctAns + "The computer won";
 		}else if (board.getWhichPerson() == 0 && result ==true) {
@@ -72,11 +73,11 @@ public class Player {
 		}else{
 			correctAns = correctAns + "Wrong";
 		}
-		
+
 		JOptionPane.showMessageDialog(null, accu+correctAns);
-		
-		
-		
+
+
+
 	}
 
 	public String getName() {
@@ -104,7 +105,7 @@ public class Player {
 	public void draw(Graphics g) {
 		g.setColor(this.color);
 		g.fillOval(y * CELLWIDTH, x * CELLWIDTH, CELLWIDTH, CELLWIDTH);
-		
+
 	}
 
 
@@ -123,23 +124,29 @@ public class Player {
 		}
 		return false;
 	}
-	
+
 	public void moveSpot(int newX, int newY) {
 		System.out.println(name + " from X:" + board.getXIndex(position) + " Y:" + board.getYIndex(position));
-		
+
 		this.x = newX;
 		this.y = newY;
 		position = board.calcIndex(newX, newY);
 		System.out.println(name + " to X:" + board.getXIndex(position) + " Y:" + board.getYIndex(position));
-		
+
 	}
 	public int getPosition() {
 		return position;
 	}
-	
+
 	public void setposition(int p) {
 		this.position = p;
 	}
-	
+
 	public void makeSuggestion(String person, String room, String weapon) {}
+	public boolean isHumanPlayer() {
+		return humanPlayer;
+	}
+	public void setHumanPlayer(boolean humanPlayer) {
+		this.humanPlayer = humanPlayer;
+	}
 }
