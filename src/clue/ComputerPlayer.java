@@ -11,6 +11,9 @@ import clue.Card.CardType;
 public class ComputerPlayer extends Player {
 	private char lastRoomVisited;
 	private int compPlayerIndex;
+	private boolean hasPerson = false;
+	private boolean hasRoom = false;
+	private boolean hasWeapon = false;
 	ArrayList<Card> seenCards = new ArrayList<Card>();
 	ArrayList<Card> accusation;
 	public ComputerPlayer(String name, Color color, int startingLocation, int y, int x, Board board) {
@@ -59,9 +62,9 @@ public class ComputerPlayer extends Player {
 		boolean hasPerson = false;
 		boolean hasRoom = false;
 		boolean hasWeapon = false;
-
 		for (Card c : suggestion){
-			if(!seenCards.contains(c)){
+			Collections.shuffle(suggestion);
+			if(!(seenCards.contains(c))){
 				if(hasPerson == false && c.getType() == CardType.PERSON) {
 					theirCards.add(c);
 					hasPerson = true;
@@ -79,14 +82,14 @@ public class ComputerPlayer extends Player {
 
 	}
 	public void makeSuggestion() {
+		//System.out.println("lalalala");
 		String person = " ";
 		String room = " ";
 		String weapon = " ";
 
 		ArrayList<Card> suggestedCards = createSuggestion();
-
-		//have to make suggestion from the room that you are in
-
+		Player currentCompPlayer = board.getPlayers().get(compPlayerIndex);
+		//to make suggestion from the room that you are in
 		for (Card c : suggestedCards) {
 			if(c.getType() == CardType.PERSON){
 				person = c.getName();
@@ -94,21 +97,29 @@ public class ComputerPlayer extends Player {
 				weapon = c.getName();
 			}
 		}
-		room = board.getRooms().get(board.getRoomCellAt(board.getXIndex(position), board.getYIndex(position)).getRoomInitial());
-
-
+		room = board.getRooms().get(board.getRoomCellAt(x, y).getRoomInitial());
+		//Creates and handles suggestion
 		Card sugRes = board.handleSuggestion(person, room, weapon, this);
 		board.getControl().getGuess().setGuess(person, room, weapon);
 		//if no one has any of the cards
-		if(sugRes == null){
-			board.getControl().getResult().setResult("Nothing");
+		//moves players
+		for (Player p : board.getPlayers()) {
+			if (p.getName().equals(person)) {
+				p.setX((x));
+				p.setY((y));
+			}
 
-			//REturning the cards that were found	
-		}else{
-			board.getControl().getResult().setResult(sugRes.getName());
+			if(sugRes == null){
+				System.out.println("sugres test");
+				board.getControl().getResult().setResult("Nothing");
+
+				//REturning the cards that were found	
+			}else{
+				board.getControl().getResult().setResult(sugRes.getName());
+			}
 		}
 
-
+		board.repaint();
 
 	}
 
@@ -124,20 +135,22 @@ public class ComputerPlayer extends Player {
 		this.lastRoomVisited = lastRoomVisited;
 	}
 	public void doTurn(HashSet<BoardCell> targetCells) {
-		
+
 		//make an rrayList
 		//ArrayList<BoardCell> cells = board.getCells();
 		BoardCell newSpot = pickLocation(targetCells);
-		
-		System.out.println(newSpot.getLocation());
+
+		//System.out.println(newSpot.getLocation());
 		//position = cells.indexOf(boardCell);
-		System.out.println(name + " from x:" + this.x + " y:" + this.y);
+		//System.out.println(name + " from x:" + this.x + " y:" + this.y);
 		this.y = newSpot.getX();
 		this.x = newSpot.getY();
-		
-		System.out.println(name + " to x:" + this.x + " y:" + this.y);
-		if(board.getCellAt(getPosition()).isRoom() == true) {
-			makeSuggestion( );
+
+		//System.out.println(name + " to x:" + this.x + " y:" + this.y);
+		if(board.getCellAt(board.calcIndex(x, y)).isRoom() == true) {
+			makeSuggestion();
+
+
 		}
 	}
 

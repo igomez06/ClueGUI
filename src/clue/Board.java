@@ -110,11 +110,11 @@ public class Board extends JPanel{
 					players.get(whichPerson).moveSpot(bc.getY(), bc.getX());
 					board.clearListsAndSetToFalse();
 					hadTurn = true;
-					if(board.getCellAt(players.get(0).getPosition()).isRoom() && whichPerson == 0 ){
-						System.out.println("test");
+					if(board.getCellAt(players.get(0).getPosition()).isRoom() == true && whichPerson == 0 ){
+						//System.out.println("test");
 						Suggestion suggestion = new Suggestion(board);
 						
-						System.out.println("test2");
+						//System.out.println("test2");
 						suggestion.setVisible(true);
 					}
 					pastAccusation = true;
@@ -124,7 +124,7 @@ public class Board extends JPanel{
 				}
 				
 			}
-			
+		
 			board.repaint();
 			
 		}
@@ -687,17 +687,12 @@ public class Board extends JPanel{
 		whichPerson++;
 		currentPlayer = players.get(whichPerson);
 		//if at the end of the player list go back to the start
-//		if (whichPerson  == players.size() -1) {
-//			pastAccusation = false;
-//			whichPerson = 0;
-//			currentPlayer = players.get(whichPerson);
-//		}
 		//whose turn it is
-		System.out.println(whichPerson);
+		//System.out.println(whichPerson);
 		//Outputs the name of whose turn it is
 		controlDisplay.getWhoseTurn().setWhoseTurn(currentPlayer.getName());
 		
-		System.out.println(currentPlayer.getName());
+		//System.out.println(currentPlayer.getName());
 		//Roll the die
 		roll();
 		clearListsAndSetToFalse();
@@ -713,20 +708,21 @@ public class Board extends JPanel{
 		
 		if(whichPerson != 0) {
 			//currentPlayer = players.get(whichPerson);
+			System.out.println("accu 2");
 			ComputerPlayer compPlayer = (ComputerPlayer) currentPlayer;
 			if(controlDisplay.getResult().getResult().equals("No Clues this round")){
 				
 				compPlayer.makeAccusation(controlDisplay.getGuess().getPerson(), controlDisplay.getGuess().getRoom() , controlDisplay.getGuess().getWeapon());
-				
+				System.out.println("acc test");
 			}else{
 				
 				controlDisplay.getResult().setResult("");
 				
 				compPlayer.doTurn(targets);
 			}
-			System.out.println("test");
+			//System.out.println("test");
 			if (whichPerson  == players.size() -1) {
-				System.out.println("sorry");
+				//System.out.println("sorry");
 				pastAccusation = false;
 				whichPerson = -1;
 				//currentPlayer = players.get(whichPerson);

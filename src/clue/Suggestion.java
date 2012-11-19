@@ -24,8 +24,6 @@ public class Suggestion extends JDialog{
 	private int counter = 0;
 	private int buttonCount = 0;
 	private JComboBox pBox, wBox;
-	
-	
 	public Suggestion(Board b){
 		super();
 		//System.out.println("Inside accu");
@@ -87,7 +85,12 @@ public class Suggestion extends JDialog{
 	
 	private class SubmitListener implements ActionListener {
 		public void actionPerformed(ActionEvent e){
-
+			for (Player p : board.getPlayers()) {
+				if (p.getName().equals(personGuess)) {
+					p.setX((board.getHuman().getX()));
+					p.setY((board.getHuman().getY()));
+				}
+			}
 			System.out.println("p:" +personGuess + " r:" + roomGuess + " w:" + weaponGuess);
 			board.getPlayers().get(0).makeSuggestion(personGuess, roomGuess, weaponGuess);
 			setVisible(false);
