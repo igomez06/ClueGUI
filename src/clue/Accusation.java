@@ -19,7 +19,6 @@ public class Accusation extends JDialog{
 	private Board board;
 	private Player player;
 	private String guessP, guessR, guessW;
-	private int counter = 0;
 	private int buttonCount = 0;
 	private JComboBox pBox, rBox, wBox; 
 
@@ -42,8 +41,8 @@ public class Accusation extends JDialog{
 		add(comboBoxes("Weapon Guess", CardType.WEAPON, wBox));
 		add(button("Submit"));
 		add(button("Cancel"));
-		
-		
+
+
 
 
 	}	
@@ -61,14 +60,9 @@ public class Accusation extends JDialog{
 		}
 		panel.add(CBox);
 		panel.setBorder(new TitledBorder(new EtchedBorder(), name));
-		if(counter == 0){
-			CBox.addActionListener(new ComboListener());
-		}else if(counter == 1){
-			CBox.addActionListener(new ComboListener());
-		}else if(counter == 2){
-			CBox.addActionListener(new ComboListener());
-		}
-		counter++;
+
+		CBox.addActionListener(new ComboListener());
+
 		return panel;
 	}
 
@@ -90,37 +84,37 @@ public class Accusation extends JDialog{
 		public void actionPerformed(ActionEvent e){
 			if(e.getSource() == pBox){
 				guessP = pBox.getSelectedItem().toString();
-				System.out.println(guessP);
+				//System.out.println(guessP);
 			}else if(e.getSource() == rBox) {
 				guessR = rBox.getSelectedItem().toString();
-				System.out.println(guessR);
+				//System.out.println(guessR);
 			}else if(e.getSource() == wBox){
 				guessW = wBox.getSelectedItem().toString();
-				System.out.println(guessW);
+				//System.out.println(guessW);
 			}
 
-			}
-		}
-
-
-
-		private class SubmitListener implements ActionListener {
-			public void actionPerformed(ActionEvent e){
-
-				//System.out.println(personGuess.toString() +  roomGuess.toString() + weaponGuess.toString());
-				board.getPlayers().get(0).makeAccusation(guessP, guessR, guessW);
-				board.setHadTurn(true);
-				setVisible(false);
-
-			}
-		}
-
-		private class CancelListener implements ActionListener {
-			public void actionPerformed(ActionEvent e){
-
-				setVisible(false);
-
-			}
 		}
 	}
+
+
+
+	private class SubmitListener implements ActionListener {
+		public void actionPerformed(ActionEvent e){
+
+			//System.out.println(personGuess.toString() +  roomGuess.toString() + weaponGuess.toString());
+			board.getPlayers().get(0).makeAccusation(guessP, guessR, guessW);
+			board.setHadTurn(true);
+			setVisible(false);
+
+		}
+	}
+
+	private class CancelListener implements ActionListener {
+		public void actionPerformed(ActionEvent e){
+
+			setVisible(false);
+
+		}
+	}
+}
 

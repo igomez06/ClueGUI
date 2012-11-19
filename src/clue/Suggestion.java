@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
+
 import clue.Card.CardType;
 
 public class Suggestion extends JDialog{
@@ -23,6 +24,8 @@ public class Suggestion extends JDialog{
 	private int counter = 0;
 	private int buttonCount = 0;
 	private JComboBox pBox, wBox;
+	
+	
 	public Suggestion(Board b){
 		super();
 		//System.out.println("Inside accu");
@@ -45,6 +48,7 @@ public class Suggestion extends JDialog{
 		JPanel panel = new JPanel();
 		JComboBox CBox = cb;
 		panel.setLayout(new GridLayout(0,2));
+		CBox.addItem("Open Choices");
 		for (Card c : this.board.getClone() ) {
 			if ( c.getType() == cardType){
 				CBox.addItem(c.getName());
@@ -54,7 +58,6 @@ public class Suggestion extends JDialog{
 		panel.add(CBox);
 		panel.setBorder(new TitledBorder(new EtchedBorder(), name));
 		CBox.addActionListener(new SugComboListener());
-		counter++;
 		return panel;
 	}
 	
@@ -63,30 +66,43 @@ public class Suggestion extends JDialog{
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(0,2));
 		panel.add(jb);
-		jb.addActionListener(new SugButtonListener());
+		if(buttonCount == 0){
+			jb.addActionListener(new SubmitListener());
+		}else{
+			jb.addActionListener(new CancelListener());
+		}
 		buttonCount++;
 		return panel;
 	}
 	
 	private class SugComboListener implements ActionListener {
 		public void actionPerformed(ActionEvent e){
-			if(counter == 0){
+			if(e.getSource() == pBox){
 				personGuess = pBox.getSelectedItem().toString();
-			}else{
+			}else if(e.getSource() == wBox){
 				weaponGuess = wBox.getSelectedItem().toString();
 			}
 		}
 	}
 	
-	private class SugButtonListener implements ActionListener {
+	private class SubmitListener implements ActionListener {
 		public void actionPerformed(ActionEvent e){
-			if(buttonCount == 0){
-				board.getHuman().makeSuggestion(personGuess, roomGuess, weaponGuess);
-				board.setHadTurn(true);
-				setVisible(false);
-			}else{
-				setVisible(false);
-			}
+
+			System.out.println("p:" +personGuess + " r:" + roomGuess + " w:" + weaponGuess);
+			board.getPlayers().get(0).makeSuggestion(personGuess, roomGuess, weaponGuess);
+			setVisible(false);
+			board.repaint();
+
 		}
+	}
+
+	private class CancelListener implements ActionListener {
+		public void actionPerformed(ActionEvent e){
+
+			setVisible(false);
+
+			board.repaint();
+		}
+		
 	}
 }
