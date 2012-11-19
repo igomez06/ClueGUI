@@ -124,15 +124,13 @@ public class ComputerPlayer extends Player {
 	public void setLastRoomVisited(char lastRoomVisited) {
 		this.lastRoomVisited = lastRoomVisited;
 	}
-	public void doTurn(HashSet<BoardCell> bc) {
-		BoardCell boardCell = pickLocation(bc);
-		int x = boardCell.getX();
-		int y = boardCell.getY();
-		this.moveSpot(x,y);
+	public void doTurn(HashSet<BoardCell> targetCells) {
+		BoardCell boardCell = pickLocation(targetCells);
+		ArrayList<BoardCell> cells = board.getCells();
+		position = cells.indexOf(boardCell);
 		if(board.getCellAt(getPosition()).isRoom() == true) {
-			//makeSuggestion( );
+			makeSuggestion( );
 		}
-		board.repaint();
 	}
 
 	public void moveComp(BoardCell newCell){

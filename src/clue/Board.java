@@ -154,12 +154,8 @@ public class Board extends JPanel{
 		super.paintComponent(g);
 
 		
-		for (BoardCell bc : cells) {
-			bc.draw(g, false, this);
-		}
-		for (Player p : players) {
-			p.draw(g);
-		}
+		
+		
 		//Highlights where you can click to move
 		
 		if(getWhichPerson() == 0) {
@@ -174,8 +170,14 @@ public class Board extends JPanel{
 					bc.draw(g, false, this);
 				}
 			}
+		}else {
+			for (BoardCell bc : cells) {
+				bc.draw(g, false, this);
+			}
 		}
-		
+		for (Player p : players) {
+			p.draw(g);
+		}
 		
 	}
 	public void loadConfigFiles(String configFile, String legendFile, String playerFile, String weaponFile) {
@@ -492,10 +494,10 @@ public class Board extends JPanel{
 		return adjMtx.get(value);
 	}
 
-	public void calcTargets(int startLocation, int numSteps){
-		visited[startLocation] = true;
+	public void calcTargets(int location, int numSteps){
+		visited[location] = true;
 		LinkedList<Integer> possib = new LinkedList<Integer>();
-		possib = getAdjList(startLocation);							//adjacent points
+		possib = getAdjList(location);							//adjacent points
 		for(int i = 0; i < possib.size(); ++i) {
 			//will traverse path only if the index has not been visited
 			if (visited[possib.get(i)] == false) {					
