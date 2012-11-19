@@ -22,6 +22,7 @@ public class Suggestion extends JDialog{
 	private String personGuess, roomGuess, weaponGuess;
 	private int counter = 0;
 	private int buttonCount = 0;
+	private JComboBox pBox, wBox;
 	public Suggestion(Board b){
 		super();
 		//System.out.println("Inside accu");
@@ -30,20 +31,22 @@ public class Suggestion extends JDialog{
 		setSize(new Dimension(300,400));
 		setTitle("Suggestion");
 		setLayout(new GridLayout(5,1));
-		add(comboBoxes("Person Guess", CardType.PERSON));
-		add(comboBoxes("Weapon Guess", CardType.WEAPON));
+		pBox = new JComboBox();
+		wBox = new JComboBox();
+		add(comboBoxes("Person Guess", CardType.PERSON, pBox));
+		add(comboBoxes("Weapon Guess", CardType.WEAPON, wBox));
 		add(button("Submit"));
 		add(button("Cancel"));
 		roomGuess = board.getRooms().get(board.getCellAt(board.getCurrentPlayer().getPosition()).cellInitial());
 		
 	}
 	
-	public JPanel comboBoxes (String name, CardType card) {
+	public JPanel comboBoxes (String name, CardType cardType, JComboBox cb) {
 		JPanel panel = new JPanel();
-		JComboBox CBox = new JComboBox ();
+		JComboBox CBox = cb;
 		panel.setLayout(new GridLayout(0,2));
 		for (Card c : this.board.getClone() ) {
-			if ( c.getType() == card){
+			if ( c.getType() == cardType){
 				CBox.addItem(c.getName());
 				
 			}
@@ -68,11 +71,9 @@ public class Suggestion extends JDialog{
 	private class SugComboListener implements ActionListener {
 		public void actionPerformed(ActionEvent e){
 			if(counter == 0){
-				personGuess = e.getSource().toString();
-			}else if(counter == 1){
-				roomGuess = e.getSource().toString();
+				personGuess = pBox.getSelectedItem().toString();
 			}else{
-				weaponGuess = e.getSource().toString();
+				weaponGuess = wBox.getSelectedItem().toString();
 			}
 		}
 	}
