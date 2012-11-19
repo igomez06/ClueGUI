@@ -8,12 +8,12 @@ import java.util.Collections;
 import javax.swing.JOptionPane;
 
 public class Player {
-	private String name;
+	protected String name;
 	private int startingLocation;
 	private ArrayList<Card> cards;
 	private Color color;
-	private int y;
-	private int x;
+	protected int y;
+	protected int x;
 	public static int getCellwidth() {
 		return CELLWIDTH;
 	}

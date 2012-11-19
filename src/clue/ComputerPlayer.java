@@ -18,7 +18,7 @@ public class ComputerPlayer extends Player {
 		compPlayerIndex = 0;
 	}
 	public BoardCell pickLocation(HashSet<BoardCell> targets) {
-		ArrayList<BoardCell> possibleWalkways = new ArrayList<BoardCell>();
+
 		//If the list of targets locations includes a room, select that location unless the player was just in that room.
 		//If the list does not include a room, or the room was just
 		//visited, randomly choose from all locations (gives some chance that the player will re-enter the room, but it's not automatic).
@@ -34,18 +34,17 @@ public class ComputerPlayer extends Player {
 			}
 			makeAccusation(person, room, weapon);
 		}
+
+		ArrayList<BoardCell> possibleWalkways = new ArrayList<BoardCell>();
+
 		for (BoardCell target : targets) {
-			if(target.isRoom() == true){
-				RoomCell room = (RoomCell) target;
-				if(room.getRoomInitial() != lastRoomVisited){
-					this.setX(target.getX());
-					this.setY(target.getY());
-					this.setposition(target.getLocation());
-					lastRoomVisited = target.cellInitial;
-					return target;
-				}
-			}
-			else if (target.isWalkway()) {
+			if(target.isDoorway() == true && target.cellInitial() != lastRoomVisited){
+				//RoomCell room = (RoomCell) target;
+				//this.setposition(target.getLocation());
+				lastRoomVisited = target.cellInitial;
+				return target;
+
+			}else if (target.isWalkway()) {
 				possibleWalkways.add(target);
 			}
 		}
@@ -125,11 +124,20 @@ public class ComputerPlayer extends Player {
 		this.lastRoomVisited = lastRoomVisited;
 	}
 	public void doTurn(HashSet<BoardCell> targetCells) {
-		BoardCell boardCell = pickLocation(targetCells);
-		ArrayList<BoardCell> cells = board.getCells();
-		position = cells.indexOf(boardCell);
+		
+		//make an rrayList
+		//ArrayList<BoardCell> cells = board.getCells();
+		BoardCell newSpot = pickLocation(targetCells);
+		
+		System.out.println(newSpot.getLocation());
+		//position = cells.indexOf(boardCell);
+		System.out.println(name + " from x:" + this.x + " y:" + this.y);
+		this.y = newSpot.getX();
+		this.x = newSpot.getY();
+		
+		System.out.println(name + " to x:" + this.x + " y:" + this.y);
 		if(board.getCellAt(getPosition()).isRoom() == true) {
-			//makeSuggestion( );
+			makeSuggestion( );
 		}
 	}
 
