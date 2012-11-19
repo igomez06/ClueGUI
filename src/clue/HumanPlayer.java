@@ -12,6 +12,16 @@ public class HumanPlayer extends Player{
 		// TODO Auto-generated constructor stub
 	}
 	
+	public void makeSuggestion(String person, String room, String weapon) {
+		Card handleSuggestion = board.handleSuggestion(person, room, weapon, this);
+		board.getControl().getGuess().setGuess(person, room, weapon);
+		
+		if(handleSuggestion == null) {
+			board.getControl().getResult().setResult("No Clue available");
+		} else {
+			board.getControl().getResult().setResult(handleSuggestion.getName());
+		}
+	}
 	
 
 }
