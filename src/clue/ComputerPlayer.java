@@ -129,7 +129,7 @@ public class ComputerPlayer extends Player {
 		ArrayList<BoardCell> cells = board.getCells();
 		position = cells.indexOf(boardCell);
 		if(board.getCellAt(getPosition()).isRoom() == true) {
-			makeSuggestion( );
+			//makeSuggestion( );
 		}
 	}
 

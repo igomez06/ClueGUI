@@ -16,11 +16,11 @@ import clue.Card.CardType;
 
 public class Accusation extends JDialog{
 
-	private Board board;
-	private Player player;
-	private String personGuess, roomGuess, weaponGuess;
-	private int counter = 0;
-	private int buttonCount = 0;
+	protected Board board;
+	protected Player player;
+	protected String personGuess, roomGuess, weaponGuess;
+	protected int counter = 0;
+	protected int buttonCount = 0;
 	public Accusation(Board b, Player p){
 		super();
 		//System.out.println("Inside accu");
@@ -96,12 +96,14 @@ public class Accusation extends JDialog{
 		public void actionPerformed(ActionEvent e){
 
 			weaponGuess = e.getSource().toString();
+			System.out.println(weaponGuess);
 		}
 	}
 
 	private class SubmitListener implements ActionListener {
 		public void actionPerformed(ActionEvent e){
 
+			//System.out.println(personGuess.toString() +  roomGuess.toString() + weaponGuess.toString());
 			player.makeAccusation(personGuess, roomGuess, weaponGuess);
 			board.setHadTurn(true);
 			setVisible(false);

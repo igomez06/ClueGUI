@@ -702,7 +702,7 @@ public class Board extends JPanel{
 		roll();
 		clearListsAndSetToFalse();
 		
-		//calulate the targets
+		//calculate the targets
 		calcTargets(players.get(whichPerson).getPosition(), roll);
 		
 		//clear the guess
